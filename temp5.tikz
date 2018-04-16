@@ -1,0 +1,12 @@
+  \begin{tikzpicture}%[node distance = 3cm, auto]
+    % Place nodes
+   \node [draw, circle, thick, blue, fill=blue!20, minimum size=2cm, align=center, label={g0}] (g0) at   (0,0)   {Data\\\\};
+    \node [ellipse, thick, minimum width=4cm, minimum height=3cm, label={g0}] at (0, 1)  {$G0$};
+    \node [ellipse, thick, minimum width=4cm, minimum height=3cm, label={g1}] at (0, 1)  {$G0$};
+    \node [ellipse, thick, minimum width=4cm, minimum height=3cm, label={g2}] at (0, 1)  {$G0$};
+
+    % Draw edges
+    \path [line] (g0) -- (g1);
+    \path [line] (g1) -- (g2);
+
+  \end{tikzpicture}

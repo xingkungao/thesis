@@ -1,0 +1,26 @@
+  \begin{tikzpicture}[baseline=0pt]
+   \begin{scope}[every node/.style={circle,draw,inner sep=0.5pt,minimum size=10pt}, treenode/.style = {circle,draw,inner sep=0.5pt,minimum size=10pt,fill=gray}]
+       \node (d) at (0,0) {d};
+       \node [treenode] (u) at (1,0) {u};
+       \node (e) at (2, 0) {e};
+       \node (f) at (3,0) {f};
+        \node (a) at (0.5, 0.5) {a};
+       \node (b) at (1.5, 0.5) {b};
+       \node (c) at (2.5, 0.5) {c};
+       \node (v) at (1, 1) {v};
+   \end{scope}
+   \begin{scope}[
+                every node/.style={fill=black,circle},
+                 every edge/.style={draw=black}]
+       \path [->] (v) edge  (a);
+       \path [->] (v) edge  (b);
+       \path [->] (v) edge  (c);
+       \path [->] (a) edge  (d);
+       \path [->] (a) edge  (u);
+       \path [->] (b) edge  (e);
+       \path [->] (b) edge  (u);
+       \path [->] (c) edge  (f);
+       \path [->] (d) edge  (u);
+       \path [->] (e) edge  (f);
+   \end{scope}
+  \end{tikzpicture}

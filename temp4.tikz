@@ -1,0 +1,17 @@
+  \begin{tikzpicture}[auto,
+%fill=white,
+node distance=4cm,
+%minimum width=3cm,
+font=\small]
+
+
+\node[initial,state] (A)                                    {$G_0$};
+\node[ellipse (4 and 5), minimum=3cm]         (B) [above right of=A]                 {$G_1$};
+\node[ellipse (3 and 2) minimum=2cm]         (C) [below right of=A]                 {$G_2$};
+\node[state, minimum=1cm]         (D) [below right of=B]                 {$G_3$};
+\node[state]         (E) [above right of=D]                 {$s_4$};
+\node[state]         (F) [below right of=D]                 {$s_5$};
+
+
+
+  \end{tikzpicture}

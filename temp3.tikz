@@ -1,0 +1,23 @@
+  \begin{tikzpicture}[baseline=0pt,->,
+  level/.style={sibling distance = 3em/#1,level distance = 1.8em},
+  interestnode/.style = {circle,draw,fill=gray,inner sep=0.5pt,minimum size=10pt},
+  treenode/.style = {circle,draw,inner sep=0.5pt,minimum size=10pt}]
+  \node [treenode] {v}
+      child{ node [treenode] {a}
+               child{ node [treenode] {d}
+         child{ node [interestnode] {u}}
+              }
+              child{ node [interestnode] {u}}
+      }
+      child{ node [treenode] {b}
+              child{ node [treenode] {e}
+         child{ node [treenode] {f}}
+              }
+              child{ node [interestnode] {u}}
+      }
+      child{ node [treenode] {c}
+         child{ node [treenode] {f}
+       }
+     }
+  ;
+  \end{tikzpicture}

@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+    \matrix(dict)[matrix of nodes, %below=of game,
+        nodes={align=center,text width=20em,text height=5em},
+        %row 3/.style={nodes={text height =1em}},
+        %column 1/.style={nodes={text width=10cm,align=right}}
+    ]{
+        $u, w_1, w_2, w_3, \dots, {x}, \dots$ & $x, \dots, w_3, w_2, w_1, u, \dots$ \\
+       $v, w^\prime_1, w^\prime_2, w^\prime_3, \dots,{x}, \dots$  & $x, \dots, w^\prime_3, w^\prime_2, w^\prime_1, v, \dots$ \\
+       %(a): walk starting from u and v & (b) reversed walks starting from x \\
+       %(a) & (b) \\
+    };
+\end{tikzpicture}
