@@ -1,12 +1,45 @@
-  \begin{tikzpicture}%[node distance = 3cm, auto]
-    % Place nodes
-   \node [draw, circle, thick, blue, fill=blue!20, minimum size=2cm, align=center, label={g0}] (g0) at   (0,0)   {Data\\\\};
-    \node [ellipse, thick, minimum width=4cm, minimum height=3cm, label={g0}] at (0, 1)  {$G0$};
-    \node [ellipse, thick, minimum width=4cm, minimum height=3cm, label={g1}] at (0, 1)  {$G0$};
-    \node [ellipse, thick, minimum width=4cm, minimum height=3cm, label={g2}] at (0, 1)  {$G0$};
+\begin{tikzpicture}
+\tikzset{vertex/.style = {shape=circle,draw,minimum size=10 pt}}
+\tikzset{edge/.style = {-,> = latex'}}
+% vertices
+\node[vertex] (a) at  (0,0) {a};
+\node[vertex] (b) at  (0,1) {b};
+\node[vertex] (c) at  (1,0) {c};
+\node[vertex] (d) at  (1,1) {d};
 
-    % Draw edges
-    \path [line] (g0) -- (g1);
-    \path [line] (g1) -- (g2);
+\node[vertex] (i) at  (3,1) {i};
+\node[vertex] (j) at  (4,0) {j};
+\node[vertex] (k) at  (4,1) {k};
+\node[vertex] (l) at  (3,0) {l};
 
-  \end{tikzpicture}
+\node[vertex] (e) at  (1.5,2) {e};
+\node[vertex] (f) at  (2.5,2) {f};
+\node[vertex] (g) at  (1.5,3) {g};
+\node[vertex] (h) at  (2.5,3) {h};
+%edges
+\draw[edge] (b) to (a);
+\draw[edge] (b) to (c);
+\draw[edge] (a) to (d);
+\draw[edge] (b) to (d);
+\draw[edge] (c) to (a);
+\draw[edge] (c) to (d);
+
+\draw[edge] (e) to (h);
+\draw[edge] (e) to (f);
+\draw[edge] (e) to (g);
+\draw[edge] (f) to (h);
+\draw[edge] (f) to (g);
+\draw[edge] (g) to (h);
+
+\draw[edge] (i) to (l);
+\draw[edge] (i) to (k);
+\draw[edge] (i) to (j);
+\draw[edge] (l) to (k);
+\draw[edge] (l) to (j);
+\draw[edge] (j) to (k);
+
+
+\draw[edge] (f) to (i);
+\draw[edge] (d) to (e);
+\draw[edge] (c) to (l);
+\end{tikzpicture}

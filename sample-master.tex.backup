@@ -154,6 +154,164 @@
 % 此属性可选，其默认值为空白
 \englishabstracttitleb{for Data Centers}
 
+
+
+
+
+
+\begin{filecontents*}{temp1.tikz}
+\begin{tikzpicture}
+    \matrix(dict)[matrix of nodes, %below=of game,
+        nodes={align=center,text width=20em,text height=5em},
+        %row 3/.style={nodes={text height =1em}},
+        %column 1/.style={nodes={text width=10cm,align=right}}
+    ]{
+        $u, w_1, w_2, w_3, \dots, {x}, \dots$ & $x, \dots, w_3, w_2, w_1, u, \dots$ \\
+       $v, w^\prime_1, w^\prime_2, w^\prime_3, \dots,{x}, \dots$  & $x, \dots, w^\prime_3, w^\prime_2, w^\prime_1, v, \dots$ \\
+       %(a): walk starting from u and v & (b) reversed walks starting from x \\
+       %(a) & (b) \\
+    };
+\end{tikzpicture}
+\end{filecontents*}
+
+\begin{filecontents*}{temp2.tikz}
+		\begin{tikzpicture}[baseline=0pt]
+			\begin{scope}[every node/.style={circle,draw,inner sep=0.5pt,minimum size=10pt}, treenode/.style = {circle,draw,inner sep=0.5pt,minimum size=10pt,fill=gray}]
+			    \node (d) at (0,0) {d};
+			    \node [treenode] (u) at (1,0) {u};
+			    \node (e) at (2, 0) {e};
+			    \node (f) at (3,0) {f};
+			     \node (a) at (0.5, 0.5) {a};
+			    \node (b) at (1.5, 0.5) {b};
+			    \node (c) at (2.5, 0.5) {c};
+			    \node (v) at (1, 1) {v};
+			\end{scope}
+			\begin{scope}[
+			             every node/.style={fill=black,circle},
+			              every edge/.style={draw=black}]
+			    \path [->] (v) edge  (a);
+			    \path [->] (v) edge  (b);
+			    \path [->] (v) edge  (c);
+			    \path [->] (a) edge  (d);
+			    \path [->] (a) edge  (u);
+			    \path [->] (b) edge  (e);
+			    \path [->] (b) edge  (u);
+			    \path [->] (c) edge  (f);
+			    \path [->] (d) edge  (u);
+			    \path [->] (e) edge  (f);
+			\end{scope}
+		\end{tikzpicture}
+\end{filecontents*}
+
+\begin{filecontents*}{temp3.tikz}
+		\begin{tikzpicture}[baseline=0pt,->,
+		level/.style={sibling distance = 3em/#1,level distance = 1.8em}, 
+		interestnode/.style = {circle,draw,fill=gray,inner sep=0.5pt,minimum size=10pt},
+		treenode/.style = {circle,draw,inner sep=0.5pt,minimum size=10pt}] 
+		\node [treenode] {v}
+		    child{ node [treenode] {a} 
+		             child{ node [treenode] {d} 
+									child{ node [interestnode] {u}}			
+		            }
+		            child{ node [interestnode] {u}}                    
+		    }
+		    child{ node [treenode] {b}
+		            child{ node [treenode] {e} 
+									child{ node [treenode] {f}}			
+		            }
+		            child{ node [interestnode] {u}}
+		    }
+		    child{ node [treenode] {c}
+		    	  child{ node [treenode] {f} 
+		     }
+			  }
+		; 
+		\end{tikzpicture}
+\end{filecontents*}
+
+\begin{filecontents*}{temp4.tikz}
+  \begin{tikzpicture}[auto, 
+%fill=white,
+node distance=4cm,
+%minimum width=3cm,
+font=\small]
+  
+  
+\node[initial,state] (A)                                    {$G_0$};
+\node[ellipse (4 and 5), minimum=3cm]         (B) [above right of=A]                 {$G_1$};
+\node[ellipse (3 and 2) minimum=2cm]         (C) [below right of=A]                 {$G_2$};
+\node[state, minimum=1cm]         (D) [below right of=B]                 {$G_3$};
+\node[state]         (E) [above right of=D]                 {$s_4$};
+\node[state]         (F) [below right of=D]                 {$s_5$};
+
+ 
+
+  \end{tikzpicture}
+\end{filecontents*}
+
+
+\begin{filecontents*}{temp5.tikz}
+\begin{tikzpicture}
+\tikzset{vertex/.style = {shape=circle,draw,minimum size=10 pt}}
+\tikzset{edge/.style = {-,> = latex'}}
+% vertices
+\node[vertex] (a) at  (0,0) {a};
+\node[vertex] (b) at  (0,1) {b};
+\node[vertex] (c) at  (1,0) {c};
+\node[vertex] (d) at  (1,1) {d};
+
+\node[vertex] (i) at  (3,1) {i};
+\node[vertex] (j) at  (4,0) {j};
+\node[vertex] (k) at  (4,1) {k};
+\node[vertex] (l) at  (3,0) {l};
+
+\node[vertex] (e) at  (1.5,2) {e};
+\node[vertex] (f) at  (2.5,2) {f};
+\node[vertex] (g) at  (1.5,3) {g};
+\node[vertex] (h) at  (2.5,3) {h};
+%edges
+\draw[edge] (b) to (a);
+\draw[edge] (b) to (c);
+\draw[edge] (a) to (d);
+\draw[edge] (b) to (d);
+\draw[edge] (c) to (a);
+\draw[edge] (c) to (d);
+
+\draw[edge] (e) to (h);
+\draw[edge] (e) to (f);
+\draw[edge] (e) to (g);
+\draw[edge] (f) to (h);
+\draw[edge] (f) to (g);
+\draw[edge] (g) to (h);
+
+\draw[edge] (i) to (l);
+\draw[edge] (i) to (k);
+\draw[edge] (i) to (j);
+\draw[edge] (l) to (k);
+\draw[edge] (l) to (j);
+\draw[edge] (j) to (k);
+
+
+\draw[edge] (f) to (i);
+\draw[edge] (d) to (e);
+\draw[edge] (c) to (l);
+\end{tikzpicture}
+\end{filecontents*}
+
+\begin{filecontents*}{temp6.tikz}
+\begin{tikzpicture}
+\tikzset{vertex/.style = {shape=circle,draw,minimum size=10 pt, fill=gray}}
+\tikzset{edge/.style = {-,> = latex'}}
+% vertices
+\node[vertex] (a) at  (0,0) {$c_1$};
+\node[vertex] (b) at  (2.5,0) {$c_2$};
+\node[vertex] (c) at  (1.25,2) {$c_3$};
+%edges
+\draw[edge] (b) to (a);
+\draw[edge] (b) to (c);
+\draw[edge] (a) to (c);
+\end{tikzpicture}
+\end{filecontents*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
@@ -607,8 +765,6 @@ $W_u, W_v$ 的倒序游走一定也在其中
 \end{figure}
 
 
-
-
 \begin{figure}[t]
     \centering
     %\subfig[fjalkf]
@@ -689,7 +845,24 @@ METIS是这种多层次图分割算法的典型代表。　它主要有三个步
 最大匹配中的每条边都可以塌缩为新图$G\prime_1$中的一个节点，这样图的规模就能不断的减小。第二步骤中，直接使用ＫＬ或ＦＭ对$G\prime_k$进行划分；
 最后一个步骤中，$G\prime_k$的划分被重新映射到原图$G$中去。
 我们给出算法的基本框架
-\subsection{基于模量的社区发现}
+\begin{figure}
+\begin{algorithm}[H]
+\captionof{algorithm}{Multi-Level Graph Partitioning}
+\label{alg:mlgp}
+\begin{algorithmic}[1]
+\Procedure{MultiLevelGraphPartition}{$G, \alpha, \beta, k$}
+	\While{number of lables $\ge \alpha$}
+		\State $P \gets $ results of modularity-based community detection for $\beta$ iterations;
+		\State Construct $G\prime$ from $P$;
+	\EndWhile
+	\State $P_1 \gets $ Run local graph partitioning on $G\prime$. 
+	\State restore partition $P\prime$ from $P_1$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\end{figure}
+
+\subsection{图的塌缩}
 文献【ＴＯＤＯ】给出了一种基于标签传播（Label Propogation，　LP)的分割思想。　
 ＬＰ算法一开始被运用于社区发现，即在图$G$中将不同的节点划分为不同的社区，每个社区的内部节点往往连通得比较紧密，　社区之间的节点往往连通比较稀疏。
 这种方法天然地借鉴到图划分问题中，因为在图划分问题中，往往也要求每一个分块之间的节点紧密连通，而不同划分之间应该较少连通或理想状况下不连通。　
@@ -727,7 +900,7 @@ Q &= \frac{1}{2m}\sum\limits_{u, v \in V} \left[w_{uv} - \frac{{d_u}{d_v}}{2m} \
 其中，显然我们有$I_c=\sum\nolimits_{u, v \in c}  w_{uv}$, 
 并且有$\sum\nolimits_{i,j \in c}{{d_u}{d_v}} =
 \sum\nolimits_{u \in c}{d_u} \sum\nolimits_{v \in c}{d_v} = S_c S_c = {S_c}^2$
-因此，　我们有如下的定理
+因此，　我们有如下的定理：
 \begin{equation}
 \begin{aligned}
 Q &= \frac{1}{2m}\sum\limits_{c \in \mathcal{C}} \left[I_c - \frac{S_c^2}{2m} \right] \\
@@ -735,9 +908,74 @@ Q &= \frac{1}{2m}\sum\limits_{c \in \mathcal{C}} \left[I_c - \frac{S_c^2}{2m} \r
 \end{aligned}
 \end{equation}
 \end{proof}
+有了以上的定以后，我们回到算法\label{algo:mlgp}的框架中。
+设原始输入图为$G(E,V)$，　并假设迭代塌缩过程中产生的中间图用记号$G_1, G_2, \dots, G_t$表示，　
+相应的，　迭代过程中由中间图产生的划分称作$P_1, P_2, \dots, P_{t}$。　
+注意到有$P_i \gets G_i$，　即迭代中图划分与其输入是对应的。
+然后我们有以下定义：
+\begin{definition}
+ 设基于图$G_i(V_i, E_i)$有划分$P_i=(C_1, C_2, \dots, C_n)$，　基于$P_i$上构造塌缩图$G_{i+1}(V_{i+1}, E_{i+1}$如下：
+ 令$V_{i+1} = P_i$，　即$P_i$ 中的每一个划分对应$G_{i+1}$中的一个新节点；　边$(C_i, C_j) \in E_{i+1}$当且仅当$\exists
+ u \in C_i, v \in C_j$ 并且 $(u, v) \in E_i$。
+\end{definition}
 
 
+\begin{figure}[t]
+    \centering
+    %\subfig[fjalkf]
+    \begin{subfigure}[b]{0.48\linewidth}        %% or \columnwidth
+        \centering
+        \label{fig:two:one}
+	\resizebox{!}{!}{\input{temp5.tikz}}
+	\caption{一个图$G$　}
+	\label{fig:figure2:figure1} 
+	\end{subfigure}
+    \begin{subfigure}[b]{0.48\linewidth}        %% or \columnwidth
+     \centering
+	\resizebox{!}{!}{\input{temp6.tikz}}
+	\caption{经过塌缩后的图$G\prime$}
+	\label{fig:figure2:figure2}
+    \end{subfigure}
+    \caption{(a)为一个简单的示例图，(b)为改图经过塌缩(coarse)后的图$G\prime$, 每个节点代表$G$中的一个划分}
+    \label{fig:two}
+\end{figure}
+我们下面给出基于模优化的图划分方法。
+我们首先考虑，假设节点$u$属于划分$c$, 而它的所有邻居节点所属的划分为$C = \{c_1, c_2, c_3, \dots, c_n \}$，
+那么对某个$c_i \in C$，如果我们考虑把$u$从$c$中移出，重新放入到$c_i$中，整个图$G$的模量会一次发生变化，我们用符号$\Delta Q_{u,c}$。
+并且根据模量的定义，我们有：
+\begin{equation}
+\begin{aligned}
+ \Delta Q_{u,c}=\left[ \frac{I_c+w_{i,c}}{2m} - {\left(\frac{S_c + l_i}{2m} \right)}^2 \right] -
+ \left[ \frac{I_c}{2m} - {\left(\frac{S_c}{2m} \right)}^2 - {\left(\frac{l_i}{2m}\right)}^2 \right]
+\end{aligned}
+\end{equation}
+经过若干步骤的化简，最终我们可以得到模量变化的简单形式：
+\begin{equation}
+\begin{aligned}
+ \Delta Q_{u,c}=\frac{w_{i,c}}{2m} - \frac{S_cl_i}{2m^2} 
+\end{aligned}
+\end{equation}
 
+我们对图进行塌缩的算法如下所示：
+\begin{figure}
+\begin{algorithm}[H]
+\captionof{algorithm}{Modularity-based Graph Coarsening}
+\label{alg:mlgp}
+\begin{algorithmic}[1]
+\Procedure{GraphCoarsening}{$G, \beta$}
+	\While{number of iterations $\le \beta}
+	    \State Initialize \mathcal{C}, which assigns each node a unique partition identifier;
+	    \State $m=\sum\nolimits_{}
+		\State $P \gets $ results of modularity-based community detection for $\beta$ iterations;
+		\State Construct $G\prime$ from $P$;
+	\EndWhile
+	\State $P_1 \gets $ Run local graph partitioning on $G\prime$. 
+	\State restore partition $P\prime$ from $P_1$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\end{figure}
+\subsection{图的划分}
 \section{算法的优化}
 
 \section{算法的实现}
@@ -1488,73 +1726,3 @@ $.314,325$。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 
-
-\begin{filecontents*}{temp1.tikz}
-\begin{tikzpicture}
-    \matrix(dict)[matrix of nodes, %below=of game,
-        nodes={align=center,text width=20em,text height=5em},
-        %row 3/.style={nodes={text height =1em}},
-        %column 1/.style={nodes={text width=10cm,align=right}}
-    ]{
-        $u, w_1, w_2, w_3, \dots, {x}, \dots$ & $x, \dots, w_3, w_2, w_1, u, \dots$ \\
-       $v, w^\prime_1, w^\prime_2, w^\prime_3, \dots,{x}, \dots$  & $x, \dots, w^\prime_3, w^\prime_2, w^\prime_1, v, \dots$ \\
-       %(a): walk starting from u and v & (b) reversed walks starting from x \\
-       %(a) & (b) \\
-    };
-\end{tikzpicture}
-\end{filecontents*}
-
-\begin{filecontents*}{temp2.tikz}
-		\begin{tikzpicture}[baseline=0pt]
-			\begin{scope}[every node/.style={circle,draw,inner sep=0.5pt,minimum size=10pt}, treenode/.style = {circle,draw,inner sep=0.5pt,minimum size=10pt,fill=gray}]
-			    \node (d) at (0,0) {d};
-			    \node [treenode] (u) at (1,0) {u};
-			    \node (e) at (2, 0) {e};
-			    \node (f) at (3,0) {f};
-			     \node (a) at (0.5, 0.5) {a};
-			    \node (b) at (1.5, 0.5) {b};
-			    \node (c) at (2.5, 0.5) {c};
-			    \node (v) at (1, 1) {v};
-			\end{scope}
-			\begin{scope}[
-			             every node/.style={fill=black,circle},
-			              every edge/.style={draw=black}]
-			    \path [->] (v) edge  (a);
-			    \path [->] (v) edge  (b);
-			    \path [->] (v) edge  (c);
-			    \path [->] (a) edge  (d);
-			    \path [->] (a) edge  (u);
-			    \path [->] (b) edge  (e);
-			    \path [->] (b) edge  (u);
-			    \path [->] (c) edge  (f);
-			    \path [->] (d) edge  (u);
-			    \path [->] (e) edge  (f);
-			\end{scope}
-		\end{tikzpicture}
-\end{filecontents*}
-
-\begin{filecontents*}{temp3.tikz}
-		\begin{tikzpicture}[baseline=0pt,->,
-		level/.style={sibling distance = 3em/#1,level distance = 1.8em}, 
-		interestnode/.style = {circle,draw,fill=gray,inner sep=0.5pt,minimum size=10pt},
-		treenode/.style = {circle,draw,inner sep=0.5pt,minimum size=10pt}] 
-		\node [treenode] {v}
-		    child{ node [treenode] {a} 
-		             child{ node [treenode] {d} 
-									child{ node [interestnode] {u}}			
-		            }
-		            child{ node [interestnode] {u}}                    
-		    }
-		    child{ node [treenode] {b}
-		            child{ node [treenode] {e} 
-									child{ node [treenode] {f}}			
-		            }
-		            child{ node [interestnode] {u}}
-		    }
-		    child{ node [treenode] {c}
-		    	  child{ node [treenode] {f} 
-		     }
-			  }
-		; 
-		\end{tikzpicture}
-\end{filecontents*}
