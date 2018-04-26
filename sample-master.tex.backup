@@ -1003,14 +1003,29 @@ $c$被设置为0.5，相应的，$k$被设置为$k=6$。
 图\ref{fig:ch1:runtime}还表明，图eu-2005和arabic-2005减少领域的比例比图p2p-gnutella08和ljournal-2008要大很多，
 这一观察同样表明算法中的概率筛子对稠密的图能更好地提高性能。
 \subsection{算法的可扩展性}
-我们考察分布式环境下算法的可扩展性。 首先考察算法运行时间随着输入图的大小的变化关系，结果如图\ref{fig:ch1:node_scalable}所示。
+我们考察分布式环境下算法的可扩展性。 首先考察算法运行时间随着输入图的大小的变化关系，结果如图\ref{fig:ch1:data_scalable}所示。
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width= 1\textwidth]{figure/data_scalability.eps}\\
+  \caption{算法运行时间与输入图大小的变化关系}\label{fig:ch1:data_scalable}
+\end{figure}
+
+图中展示了当集群计算节点数目固定时，对于不同的$\delta$，运行时间随输入图规模大小变化的情况。 
+可以看出，输入图的规模从215KB到10.9GB，而对应的运行时间基本上近似的随着输入规模大小线性的变化，
+这一结论对不同的$\delta$都成立。这展示出sssSimRank良好的数据可扩展性。
+我们还考察了当输入图的规模固定时，算法运行效率随集群中计算节点数量变化的情况。
+所有的输入图使用同样的参数配置，$k=6$， $\delta=10^{-4}$。 计算节点数量从2增加到6。
+注意到我们把$\delta$取得非常小，是因为$delta$越小，算法剔除的游走越少，算法的计算量越大。
+这样更能提现计算量较为饱和的情况下算法的节点可扩展性。实验结果如图\ref{fig:ch1:node_scalable}所示。
+从图中可以看到，对不同规模的输入图，算法的运行时间随集群计算节点的增加而近乎线性的减少，
+这表面算法在分布式环境下具有良好的节点可扩展性。
 \begin{figure}[htbp]
   \centering
   \includegraphics[width= 1\textwidth]{figure/node_scalability.eps}\\
-  \caption{测试插图}\label{fig:ch1:node_scalable}
+  \caption{算法运行时间与集群计算节点数量的变化关系}\label{fig:ch1:node_scalable}
 \end{figure}
-\section{小结}
 
+\section{小结}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{基于Spark的分布式图分割方法}\label{chapter_graphpartition}
 为了计算图$G$中所有节点的相似度，我们将在下一章节介绍cSimRank算法。 而本章节主要介绍一种分布式的图分割算法，它是cSimRank的中间步骤。
@@ -1031,21 +1046,36 @@ $c$被设置为0.5，相应的，$k$被设置为$k=6$。
 \textbf{单节点串行算法} 文献【23】证明了图分割问题是一个NP完全问题。 因此，早起很多工作都集中在设计一些近似算法以求得次优解。
 文献【5】提出了KL算法，该方法将图划分为偶数个划分，基于一些启发式的信息不断交换不同划分对中的节点， 使得不同划分之间的边割($edge-cut$)的权重最小；
 类似的方法还有文献【6】研究了FM算法。还有一些基于模拟退火【24】，遗传算法【25】的解决方案。这些方法研究的都是基于内存的小图。
-为了能够应对更大规模的图，一些多层次分割的方法相继被提出，包括 Metiｓ[8] Chaco[7]  和 Scotch[10].这些方法的主要思想是首先将局部的某些节点变为一个节点，
-从而提取出整个图拓扑信息的“骨骼”，这一过程成叫做”塌缩“（coarse）; 这样图的规模得到了不断的缩小，当规模达到某个可以接受的规模后， 然后再使用传统的KL或FM算法对其进行处理；
+为了能够应对更大规模的图，一些多层次分割的方法相继被提出，包括 Metis[8]Chaco[7]和Scotch[10]。
+这些方法的主要思想是首先将局部的某些节点变为一个节点，从而提取出整个图拓扑信息的“骨骼”，这一过程成叫做”塌缩“（coarse）; 
+这样图的规模得到了不断的缩小，当规模达到某个可以接受的规模后， 然后再使用传统的KL或FM算法对其进行处理；
 然后通过一个“uncoarse”的过程还原出原来的图。
-\textbf{单节点并行算法} 为了进一步充分利用现代CPU的多核特性，从以上这些算法中演化出一些并行化算法，例如ParMetis[11], Pt-Scotch[12]等。 
-因为这些方法中有部分步骤可以并行，所以其能够处理的图的规模也获得了的提高。 然而总的来说，这些方法仍然是基于单计算节点的， 对规模更大的（上百万节点）图无能为力。
 
-\textbf{分布式图划分} 近年来，一些专门用于图计算的分布式平台越来越流行，包括Pregel[15], Giraph[X], Spark GraphX[TODO]等等。
+\textbf{单节点并行算法} 为了进一步充分利用现代CPU的多核特性，从以上这些算法中演化出一些并行化算法，例如ParMetis[11], Pt-Scotch[12]等。 
+因为这些方法中有部分步骤可以并行，所以其能够处理的图的规模也获得了的提高。 
+然而总的来说，这些方法仍然是基于单计算节点的， 对规模更大的（上百万节点）图无能为力。
+
+\textbf{分布式图划分} 近年来，一些专门用于图计算的分布式平台越来越流行，包括Pregel[15]，Giraph[X]，Spark GraphX[TODO]等等。
 这些平台的一个重要特点是支持以节点为中心(vertex-centric)的编程范式，　并且支持节点之间的消息通信。　
 在处理图计算问题时，这些平台内部默认地使用了简单的随机划分方法，其中一些也开放了一些接口支持用户设计按照需求设计自己的分割方法。　
 但是并没有提供一个能够使用的图分割算法。
 
 \section{算法的基本框架}
-我们的算法借鉴了图塌缩的思想，　即通过不断的coarse使得原来的图的规模越来越小，当图的规模小到某个条件时，再使用ＫＬ或ＦＭ处理。
+我们从以下两方面来考虑图划分算法的优化目标：
+\begin{enumerate}
+ \item 最终划分结果的负载均衡。 考虑一个由$k$个硬件条件完全相同的计算节点组成的集群，因为存储资源（硬盘）存在于每个计算节点上，
+ 所以理想情况下最终划分的结果应当尽可能的均匀分布在集群中。也就是说，每个划分的大小应当在$\frac{|V|}{k}$左右，
+ 或者说划分过程中应该避免规模大于$\frac{|V|}{k}$的分块的产生。如果仍然有某个分块分布式地存储在超过一个结算节点上，那所谓的图划分就没有意义。
+ \item 最终划分结果的质量。 理想情况下	图划分算法应该可以把图中稠密的子图归类于一个分块中。但是因为有负载均衡的限制，
+ 而图中稠密子图的规模天然是不均匀的，因此我们从整体考虑划分的质量。设$C$是图$G(V,E)$的一个划分，定义其权重为
+ $W_{P}=\sum\nolimits_{e(u,v) \in E, u \in C_i, v \in C_j} w\big(e(u,v)\big)$，即所有连接不同分块的边的权重之和。
+ 理论上，$W_P$应尽可能的小。
+\end{enumerate}
+
+
+我们的算法借鉴了图塌缩的思想，　即通过不断的coarse使得原来的图的规模越来越小，当图的规模小到某个条件时，再使用KL或FM处理。
 METIS是这种多层次图分割算法的典型代表。　它主要有三个步骤，　首先对原图进行反复的塌缩，然后对获得的图进行划分，然后再进行反塌缩过程恢复出对原图的划分。
-第一个步骤，METIS使用寻找最大匹配（maximaｌ match)的方法来对原图进行ｃｏａｒｓｅ。形式上说，一个最大匹配就是一个包含做多边的集合，使得集合中每条边的不存在重合的节点。
+第一个步骤，METIS使用寻找最大匹配（maximaｌ match)的方法来对原图进行coarsen。形式上说，一个最大匹配就是一个包含做多边的集合，使得集合中每条边的不存在重合的节点。
 最大匹配中的每条边都可以塌缩为新图$G\prime_1$中的一个节点，这样图的规模就能不断的减小。第二步骤中，直接使用ＫＬ或ＦＭ对$G\prime_k$进行划分；
 最后一个步骤中，$G\prime_k$的划分被重新映射到原图$G$中去。
 我们给出算法的基本框架
@@ -1055,24 +1085,29 @@ METIS是这种多层次图分割算法的典型代表。　它主要有三个步
 \label{alg:mlgp}
 \begin{algorithmic}[1]
 \Procedure{MultiLevelGraphPartition}{$G, \alpha, \beta, k$}
-	\While{number of lables $\ge \alpha$}
+	\While{\#partitions $\ge \alpha$}
 		\State $P \gets $ results of modularity-based community detection for $\beta$ iterations;
-		\State Construct $G\prime$ from $P$;
-	\EndWhile
-	\State $P_1 \gets $ Run local graph partitioning on $G\prime$. 
-	\State restore partition $P\prime$ from $P_1$
+		\State Construct $G\prime$ from $P$; \Comment{Coarsen.}
+	\EndWhile  
+	\State $P_1 \gets $ Run local graph partitioning on $G\prime$. \Comment{Final refinement.}
+	\State restore partition $P\prime$ from $P_1$ \Comment{Project back to the orignal graph.}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
 \end{figure}
-
+算法包含三个参数，$\alpha, \beta, k$。
+其中，$\alpha$指的是反复塌缩过程的目标划分数目，如果迭代过程中当前的划分数目大于$\alpha$，就继续迭代下去。
+实际应用中， $\alpha$的取值与第二步中单节点图划分算法可以处理的输入图规模有关。
+$\beta$指的是我们基于模量的塌缩方法的迭代次数。
+$k$是调节负载均衡的系数。
 \subsection{图的塌缩}
 文献【ＴＯＤＯ】给出了一种基于标签传播（Label Propogation，　LP)的分割思想。　
 ＬＰ算法一开始被运用于社区发现，即在图$G$中将不同的节点划分为不同的社区，每个社区的内部节点往往连通得比较紧密，　社区之间的节点往往连通比较稀疏。
 这种方法天然地借鉴到图划分问题中，因为在图划分问题中，往往也要求每一个分块之间的节点紧密连通，而不同划分之间应该较少连通或理想状况下不连通。　
 ＬＰ算法的思想非常简单：最初的时候我们给每个节点一个单独的社区ID, 然后我们迭代式地为每个节点更新社区ＩＤ。每次迭代中，每个节点按照其邻居节点中出现最多的社区ＩＤ
 作为自己的社区ＩＤ。当$G$中每个节点的社区ＩＤ基本上不再变动时，算法结束。
-上述算法并没有使用$G$中任何的先验信息或者是前置的目标函数，因此有很搞的提升空间。我们这里借鉴了文献【７】中的模量的思想，即在迭代过程中有方向性地寻找合适的社区ＩＤ。
+上述算法并没有使用$G$中任何的先验信息或者是前置的目标函数，因此有很搞的提升空间。我们这里借鉴了文献【７】中的模量的思想，
+即在迭代过程中有方向性地寻找合适的社区ＩＤ。
 我们首先给出如下定义
 设关系$(V, E)$表示一个图，其中 $V$ 图的节点集合， $E \subseteq V \times V$ 是图中边的集合。
 $n$ 和 $m$分别表示图中节点的个数、边的个数。　$d_v$表示节点$v$的度数, $c_v$表示节点$v$所在社区的ＩＤ。
@@ -1107,7 +1142,7 @@ Q &= \frac{1}{2m}\sum\limits_{u, v \in V} \left[w_{uv} - \frac{{d_u}{d_v}}{2m} \
 因此，　我们有如下的定理：
 \begin{equation}
 \begin{aligned}
-Q &= \frac{1}{2m}\sum\limits_{c \in \mathcal{C}} \left[I_c - \frac{S_c^2}{2m} \right] \\
+Q &= \frac{1}{2m}\sum\limits_{c \in C} \left[I_c - \frac{S_c^2}{2m} \right] \\
 & = \sum\limits_{c \in C} \left[\frac{I_c}{2m} - {\left(\frac{S_c}{2m}\right)}^2 \right]
 \end{aligned}
 \end{equation}
@@ -1121,6 +1156,14 @@ Q &= \frac{1}{2m}\sum\limits_{c \in \mathcal{C}} \left[I_c - \frac{S_c^2}{2m} \r
  设基于图$G_i(V_i, E_i)$有划分$P_i=(C_1, C_2, \dots, C_n)$，　基于$P_i$上构造塌缩图$G_{i+1}(V_{i+1}, E_{i+1}$如下：
  令$V_{i+1} = P_i$，　即$P_i$ 中的每一个划分对应$G_{i+1}$中的一个新节点；　边$(C_i, C_j) \in E_{i+1}$当且仅当$\exists
  u \in C_i, v \in C_j$ 并且 $(u, v) \in E_i$。
+\end{definition}
+\begin{definition}
+ 设基于图$G_{i+1}$迭代过程中基于图$G_i$生产的压缩图，并且有$V_{i+1}=(C_1, C_2, \dots, C_n)$，
+ 那么边$e=(C_i, C_j)$的新权重定义为：
+ \begin{equation}
+w(C_i, C_j) = \sum\limits_{e(u,v) \in E_i, u \in C_i, v \in C_j} w\big(e(u,v)\big)
+\end{equation}
+即压缩图中的新边的权重等于该边在原图中代表的两个划分中所有相连接的边的权重之和。
 \end{definition}
 
 
@@ -1161,8 +1204,8 @@ Q &= \frac{1}{2m}\sum\limits_{c \in \mathcal{C}} \left[I_c - \frac{S_c^2}{2m} \r
 \end{equation}
 
 我们对图进行塌缩的算法如下所示：
-\begin{figure}
-\begin{algorithm}[H]
+%\begin{figure}[tbp]
+\begin{algorithm}[h]
 \captionof{algorithm}{Modularity-based Graph Coarsening}
 \label{alg:mlgp}
 \begin{algorithmic}[1]
@@ -1171,7 +1214,7 @@ Q &= \frac{1}{2m}\sum\limits_{c \in \mathcal{C}} \left[I_c - \frac{S_c^2}{2m} \r
 	    \State Initialize $\mathcal{C}$, which assigns each node a unique partition identifier;
 	    \State $m=\sum\nolimits_{u,v \in V} w_{u,v}$;
 	    \For { $u \in V$}
-		
+		\State{$maxGain = -1$};
 		\For{ $v \in N_v$}
 		     \State $\Delta Q_{u,c_{v}}=\frac{w_{i,c}}{2m} - \frac{S_{c_v}l_i}{2m^2}$;
 		     \If {$\Delta Q_{u,c_{v}} > maxGain$}
@@ -1181,7 +1224,7 @@ Q &= \frac{1}{2m}\sum\limits_{c \in \mathcal{C}} \left[I_c - \frac{S_c^2}{2m} \r
 		\EndFor
 		\If {$maxGain > 0$}
 		    \State $c_{newPartition} \gets c_{newPartition}\cup\{u\}$;
-		    \State $c_{u} \gets c_{u} - \cup\{u\}$;
+		    \State $c_{u} \gets c_{u} - \{u\}$;
 		\EndIf	
 	    
 	    \EndFor
@@ -1190,7 +1233,8 @@ Q &= \frac{1}{2m}\sum\limits_{c \in \mathcal{C}} \left[I_c - \frac{S_c^2}{2m} \r
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
-\end{figure}
+%\end{figure}
+
 \subsection{图的划分}
 \section{算法的优化}
 
@@ -1202,274 +1246,6 @@ Q &= \frac{1}{2m}\sum\limits_{c \in \mathcal{C}} \left[I_c - \frac{S_c^2}{2m} \r
 \section{算法理论模型}
 \section{算法概览}
 
-\section{Spark}
-
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width= 0.5\textwidth]{njuname.eps}\\
-  \caption{测试插图}\label{fig:test2}
-\end{figure}
-
-1909年，现代无线电之父Guglielmo Marconi在其诺贝尔奖致辞中讨论了覆盖整个地球所需
-的无线电中继站数目，并根据他的实验结果计算出平均需要$5.83$（近似为$6$）个中继站
-\cite{marconi1909nobel}。这个结论，被认为是``六度分割理论''中的常数$6$的最早出处
-\cite{barabasi2003linked}。
-
-1929年，匈牙利作家Frigyes Karinthy发表了一部短篇小说集《Everything is
-  Different》。其中一篇名为《Chain-Links》的小说以抽象的、概念性的和虚
-构的方式研究了网络理论领域的很多问题，而这些问题使得未来几代的数学家、
-社会学家和物理学家都为之着迷\cite{newman2006structure,
-  barabasi2003linked}。Karinthy认为，随着通讯技术和交通技术的发展，人际
-关系网会变得越来越来大，扩张得越来越远，整个世界将因此而``缩小''。他认
-为，虽然人类个体之间的物理距离可能很远，但人类社交网络密度的增加使得人
-类个体之间的社会性距离变得非常小。根据这个假设，Karinthy的小说的主角相
-信：``任何两个人之间可以通过不超过五个中间人相联系''。Karinthy的想法直
-接或间接地影响了早期的社交网络理论的研究，他被认为是六度分隔(six
-degrees of separation)理论的最早提出者\cite{barabasi2003linked}。
-
-
-\begin{table}
-  \centering
-  \begin{tabular}{cccp{38mm}}
-    \toprule
-    \textbf{文档域类型} & \textbf{Java类型} & \textbf{宽度(字节)} & \textbf{说明} \\
-    \midrule
-    BOOLEAN  & boolean &  1  & \\
-    CHAR     & char    &  2  & UTF-16字符 \\
-    BYTE     & byte    &  1  & 有符号8位整数 \\
-    SHORT    & short   &  2  & 有符号16位整数 \\
-    INT      & int     &  4  & 有符号32位整数 \\
-    LONG     & long    &  8  & 有符号64位整数 \\
-    STRING   & String  &  字符串长度  & 以UTF-8编码存储 \\
-    DATE     & java.util.Date & 8 & 距离GMT时间1970年1月1日0点0分0秒的毫秒数 \\
-    BYTE\_ARRAY & byte$[]$ & 数组长度 & 用于存储二进制值 \\
-    BIG\_INTEGER & java.math.BigInteger & 和具体值有关 & 任意精度的长整数 \\
-    BIG\_DECIMAL & java.math.BigDecimal & 和具体值有关 & 任意精度的十进制实数 \\
-    \bottomrule
-  \end{tabular}
-  \caption{测试表格}\label{table:test2}
-\end{table}
-
-1961年，Michael Gurevich在社会学家Ithiel de Sola Pool的指导下完成了他的
-博士论文，对社交网络进行了实验性的研究。随后，数学家Manfred Kochen与
-Sola Pool一道在他们的手稿《Contacts and Influences》中对这些实验结果做
-了分析，发现在美国人口中，任意两个人之间通常只需不超过两个中间人即可互
-相联系\cite{pool1978}。1973年他们又利用计算机，基于Gurevich的数据，用
-Monte Carlo法做了模拟，并证实了该结论\cite{pool1978}，从而为心理学家
-Stanley Milgram后来的发现打下了基础。
-
-\section{网络结构的重要指标}
-
-在刻画复杂网络结构的统计特性上有三个重要的指标：平均路径长度（average
-  path length）、聚类系数（clustering coefficient）和度分布（degree
-  distribution）。事实上，Watts和Strogatz提出小世界网络模型的初衷，就是
-想建立一个既具有类似随机图的较小的平均路径长度，又具有类似规则网络的较
-大的聚类系数的网络模型。
-
-\subsection{平均路径长度}
-
-\begin{definition}[节点之间的距离]
-网络中两个节点$i$和$j$之间的距离(distance)$d_{ij}$定义为连接这两个节点
-的最短路径上的边数。
-\end{definition}
-
-\begin{definition}[直径]
-网络中任意两个节点之间的距离的最大值称为该网络的直径，记为$D$，即
-\begin{equation}\label{eq:dimension}
-    D = \max_{i,j} d_{ij}
-\end{equation}
-\end{definition}
-
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width= 0.5\textwidth]{njuname.eps}\\
-  \caption{测试插图}\label{fig:test3}
-\end{figure}
-
-\begin{definition}[平均路径长度]
-网络的平均路径长度$L$定义为任意两个节点之间的距离的平均值，即
-\begin{equation}\label{eq:avarage_path_lentgh}
-    L = \frac{2}{N(N+1)}\sum_{i\geq j}d_{ij}
-\end{equation}
-其中$N$为网络节点数。网络的平均路径长度也称为网络的特征路径长度。
-\end{definition}
-
-注意，为了便于数学处理，在公式\eqref{eq:avarage_path_lentgh}中包含了节
-点到其自身的距离（该距离为零）。如果不考虑节点到其自身的距离，那么公式
-\eqref{eq:avarage_path_lentgh}的右端需要乘以因子$(N+1)/(N-1)$。在实际应
-用中，该差别可以忽略不计。
-
-\subsection{聚类系数}
-
-\begin{table}
-  \centering
-  \begin{tabular}{cccp{38mm}}
-    \toprule
-    \textbf{文档域类型} & \textbf{Java类型} & \textbf{宽度(字节)} & \textbf{说明} \\
-    \midrule
-    BOOLEAN  & boolean &  1  & \\
-    CHAR     & char    &  2  & UTF-16字符 \\
-    BYTE     & byte    &  1  & 有符号8位整数 \\
-    SHORT    & short   &  2  & 有符号16位整数 \\
-    INT      & int     &  4  & 有符号32位整数 \\
-    LONG     & long    &  8  & 有符号64位整数 \\
-    STRING   & String  &  字符串长度  & 以UTF-8编码存储 \\
-    DATE     & java.util.Date & 8 & 距离GMT时间1970年1月1日0点0分0秒的毫秒数 \\
-    BYTE\_ARRAY & byte$[]$ & 数组长度 & 用于存储二进制值 \\
-    BIG\_INTEGER & java.math.BigInteger & 和具体值有关 & 任意精度的长整数 \\
-    BIG\_DECIMAL & java.math.BigDecimal & 和具体值有关 & 任意精度的十进制实数 \\
-    \bottomrule
-  \end{tabular}
-  \caption{测试表格}\label{table:test3}
-\end{table}
-
-在图论中，聚类系数(clustering coefficient)是用来描述一个图中的顶点之间
-结集成团的程度的系数。具体来说，是一个点的邻接点之间相互连接的程度。许
-多大规模的实际网络都具有明显的聚类效应。例如生活社交网络中，你的朋友同
-时也是朋友的概率会随着网络规模的增加而趋向于某个非零常数。这意味着这些
-实际的复杂网络并不是完全随机的，而是在某种程度上具有类似于社会关系网络
-中“物以类聚，人以群分”的特性。
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width= 0.5\textwidth]{njuname.eps}\\
-  \caption{测试插图}\label{fig:test4}
-\end{figure}
-
-集聚系数分为整体与局部两种。整体集聚系数可以给出一个图中整体的集聚程度
-的评估，而局部集聚系数则可以测量图中每一个结点附近的集聚程度。
-
-\begin{definition}[整体聚类系数]
-整体集聚系数的定义建立在闭三点组（邻近三点组）之上。假设网络中有一部分
-节点是两两相连的，那么可以找出很多个“三角形”，其对应的三点两两相连，
-称为闭三点组。除此以外还有开三点组，也就是之间连有两条边的三点（缺一条
-  边的三角形）。这两种三点组构成了所有的连通三点组。整体集聚系数定义为
-一个网络中所有闭三点组的数量与所有连通三点组（无论开还是闭）的总量之比，
-即
-\[
-    C_{total}=\frac{3\times G_{\triangle}}{3 \times G_{\triangle} + G_{\wedge}}
-\]
-其中$C_{total}$表示网络的整体聚类系数，$G_{\triangle}$表示该网络中闭三
-点组的个数，$G_{\wedge}$表示该网络中开三点组的个数\cite{luce1949method}。
-\end{definition}
-
-对图中具体的某一个点，它的局部集聚系数$C_i$表示与它相连的点抱成团（完全
-  子图）的程度。Watts与Strogatz在1998年的论文
-\cite{watts1998smallworld}中首次引入了这个概念，用以判别一个图是否是小
-世界网络。
-
-\begin{table}
-  \centering
-  \begin{tabular}{cccp{38mm}}
-    \toprule
-    \textbf{文档域类型} & \textbf{Java类型} & \textbf{宽度(字节)} & \textbf{说明} \\
-    \midrule
-    BOOLEAN  & boolean &  1  & \\
-    CHAR     & char    &  2  & UTF-16字符 \\
-    BYTE     & byte    &  1  & 有符号8位整数 \\
-    SHORT    & short   &  2  & 有符号16位整数 \\
-    INT      & int     &  4  & 有符号32位整数 \\
-    LONG     & long    &  8  & 有符号64位整数 \\
-    STRING   & String  &  字符串长度  & 以UTF-8编码存储 \\
-    DATE     & java.util.Date & 8 & 距离GMT时间1970年1月1日0点0分0秒的毫秒数 \\
-    BYTE\_ARRAY & byte$[]$ & 数组长度 & 用于存储二进制值 \\
-    BIG\_INTEGER & java.math.BigInteger & 和具体值有关 & 任意精度的长整数 \\
-    BIG\_DECIMAL & java.math.BigDecimal & 和具体值有关 & 任意精度的十进制实数 \\
-    \bottomrule
-  \end{tabular}
-  \caption{测试表格}\label{table:test4}
-\end{table}
-
-\begin{definition}[局部聚类系数]
-
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width= 0.5\textwidth]{njuname.eps}\\
-  \caption{测试插图}\label{fig:test5}
-\end{figure}
-
-假设网络中的一个节点$i$有$k_i$条边与其他节点相连，这$k_i$个节点称为节点
-$i$的邻居。显然，在这$k_i$个节点之间最多可能有$k_i(k_i-1)/2$条边。而这
-$k_i$个节点之间实际存在的边数$E_i$和总的可能的边数$k_i(k_i-1)/2$之比就
-定义为节点$i$的聚类系数(clustering coefficient)$C_i$，即
-\begin{equation}\label{eq:clustering_coefficient}
-    C_i = \frac{2E_i}{k_i(k_i-1)}
-\end{equation}
-从几何特性上看，上式的一个等价定义为：
-\begin{equation}\label{eq:clustering_coefficient_triangle}
-    C_i = \frac{\text{与节点$i$相连的三角形的数量}}{\text{与节点$i$相连
-        的三元组的数量}}
-\end{equation}
-其中，与节点$i$相连的三元组是指由节点$i$和其两个邻居节点构成的组合。
-\end{definition}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width= 0.5\textwidth]{njuname.eps}\\
-  \caption{测试插图}\label{fig:test6}
-\end{figure}
-
-知道了一个图里的每一个顶点的局部集聚系数后，可以计算整个图的平均集聚系
-数。这个概念也是Watts与Strogatz在1998年的论文
-\cite{watts1998smallworld}中引入的：
-
-\begin{definition}[平均聚类系数]
-平均聚类系数定义为所有顶点的局部集聚系数的算术平均数，即
-\begin{equation}
-    \bar{C} = \frac{1}{n}\sum_{i=1}^{n} C_i.
-\end{equation}
-\end{definition}
-
-\subsection{度分布}
-
-\begin{definition}[度]
-无向网络中，节点$i$的度(degree)$k_i$定义为与该节点连接的其他节点的数目。
-有向网络中，节点的度分为出度(out-degree)和入度(in-degree)。节点的出度是
-指从该节点指向其他节点的边的数目，节点的入度是指从其他节点指向该节点的
-边的数目。
-\end{definition}
-
-直观上看，一个节点的度越大就意味着这个节点在某种意义上越“重要”。
-
-\begin{definition}[平均度]
-网络中所有节点$i$的度$k_i$的平均值称为网络的平均度，记为$Avg{k}$。
-\end{definition}
-
-\begin{definition}[度分布]
-网络中节点的度的分布状况可用分布函数$P(k)$来描述：
-\begin{equation}\label{eq:degree_distribution}
-    P(k) = \text{一个随机选定的节点的度恰好是$k$的概率}
-\end{equation}
-$P(k)$称为该网络的度分布。
-\end{definition}
-
-\section{小世界网络}
-
-\begin{definition}[小世界网络]
-若网络的平均路径长度和网络的节点数目的对数成正比，即
-\[
-  L_{G} \propto \log N
-\]
-其中$N$是节点数目，则称这样的网络为``小世界网络''。
-\end{definition}
-
-
-
-\section{小结}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1541,11 +1317,22 @@ SIDN，将DS模型映射到具体的网络结构中，并分析了所构成网�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 致谢，应放在《结论》之后
 \begin{acknowledgement}
-  首先感谢我的母亲韦春花对我的支持。其次感谢我的导师陈近南对我的精心指导和热心帮助。接下来，
-  感谢我的师兄茅十八和风际中，他们阅读了我的论文草稿并提出了很有价值的修改建议。
+白驹过隙间，我的三年研究生就要结束，我在南京大学七年的学习生活就要画上句号。
+在这即将离别校园之际，回想三年的校园生活，很多情景都历历在目。
+研究生阶段，我的科研能力得到了提升，生活上也变得更加独立。
+在这里我衷心感谢我的导师、师兄弟、同学、朋友们，你们平时对我的教导、支持、帮助让我愉快地走完了这平凡的三年，感谢你们！
 
-  最后，感谢我亲爱的老婆们：双儿、苏荃、阿珂、沐剑屏、曾柔、建宁公主、方怡，感谢
-  你们在生活上对我无微不至的关怀和照顾。我爱你们！
+首先感谢我的导师唐杰。唐老师为人谦和，工作负责，在学术上对我们都尽心尽力地指导，在生活上对我们也多有照顾。
+无论是本课题的研究及论文的撰写，还是平时对我科研能力的塑造，唐老师都以身作则，对我提供了很多帮助。
+唐老师宽厚谦和的生活作风也潜移默化地影响着我，指导着我做一个脚踏实地的南大人。
+
+我还要感谢武钢山老师。武老师是多媒体教研室主任，他作风严瑾，要求严格，把握着最新的科研动向，同时管理着整个大组的研究学习工作。
+在次感谢武老师对我学习和生活上的种种帮助。
+
+还要感谢实验室的师兄师弟以及师妹们。三年以来你们给了我很多的关心和支持，很高兴能和你们同门，你们让我留下了很多美好的回忆。
+这里祝愿两位老师身体健康，万事如意！ 也祝各位同学学业有成，科研顺利！
+最后感谢我的家人，他们永远是我最大的支柱和依靠！
+
 \end{acknowledgement}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

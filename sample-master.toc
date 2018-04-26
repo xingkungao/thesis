@@ -39,14 +39,14 @@
 \contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}相关工作}{25}{section.4.2}
 \contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}算法的基本框架}{26}{section.4.3}
 \contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}图的塌缩}{27}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}图的划分}{29}{subsection.4.3.2}
-\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}算法的优化}{29}{section.4.4}
-\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}算法的实现}{29}{section.4.5}
+\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}图的划分}{30}{subsection.4.3.2}
+\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}算法的优化}{30}{section.4.4}
+\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}算法的实现}{30}{section.4.5}
 \contentsline {chapter}{\numberline {5}基于Spark的分布式全点对相似度计算方法算法}{31}{chapter.5}
 \contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}算法理论模型}{31}{section.5.1}
 \contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}算法概览}{31}{section.5.2}
 \contentsline {chapter}{\numberline {6}结论}{33}{chapter.6}
-\contentsline {chapter}{致\hspace {2em}谢}{35}{chapter*.20}
+\contentsline {chapter}{致\hspace {2em}谢}{35}{chapter*.19}
 \contentsline {chapter}{\numberline {A}博士(硕士)学位论文编写格式规定(试行)}{37}{appendix.A}
 \contentsline {section}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}适用范围}{37}{section.A.1}
 \contentsline {section}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}引用标准}{37}{section.A.2}
@@ -77,7 +77,7 @@
 \contentsline {subsubsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}连续出版物中析出的文献著录格式}{44}{subsubsection.A.6.7.2}
 \contentsline {section}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7}附录}{44}{section.A.7}
 \contentsline {section}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}8}结尾部分 (必要时)}{45}{section.A.8}
-\contentsline {chapter}{参考文献}{47}{appendix*.23}
+\contentsline {chapter}{参考文献}{47}{appendix*.22}
 \contentsline {chapter}{\numberline {A}图论基础知识}{55}{appendix.A}
-\contentsline {chapter}{简历与科研成果}{57}{appendix*.24}
-\contentsline {chapter}{学位论文出版授权书}{59}{appendix*.25}
+\contentsline {chapter}{简历与科研成果}{57}{appendix*.23}
+\contentsline {chapter}{学位论文出版授权书}{59}{appendix*.24}
