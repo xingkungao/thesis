@@ -34,7 +34,7 @@
 \contentsline {subsection}{\numberline {3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}算法的效率}{21}{subsection.3.5.5}
 \contentsline {subsection}{\numberline {3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6}算法的可扩展性}{22}{subsection.3.5.6}
 \contentsline {section}{\numberline {3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6}小结}{23}{section.3.6}
-\contentsline {chapter}{\numberline {4}基于Spark的分布式图分割方法}{25}{chapter.4}
+\contentsline {chapter}{\numberline {4}分布式图分割方法}{25}{chapter.4}
 \contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}图分割概述}{25}{section.4.1}
 \contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}相关工作}{25}{section.4.2}
 \contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}算法的基本框架}{26}{section.4.3}
@@ -42,9 +42,11 @@
 \contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}图的划分}{30}{subsection.4.3.2}
 \contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}算法的优化}{30}{section.4.4}
 \contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}算法的实现}{30}{section.4.5}
-\contentsline {chapter}{\numberline {5}基于Spark的分布式全点对相似度计算方法算法}{31}{chapter.5}
-\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}算法理论模型}{31}{section.5.1}
-\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}算法概览}{31}{section.5.2}
+\contentsline {chapter}{\numberline {5}分布式全点对相似度计算方法算法}{31}{chapter.5}
+\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}算法框架}{31}{section.5.1}
+\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}}{32}{section.5.2}
+\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}算法理论模型}{32}{section.5.3}
+\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}算法概览}{32}{section.5.4}
 \contentsline {chapter}{\numberline {6}结论}{33}{chapter.6}
 \contentsline {chapter}{致\hspace {2em}谢}{35}{chapter*.19}
 \contentsline {chapter}{\numberline {A}博士(硕士)学位论文编写格式规定(试行)}{37}{appendix.A}
