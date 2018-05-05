@@ -687,7 +687,7 @@ s(u,v) = \sum\limits_{W_u, W_v} c^lPr\big((W_u, W_v)\big)
 文献【11】给出了一个计算单点对SimRank相似度的spSimRank算法。算法的核心思想是两个随机冲浪者分别从节点$u,v$出发，
 每一步跟随所在节点的入边；每经过一个节点$t$，原来的随机游走会产生$|I(t)|$ 个新的游走。这样的话经过$k$步游走之后，总共会产生
 $O(d^k)$ 个不同的游走，每条随机游走的长度不超过$k$。这些游走使用了一个叫做Path-Tree的数据结构来保存。然后对两个path-Tree中的所有随机游走
-进行匹配过程，找出其中的匹配游走。显然与基于矩阵迭代计算的计算方式相比，该算法不需要考虑图中所有的节点。如果我们从这个算法那出发，
+进行匹配过程，找出其中的匹配游走。显然与基于矩阵迭代计算的计算方式相比，该算法不需要考虑图中所有的节点。如果我们从这个算法出发，
 可以轻易得出一个通过暴力枚举求单源点SimRank相似度的算法。
 
 \begin{figure}
@@ -1258,22 +1258,102 @@ w(C_i, C_j) = \sum\limits_{e(u,v) \in E_i, u \in C_i, v \in C_j} w\big(e(u,v)\bi
  \item 位于不同分块之中的顶点对。这种情况下，注意到因为两个顶点分别处于不同的稠密分块之中，这意味这两个顶点的距离会以较大概率地比较远，
  也即意味着这两个顶点的相似性会较大概率地在数值上表现得非常之小。这个时候我们通过估算近似地给出最终的相似度。
 \end{enumerate}
-
-我们首先给出以下定义：
+与上一章节类似，假设图中的每一个分块是一个顶点，那么图的划分就形成了一个塌缩图。
+基于这个塌缩图，我们首先定义图中边的权重：
 \begin{definition}
- 分块的转移概率。 假设对图$G$有划分$P=(C_1, C_2, \dots, C_n)$，
+ 塌缩图中边的权重。 假设对图$G$有划分$P=(C_1, C_2, \dots, C_n)$，
  设$L(C_i)$表示分块$C_i$中所有边的数量，包括该分块内部的边以及连接到其他分块的边;
  $L(C_i, C_j)$表示分块$P_i$与分块$P_j$中相连接的边的数量。
- 那么定义$R(C_i, C_j)$为两个分块的相似性：
+ 设图$G^\prime$为划分$P$形成的塌缩图，$v_i \in G^\prime, v_j \in G^\prime$, 
+ 且$v_i$为分块$C_i$对应的顶点，$v_j$为分块$C_j$对应的顶点。
+ 那么定义边$(v_i, v_j)$的权重为：
 \begin{equation}
- R(C_i, C_j) = \frac{L(C_i, C_j)}{L(C_i)} 
+ w(v_i, v_j) = \frac{L(C_i, C_j)}{L(C_i)} 
 \end{equation}
-显然，一般情况下$R(C_i, C_j)$与$R(C_j, C_i)$是不同的。
+$v_i$自己到自己的权重定义为
+\begin{equation}
+ w(v_i, v_i) = 1-\sum_{v_j \in O(v_i)}{w(v_i, v_j)}
+ \end{equation}
+显然，一般情况下$w(v_i, v_j)$与$w(v_j, v_i)$是不同的。
 \end{definition}
-如果把每个分块当做一个点$v$，那么可以直观地将$R(C_i, C_j)$粗略理解为某个随机游走者从点$v_i$“逃逸”到点$v_j$的概率。
+这样经过塌缩后的图$G^\prime$变成了一个加权有向图。
+边$(v_i, v_j)$的权重可以粗略理解为某个随机游走者从点$v_i$“逃逸”到点$v_j$的概率。
+$w(v_i, v_j)$越大，说明在原图$G$中分块$C_i$与$C_j$的交叉边越多，联系越紧密。
 
+基于以上的定义，我们给出图$G$中各个分块之间的相似性定义：
+\begin{definition}
+ 原图$G$有划分$P=(C_1, C_2, \dots, C_n)$，定义分块$(C_i, C_j)$之间的相似性为塌缩图$G^\prime$中顶点$v_i,v_j$之间的相似性。
+\end{definition}
+我们下面给出加权有向图的顶点相似性计算方法。
+ 为了将边的权重引入到SimRank模型中，我们使用如下的公式迭代公式计算相似性：
+\begin{equation}
+  s_{k+1}(u,v) = c \cdot evidence(u,v)  
+  \sum_{u^\prime \in I(u), v^\prime \in I(v)} s_{k}(u^\prime, v^\prime)W(u^\prime, u)W(v^\prime, v)
+\end{equation}
+其中，$c$是衰减系数，并且
+\begin{equation}
+    evidence(u,v)=\sum_{i=1}^{|I(u)\cap I(v)|}2^{-i} 
+   \end{equation}
+\begin{equation}
+     W(u^\prime, u)=w(u^\prime, u)\cdot \exp(-{Var(\{w(u^\prime,u) \mid u \in O(u^\prime)\}})
+\end{equation}
 
-\section{}
+如果写成矩阵的形式，设$V$为evidence矩阵，满足$V(i,j)=evidence(i,j)$，那么整个加权有向图的SimRank相似性计算如下：
+\begin{algorithm}[h]
+\captionof{algorithm}{Weighted All-pair SimRank:wapSimRank}
+\label{algo:wapSimRank}
+\begin{algorithmic}[1]
+\Procedure{WeightedSimRank}{$G^\prime, u, c, k$}
+	\State $N \gets |V|$;
+	\State $S \gets$ identity matrix $I_N$;
+	\For{$ i =1$ to $k$}
+		\State $T \gets c\cdot W^T \cdot S \cdot W$;
+		\State $S \gets T + I_N -D(diag(T))$ \Comment{$D$ is the diagnal matrix.};
+	\EndFor
+	\State $S \gets$ element-wise multiplication of $V$ and $S$
+	\State \textbf{return} $S$.
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\begin{definition}
+ 不同分块间点对的相似性。如果点对$(u,v)$的两个顶点分别属于图的不同分块$C_i$和$C_j$之中，
+ 并且有分块$C_i$与$C_j$的相似性为$s_{block}(C_i, C_j)$，
+ 我们使用下式来估计其相似性：
+ \begin{equation}
+ \label{eq:avg}
+    s(u,v) = s(C_i, u) \cdot s_{block}(C_i, C_j) \cdot s(C_j, v)
+   \end{equation}
+  其中，$s(C_i, u)$可以看做顶点$u$与其分块的中心点间的相似度，由下式近似给出：
+  \begin{equation}
+    s(C_i, u) = \frac{1}{|C_i|}\sum_{q \in C_i}{s(u,q)}
+   \end{equation}
+   即我们使用$u$与所以与其属于同一个分块的顶点对额相似性的均值来估计$u$到与分块中心的相似度。
+\end{definition}
+显然，如果由算法\ref{algo:wapSimRank}计算出的分块间的相似度是随着迭代次数收敛的，并且分块内点对的相似度计算过程也是收敛的，
+那么由以上式子定义出的分块间点对的相似度也是随着迭代次数收敛的。因此可以分开计算分块之间的相似度与分块内点对的相似度，
+最后再基于它们计算分块间点对的相似度。
+综上，我们的算法步骤主要如下：
+\begin{enumerate}
+ \item 首先根据上一章节描述的方法，对原图$G$做划分，得到若干个分块$P=(C_1, C_2, \dots, C_n)$；
+ \item 将各个分块当做一个顶点进行塌缩得到一个加权有向图$G^\prime$，在$G^\prime$运行适用于加权图的SimRank算法，得到
+ 分块之间的相似度；
+ \item 对任一分块$C_i$直接运行串行的全点对SimRank算法，得到分块内部的节点对相似度；
+ \item 使用公式\ref{eq:avg}估计属于不同分块顶点之间的相似度；
+ \item 最后返回全局相似度。
+\end{enumerate}
+我们综合分析算法的复杂度。simRank以及其适用于加权图的变种的时间复杂度都为$O(kd^2n^2)$。
+假设图$G$已经被划分为$m$个分块，则每个分块的大小在$O(n/m)$左右。若
+塌缩图$G^\prime$的顶点平均度数为$d_1$，那么第2步的时间复杂度为$O(k{d_1}^2m^2)$。
+第3步的时间复杂度为$O(mk{d_2}^2(n/m)^2)$，即$O(k{d_2}^2n^2/m)$，其中$d_2$为每个分块中节点的平均度数。
+第4步计算全局相似度时，因为要考虑所有点对，而根据\ref{eq:avg}，平摊之后每对顶点对只需常数级别的查询计算时间，
+因此总的时间复杂度为$O(n^2)$。
+如果我们考虑主要的计算过程，即第2步和第3步，所需的时间为$O(k{d_1}^2m^2+k{d_2}^2n^2/m)$。
+若假设有$d_1=d_2=k$，则时间复杂度为$(kd^2(m^2+n^2/m))$。 
+将该复杂度看做变量$m$的函数，则函数在$m=(2n)^{2/3}/2$处有极值，这对我们选择合适的$m$有指导意义。
+进一步的，考虑分布式环境下第3步主要由多个计算节点的多个线程同时完成，不妨设总线程数为$T$，
+则该函数变为$f(m)=kd^2(m^2+n^2/(Tm)$，其在$m=(n^2/(2T))^{1/3}$处有极值。
+
+\section{基于Spark平台的实现}
 
 我们以ACM Computing Classification System(CCS)中的数据集为例。该数据集是一个揭示计算机科学方向科研论文分类系统。
 在CCS数据集第F大类中，总共有6个类别。我们把每一篇论文当做一个顶点，论文之间的引用当做边，那么整个数据集就可以抽象为一个图。
