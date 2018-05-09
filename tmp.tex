@@ -1,17 +1,37 @@
-\documentclass{article}
-\usepackage{tikz}
-\usepackage{tikz}
-\usetikzlibrary{arrows}
-\usetikzlibrary{shapes,arrows,shapes.multipart}
+% !Mode:: "TeX:UTF-8"
+\documentclass[12pt,a4paper,oneside,openany]{book}
+
+\usepackage{fontspec,xunicode,xltxtra}
+\usepackage[slantfont,boldfont,CJKnumber]{xeCJK}
+\usepackage[bookmarksnumbered]{hyperref}
+
+\usepackage{subfig}
+\usepackage{titlesec} 
+\usepackage[titles,subfigure]{tocloft} 
+\usepackage[numbers,square,super,sort&compress]{natbib} 
+\defaultfontfeatures{Mapping=tex-text} 
+%\setromanfont{Times New Roman}
+%\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+%\setCJKmonofont[BoldFont=SimHei]{SimSun}   
+%\setCJKsansfont{KaiTi}
+%\settowidth{\parindent}{空格} 
+%\setCJKfamilyfont{youyuan}{幼圆} 
+
+\renewcommand{\contentsname}{目\hspace{1.5em}录}
+\renewcommand{\chaptername}{第\CJKnumber{\thechapter}章}
+\titleformat{\chapter}[block]{\bfseries\huge\filcenter}{\chaptertitlename}{1em}{}
+\renewcommand{\bibname}{参考文献}
+\renewcommand{\cftchappresnum}{第\CJKnumber}
+\renewcommand{\cftchapaftersnum}{章}
+\renewcommand{\cftchapnumwidth}{4em}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
 
 \begin{document}
-\pagestyle{empty}
 
+\tableofcontents
+\chapter{绪论}
 
-
-$\alpha$
-$\beta$
-$\delta$
-$\Delta$
+\section{引言}
 
 \end{document}

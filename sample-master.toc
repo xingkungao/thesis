@@ -35,51 +35,20 @@
 \contentsline {subsection}{\numberline {3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6}算法的可扩展性}{22}{subsection.3.5.6}
 \contentsline {section}{\numberline {3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6}小结}{23}{section.3.6}
 \contentsline {chapter}{\numberline {4}分布式图分割方法}{25}{chapter.4}
-\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}图分割概述}{25}{section.4.1}
-\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}相关工作}{25}{section.4.2}
-\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}算法的基本框架}{26}{section.4.3}
-\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}图的塌缩}{27}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}图的划分}{30}{subsection.4.3.2}
-\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}算法的优化}{30}{section.4.4}
-\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}算法的实现}{30}{section.4.5}
-\contentsline {chapter}{\numberline {5}分布式全点对相似度计算方法算法}{31}{chapter.5}
-\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}算法框架}{31}{section.5.1}
-\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}基于Spark平台的实现}{34}{section.5.2}
-\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}算法理论模型}{34}{section.5.3}
-\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}算法概览}{34}{section.5.4}
-\contentsline {chapter}{\numberline {6}结论}{35}{chapter.6}
-\contentsline {chapter}{致\hspace {2em}谢}{37}{chapter*.19}
-\contentsline {chapter}{\numberline {A}博士(硕士)学位论文编写格式规定(试行)}{39}{appendix.A}
-\contentsline {section}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}适用范围}{39}{section.A.1}
-\contentsline {section}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}引用标准}{39}{section.A.2}
-\contentsline {section}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}印制要求}{39}{section.A.3}
-\contentsline {section}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}编写格式}{39}{section.A.4}
-\contentsline {section}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}前置部分}{40}{section.A.5}
-\contentsline {subsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}封面（博士论文国图版用）}{40}{subsection.A.5.1}
-\contentsline {subsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}题名}{40}{subsection.A.5.2}
-\contentsline {subsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}前言}{41}{subsection.A.5.3}
-\contentsline {subsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}摘要}{41}{subsection.A.5.4}
-\contentsline {subsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}关键词}{41}{subsection.A.5.5}
-\contentsline {subsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6}目次页}{41}{subsection.A.5.6}
-\contentsline {subsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7}插图和附表清单}{41}{subsection.A.5.7}
-\contentsline {section}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6}主体部分}{42}{section.A.6}
-\contentsline {subsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}格式}{42}{subsection.A.6.1}
-\contentsline {subsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}序号}{42}{subsection.A.6.2}
-\contentsline {subsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}绪论}{42}{subsection.A.6.3}
-\contentsline {subsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}正文}{43}{subsection.A.6.4}
-\contentsline {subsubsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}图}{43}{subsubsection.A.6.4.1}
-\contentsline {subsubsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}表}{44}{subsubsection.A.6.4.2}
-\contentsline {subsubsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}数学、物理和化学式}{44}{subsubsection.A.6.4.3}
-\contentsline {subsubsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}计量单位}{45}{subsubsection.A.6.4.4}
-\contentsline {subsubsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}符号和缩略词}{45}{subsubsection.A.6.4.5}
-\contentsline {subsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}结论}{45}{subsection.A.6.5}
-\contentsline {subsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6}致谢}{45}{subsection.A.6.6}
-\contentsline {subsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7}参考文献表}{46}{subsection.A.6.7}
-\contentsline {subsubsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}专著著录格式}{46}{subsubsection.A.6.7.1}
-\contentsline {subsubsection}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}连续出版物中析出的文献著录格式}{46}{subsubsection.A.6.7.2}
-\contentsline {section}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7}附录}{46}{section.A.7}
-\contentsline {section}{\numberline {A\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}8}结尾部分 (必要时)}{47}{section.A.8}
-\contentsline {chapter}{参考文献}{49}{appendix*.22}
-\contentsline {chapter}{\numberline {A}图论基础知识}{57}{appendix.A}
-\contentsline {chapter}{简历与科研成果}{59}{appendix*.23}
-\contentsline {chapter}{学位论文出版授权书}{61}{appendix*.24}
+\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}概述}{25}{section.4.1}
+\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}相关工作}{26}{section.4.2}
+\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}算法的基本框架}{27}{section.4.3}
+\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}图的塌缩}{28}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}图的划分}{32}{subsection.4.3.2}
+\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}算法的实现}{33}{section.4.4}
+\contentsline {chapter}{\numberline {5}分布式全点对相似度计算方法算法}{35}{chapter.5}
+\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}算法框架}{35}{section.5.1}
+\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}基于Spark平台的算法实现}{38}{section.5.2}
+\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}算法理论模型}{38}{section.5.3}
+\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}算法概览}{38}{section.5.4}
+\contentsline {chapter}{\numberline {6}结论}{39}{chapter.6}
+\contentsline {chapter}{致\hspace {2em}谢}{41}{chapter*.20}
+\contentsline {chapter}{参考文献}{43}{chapter*.21}
+\contentsline {chapter}{\numberline {A}图论基础知识}{51}{appendix.A}
+\contentsline {chapter}{简历与科研成果}{53}{appendix*.22}
+\contentsline {chapter}{学位论文出版授权书}{55}{appendix*.23}
