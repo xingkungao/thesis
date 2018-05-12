@@ -18,7 +18,7 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {{4}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces 多层次图划分的算法框架\relax }}{28}{figure.caption.17}
 \contentsline {figure}{\numberline {{4}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{2}}{\ignorespaces 社区发现算法的结果，不同颜色代表不同的社区ID\relax }}{30}{figure.caption.18}
-\contentsline {figure}{\numberline {{4}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{3}}{\ignorespaces (a)为一个简单的示例图，(b)为改图经过塌缩(coarse)后的图$G\prime $, 每个节点代表$G$中的一个划分\relax }}{32}{figure.caption.19}
+\contentsline {figure}{\numberline {{4}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{3}}{\ignorespaces (a)为一个简单的示例图，(b)为改图经过塌缩(coarsen)后的图$G\prime $, 每个顶点代表$G$中的一个划分\relax }}{32}{figure.caption.19}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
