@@ -38,6 +38,30 @@
 \usepackage{makecell}% http://ctan.org/pkg/makecell
 \usepackage{tabularx}
 \usepackage{bm}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Scala,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+  }
 %\newtheorem{observation}[theorem]{\textbf{事实}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 设置《国家图书馆封面》的内容，仅博士论文才需要填写
@@ -414,7 +438,6 @@ font=\small]
 % 学位论文的正文应以《绪论》作为第一章
 \chapter{绪论}\label{chapter_introduction}
 \section{研究背景与意义}
-
 图作为一种刻画实体之间关系的重要数据结构，在很多领域中有很多的应用。例如，
 电子商务中商品与用户之间的交易行为，科学论文领域中各种论文之间的相互参考应用，
 Web 中个网页之间的链接，以及社交网络中用户之间的好友等等行为，本质上都可以
@@ -442,7 +465,7 @@ Web 中个网页之间的链接，以及社交网络中用户之间的好友等�
 单源点相似性计算以及全节点对的相似性计算，设计在准确率、计算效率以及可扩展性的分布式算法。
 
 
-\section{相关工作}
+\section{研究现状}
 为了方便叙述， 我们用$n$表示输入图的节点个数，用$m$表示图的边的个数，用$d$表示图中节点的平均度数。 
 对于迭代算法，使用$k$表示算法需要迭代的次数。
 
@@ -521,9 +544,6 @@ Web 中个网页之间的链接，以及社交网络中用户之间的好友等�
 
 因此，
 
-
-
-
 \section{技术背景}
 \subsection{Spark背景}
 Aparch Spark 是由美国UC Berkeley AMP Lab开发的通用分布式计算引擎，
@@ -601,6 +621,8 @@ GraphX通过引入一个新的图抽象来拓展Spark中的RDD: Resilient Distri
   \caption{一个简单的属性图。左图为图的拓扑信息及其关联的属性；右图为该属性图底层存储的RDD}\label{fig:property_graph}
 \end{figure}
 \subsection{GraphX编程范式}
+
+\section{本文主要研究工作}
 \section{论文结构}
 
 
@@ -677,7 +699,8 @@ s(u,v) = \sum\limits_{W_u, W_v} c^lPr\big((W_u, W_v)\big)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{分布式单源点相似度计算方法}\label{chapter_sssSimRank}
-
+\section{概述}
+\section{相关工作}
 基于以上的SimRank定义以及其基于随机游走模型的解释，计算单源点相似度 $s(u,*)$是非常直接的。
 直觉上讲，$s(u,*)$的计算过程可以分解为对$G$中所有节点$v$计算$s(u,v)$的过程。而要计算$s(u,v)$，
 我们首先要找出分别从节点$u$和节点$v$出发的所有匹配游走，然后聚合这些游走计算出它们的相遇概率。
@@ -906,10 +929,78 @@ value是一串元素，每个元素记录着以$key$为根节点的子树中所�
 因此，总的空间复杂度为$O(d^{2k})$。因为这个过程中所有产生的游走都需要通过网络传输，所以通信开销也是$O(d^{2k})$。
 在对游走进行匹配时，对每一个领域，大约有$O(d^k)$个游走被匹配了，所以总的计算复杂度为$O(d^{2k})$。
 可以看到，算法总的复杂度与整个图的规模$O(n+m)$没有以来关系，所以我们的算法是非常高效的。
-\section{基于Spark平台的实现}
+\section{基于Spark平台的算法实现}
+基于Spark平台的算法实现可以概括为4个步骤：
+\begin{enumerate}
+ \item 找出从顶点$u$出发顺着入边经过$k$部可达的邻域$Nei$，同时记录所有的主游走。然后将所有的主游走广播到集群所有计算节点上。
+ \item 从$Nei$中每一个顶点$v$出发，顺着出边找出其$k$步可达的邻域，这些邻域看做一个以$v$为key的key-value对，散布在集群中。
+ \item 对上面每一个$v$的邻域，和第一步中的$Nei$进行匹配，计算匹配概率。
+ \item 聚合所有的匹配概率得出最终的相似度$s(u,*)$。
+\end{enumerate}
+上述四个步骤中第1个和第2个很相似，区别只是要获得邻域的顶点的数量（1 vs $|Nei|$）。
+因此我们重点描述第2、 3、 4步骤在Spark平台上的实现。
+\subsection{邻域收集步骤}
+代码\ref{algo:nei_collect}展示了生成邻域的具体细节。
+算法总共接受3个参数：$edgeRDD$表示从HDFS读入的、每个元素代表图中一条边的RDD，$Nei$是要生成邻域的出发顶点集合，$k$是游走的最大长度。
+首先我们把图从按照边存储的格式变为邻接表这种格式，并存储在$graphRDD$中（第2-3行），
+然后我们从$graphRDD$生成$nbrhdRDD$（第4行），这个RDD里面存放着所有的邻域。
+$nbrRDD$表示所有邻域的最外面一层，初始化时它就是集合$Nei$的直接邻居顶点（第5行）。
+接下来算法以迭代方法不断纳入新的边对$nbrhdRDD$进行扩张，即把之前邻域最外围的顶点$nbrRDD$的邻居节点纳入到邻域中。
+每一次扩张也代表着游走的最大长度增加了一步，这个操作是通过Spark中的连接（join）操作完成的。
+每次扩张时通过$nbrRDD$与$graphRDD$做连接操作得到最新的最外围顶点（第7-8行），
+再通过$nbrhdRDD$与$nbrRDD$做连接操作把这些顶点纳入到邻域中（第9-10行）。
+\begin{algorithm}[H]
+\captionof{algorithm}{Collect Neighborhood}
+\label{algo:nei_collect}
+\begin{algorithmic}[1]
+	\Procedure{Collect}{$edgeRDD, Nei, k$}
+		\State {$graphRDD \gets edgeRDD$}
+		\State {\qquad .{\asciifamily reduceByKey}$()$.{\asciifamily cache}$()$};
+		\State {$nbrhdRDD \gets graphRDD$.{\asciifamily map}$()$.{\asciifamily cache}$()$};
+		\State {$nbrRDD \gets graphRDD$.{\asciifamily filter}$()$.{\asciifamily cache}$()$};
+		\For{$ l =2$ to $k$}
+			\State {$nbrRDD \gets  nbrRDD$}
+			\State {\qquad.{\asciifamily join}$(graphRDD)$.{\asciifamily map}$()$};
+			\State {$nbrhdRDD \gets nbrhdRDD$}
+			\State {\qquad .{\asciifamily leftOuterJoin}$(nbrRDD)$.{\asciifamily map}$()$};
+		\EndFor
+	\State \textbf{return} $nbrhdRDD$.
+	\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\subsection{匹配游走步骤}
+当所有邻域全部生成完毕后，我们开始匹配主游走和从游走。具体细节如算法\ref{algo:match}所示。
+程序接受4个参数：$nbrhdRDD$表示程序\ref{algo:nei_collect}的返回结果；$MW$表示被广播到集群各个计算节点上的所有主游走，
+其数据结构是一个由$key-value$对组成的HashMap，其中$key$是每个主游走的终止顶点（因此$key \in Nei$），
+$value$是所有以$key$终点的随机游走；剩下两个参数$u$和$k$分别是查询节点和游走的最大长度。
+对$nbrhdRDD$中的每个元素$(v,nbrhd)$，我们调用算法\ref{alg:dp}计算$nbrhd$中所有游走的匹配概率。
+注意到$nbrhdRDD$中的所有元素以$v$为$key$被Spark默认的Partitioner均匀分布在集群中，因此整个计算过程是分布式的。
+计算出的结果被组装成一个列表（第7行），然后经flagmap操作发射出去（第8-9行），
+最后经由reduceByKey操作将属于不同$v$的相似度$s(u,v)$聚集起来，并送至Driver Program（第11-12行）。
+
+
+\begin{algorithm}[H]
+\captionof{algorithm}{Compute SimRank}
+\label{algo:match}
+\begin{algorithmic}[1]
+\Procedure{Compute}{$nbrhdRDD, MW,  u, k$}
+	\State {$simRankRDD \gets hbrhdRDD$}
+	\State {\qquad .{\asciifamily flatMap}$((v, nbrhd) \Rightarrow\{$}
+	\State {\qquad \qquad create $MP$};
+	\State {\qquad \qquad \textbf{for} $W_l$ in $MW$ \textbf{do}}
+	\State {\qquad \qquad \qquad $M \gets$ \Call{LevelMatch}{$W_l, \dots $}};
+	\State {\qquad \qquad \qquad extend $MP$ with all elemetns in $M$};
+	\State {\qquad \qquad \textbf{for} $(v, score(u,v))$ in $MP$ \textbf{do}}
+	\State {\qquad \qquad \qquad yield $(v, score(u,v))$};
+	\State {\qquad $\})$}
+	\State {$s(u,*) \gets simRankRDD$.{\asciifamily reduceByKey}$()$.{\asciifamily collect}$()$};
+	\State \textbf{return} $s(u, *)$.
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
 
 \section{实验评估}
-本章节重点描述
 \subsection{实验环境}
 所有的实验在一个由6个硬件完全相同的计算节点组成的集群上完成，每台计算节点处理器为12核的Intel Xeon E-2650，频率为2.1GHz，
 内存为64GB，硬盘为1TB。 计算节点之间由千兆网卡连接。所有的节点上运行Ubuntu 16.04操作系统。 
@@ -1264,6 +1355,7 @@ Q &= \frac{1}{2m}\sum\limits_{c \in C} \left[I_c - \frac{S_c^2}{2m} \right] \\
 其中，$w_{u,C}$指的是顶点$u$指向分块$C$中的所有的边的权重之和。经过若干步骤的化简，最终我们可以得到模块度变化的简单形式：
 \begin{equation}
 \begin{aligned}
+\label{eq:deltaQ}
  \Delta Q_{u,C}=\frac{w_{u,C}}{2W} - \frac{S_Cd_u}{2W^2} 
 \end{aligned}
 \end{equation}
@@ -1328,7 +1420,7 @@ $\beta$指的是我们基于模量的塌缩方法的迭代次数。
 \end{algorithm}
 %\end{figure}
 
-\subsection{初始划分步骤}
+\subsection{初始划分与恢复步骤}
 经过反复塌缩后，原图$G_0(V_0,E_0)$变成了规模足够小的图$G_t(V_t,E_t)$，其中$|V_t| < \alpha$。
 此时$G_t$中每个顶点$u$都对应原图$G_0$中的若干紧密连接的顶点集合$C_u$，$u$的权重对应$|C_u|$；
 $G_t$中的每条边$(u,v)$都对应$G_0$中顶点集合$C_u$与$C_v$之间的边割，$(u,v)$的权重对应边割集中边的数目。
@@ -1336,7 +1428,13 @@ $G_t$中的每条边$(u,v)$都对应$G_0$中顶点集合$C_u$与$C_v$之间的�
 并且，顶点$u \in V_t$是$P_t$的最小划分单元，而对应到$G_0$中，集合$C_u$才是$P^\star$的最小划分单位。
 $C_u$中的顶点是不可重新进行划分的，因为它们的分块在之前的塌缩过程中就已经由基于模块度的社区发现逻辑决定了。
 
-我们直接使用METIS软件包提供的算法
+我们直接使用METIS软件包提供的单节点算法求解$G_t$的划分$P_t$。
+具体求解时，仍然按照之前的目标：即划分的负载均衡以及边割权重的最小化。
+因为METIS只能处理规模较小的图，所以$\alpha$的值应当设置在合理的范围内。
+
+恢复过程比较简单，对$P_t$中的每个顶点$u$，直接把其在$G_0$中一一对应的顶点集合$C_u$中的所有顶点的分块号，
+设置为$u$在$P_t$中的分块号即可。
+
 
 \begin{algorithm}[H]
 \captionof{algorithm}{Multi-Level Graph Partitioning}
@@ -1353,11 +1451,71 @@ $C_u$中的顶点是不可重新进行划分的，因为它们的分块在之前
 \end{algorithmic}
 \end{algorithm}
 
-\section{算法的实现}
+\section{基于Spark平台的算法的实现}
+我们主要基于Spark提供的分布式图计算框架GraphX来实现算法的逻辑。
+因为图中顶点在计算过程中需要与相邻顶点通过网络交换信息，我们首先给出顶点的定义：
+\begin{figure}[h]
+\begin{lstlisting}
+class Node extends Serializable{
+    val vID:Long
+    val pID:Long
+    var weight:Double = 1.0,
+    var pWeightSum:Double = 0.0,
+    var nbrPWeightSum:Double = 0.0
+    var modularity:Double
+    ...
+}
+\end{lstlisting}
+  \caption{简化的Node结构体}
+\end{figure}
+可以看到，Node这个结构记录了顶点的ID、所属分块ID、权重、顶点到所属分区的连接数、顶点到邻居分区的连接数等信息。
+这些信息在计算过程中会不断的在顶点之间传输、交换、维护。
 
-
+GraphX具体的编程范式比较复杂，但是总的来说，算法工作的流程是在Map阶段所有顶点向其邻居顶点发送自己包含本身信息的消息，
+这些消息经过本身包含(srcID, dstID)，发送至同一目的顶点的若干消息经过Spark内部的Partitioner之后组装成消息列表准确发送至目的地。
+目标顶点收到这些消息后，在本地进行必要的计算就获得了周围顶点的必要信息，然后就可以根据公式\ref{eq:deltaQ}计算出$\Delta Q$的大小。
+\begin{figure}[h]
+\begin{lstlisting}
+var graph = Graph(vertexRDD, edgeRDD)
+while(run) {
+    var newVertexRDD = graph.aggregateMessages()
+    var tmpGraph = Graph(newVertexRDD, graph.edges)
+    var edges = generateEdges(tmpGraph)
+    graph = Graph(newVertexRDD, edges)
+    num = graph.vertices.filter().count()
+    run = if {num == 0} True else False
+    ...
+}
+\end{lstlisting}
+  \caption{程序运行逻辑}
+\end{figure}
+其中，$generateEdges$是塌缩过后重新生成规模更小的图的过程，其具体细节如下所示：
+\begin{figure}[h]
+\begin{lstlisting}
+graph.triplets.map{
+  t => Edge(t.srcAttr.pID, t.dstAttr.pID, t.attr)
+	.flatMap {
+	    e => {
+	      ...
+	      List()
+	    }
+	}.reduceByKey()
+	 .map{
+	    e => Edge(new Node(), new Node()) //construct new edge
+	    }
+}
+\end{lstlisting}
+  \caption{塌缩过程中生成新的边}
+\end{figure}
+我们首先统计有哪些边在当前图中横跨了不同的分块，然后使用reduceByKey操作把这些边变成变成一条新的边，
+这个过程中变得数量大大地减少了，并且新边的权重，以及新边两边端点的权重，都同时被更新了。
+\section{实验评估}
+\section{本章小结}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{分布式全点对相似度计算方法算法}\label{chapter_allSimRank}
+\section{概述}
+\section{相关工作}
+
 \section{算法框架}
 基于章节\ref{chapter_graphpartition}中对图做出的划分，我们现在给出一个计算全点对相似度的近似算法。
 文献【11】描述了一种基于图中分块结构（Block Structure）的若干性质来加速计算PageRank的方法，我们的近似算法直接受到了该算法的启发。
@@ -1479,15 +1637,14 @@ $w(v_i, v_j)$越大，说明在原图$G$中分块$C_i$与$C_j$的交叉边越多
 \begin{definition}
  对图G中的两个划分$P_1, P_2$，
 \end{definition}
-\section{算法理论模型}
-\section{算法概览}
+\section{实验评估}
+\section{本章小结}
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 学位论文的正文应以《结论》作为最后一章
-\chapter{结论}\label{chapter_concludes}
-
+\chapter{总结与展望}\label{chapter_concludes}
 本文在第\ref{chapter_smallworld}章中，通过考虑数据中心网络布局构建中的最大度限制
 问题，提出了符合数据中心网络基本要求的DS小世界模型，并分析了它的性质。随后提出
 SIDN，将DS模型映射到具体的网络结构中，并分析了所构成网络的平均直径、网络总带宽、
