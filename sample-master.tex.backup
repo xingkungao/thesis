@@ -174,7 +174,7 @@
 
 % 设置英文摘要页面的论文标题及副标题的第一行。
 % 此属性可选，其默认值为使用|\englishtitle|命令所设置的论文标题
-\englishtitle{SimRank Computation on Large Graphs based on Spark}
+\englishtitle{SimRank Computation on Large Graphs Based on Spark}
 % 设置英文摘要页面的论文标题及副标题的第二行。
 % 此属性可选，其默认值为空白
 %\englishabstracttitleb{for Data Centers}
@@ -356,23 +356,63 @@ font=\small]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 论文的中文摘要
 \begin{abstract}
-复杂网络的研究可上溯到20世纪60年代对ER网络的研究。90年后代随着Internet
-的发展，以及对人类社会、通信网络、生物网络、社交网络等各领域研究的深入，
-发现了小世界网络和无尺度现象等普适现象与方法。对复杂网络的定性定量的科
-学理解和分析，已成为如今网络时代科学研究的一个重点课题。
+在基于图计算的数据分析应用中，如何衡量图中顶点之间的相似度是一个非常重要的问题，在很多领域有重要的应用。
+SimRank是近年来比较流行的相似性度量，相比于其他相似度指标，它能更好地反应整个图的结构信息。
+然而它的计算代价较高，随着图数据规模越来越大，对SimRank相似度高效的计算方法显得非常必要。
+另一方面，Spark作为一种分布式计算平台能够简化用户编写分布式应用的逻辑，自问世以来迅速在学术界和产业界得到广泛的使用。
+因此在大数据时代，基于Spark或类似平台设计高效的大规模图数据中点对SimRank相似度的分布式计算方法，有着重要的现实意义。
+本文针对上述问题展开了深入的研究，取得的主要成果有：
+\begin{enumerate}
+ \item 针对图中单源点SimRank相似度计算问题，设计了一种基于随机游走模型的分布式计算方法，并提出了计算过程中的一些优化技巧。
+ 同时，基于Spark平台给出了算法的分布式实现。
+ \item 提出并实现了一种基于模块度优化的多层次分布式图划分方法，算法在划分过程中较好地保留了图中的局部稠密子图，
+ 在考虑划分约束条件的情况下保证了划分的负载均衡，并力求最小化各个分块之间的边割权重。
+ 同时，基于Spark平台给出了算法实现。
+ \item 基于以上的分布式图划分结果，针对图中全点对SimRank相似度计算问题，设计了一种基于分治思路的近似计算方法。
+ 该算法通过分别计算分块内点对的相似度以及分块本身的相似度，来估计所有点对的全局相似度。
+ 算法极大地加速了计算时间，同时结算结果拥有较高的精确度。
+ 同时，基于Spark平台给出了算法的分布式实现。
+\end{enumerate}
 
-在此背景下，由于云计算时代的到来，本文针对面向云计算的数据中心网络基础
-设施设计中的若干问题，进行了几方面的研究。………………
 % 中文关键词。关键词之间用中文全角分号隔开，末尾无标点符号。
-\keywords{小世界理论；网络模型；数据中心}
-\end{abstract}
+\keywords{图数据；SimRank相似度；分布式计算；Spark}
+\end{abstract}研究机构和商业用户
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 论文的英文摘要
 \begin{englishabstract}
-dsafsdf
+In graph-based data analysis applications, how to measure similarity between vertices in a graph is a
+very important research topic which has a wide range of applications in many fields.
+Among them, SimRank is one similarity measure with growing popularity in recent years.
+Compared with others, SimRank is able to capture the topology of the entire graph. 
+However, computation of SimRank is costly in both time and space.
+To deal with the ever growing graph size in the era of Big Data, 
+efficient computation methods of SimRank is an urgent demand.
+On the other hand, as today's popular big data computing engine, Apache Spark significantly simplifies user's programming logic
+with the interface it provides when developing distributed applications. 
+Therefore, to design an efficient distributed algorithm to compute SimRank similarity for vertex pair in large-scale graphs
+based on Spark or other systems is of great significance.
+
+This article addresses the above problems and our main contributions are summarized as follows:
+\begin{enumerate}
+ \item To compute the single-source SimRank similarity, we designed an algorithm based on the random-walk model.
+ Some practical optimizations techniques are proposed. We managed to implement the algorithm on top of Spark.
+ \item We proposed a distributed multi-level  partitioning algorithm based on modularity maximization for large graphs.
+ In the processing of partitioning, the local dense subgraphs are well preserved within blocks.
+ Load balance is carefully maintained with respect to specific constraints, 
+ and efforts are made to minimize the edge cut weights between blocks. 
+ An implementation of the algorithm based on Spark is presented.
+ \item With the help of the above graph partitioning scheme, we proposed an divide-and-conquer algorithm to 
+ compute the all-pair SimRank similarity.
+ The algorithm partitions the graph into blocks, obtains similarity of each node-pair within blocks, then treats each 
+ block as a new vertex forming a coarsening graph to get the similarity between each block. 
+ A global similarity for all vertex pairs is approximated based on these two similarities.
+ Experiments show that the accuracy of the algorithm is acceptable when the processing time cost is drastically reduced.
+ We also give its implementation based on Spark.
+\end{enumerate}
+
 % 英文关键词。关键词之间用英文半角逗号隔开，末尾无符号。
-\englishkeywords{Small World, Network Model, Data Center}
+\englishkeywords{Graph Data, SimRank Similarity, Distributed Computing, Spark}
 \end{englishabstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -570,35 +610,7 @@ GraphX通过引入一个新的图抽象来拓展Spark中的RDD: Resilient Distri
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{SimRank原理及技术背景}\label{chapter_smallworld}
 \section{SimRank}
-为了方便描述，首先给出一些通用的符号定义。本文使用关系$(V, E)$表示一个图，其中 $V$ 图的节点集合， $E \subseteq V \times V$ 是图中边的集合。
-$n$ 和 $m$分别是图中节点的个数、边的个数。节点$u$ 称作节点 $v$的入邻点（或出邻点），当且仅当$(u, v)$(或$(v,u)$) 是 $G$中的一条边。
-节点$u$ 的所有入邻点用符号 $I(u)=\{v: (v, u) \in E\}$ 表示，所有出邻点用符号  $O(u)=\{v: (u, v) \in E\}$表示。图中所有节点的平均入度（同样也是出度）用符号$d$表示。
-节点$u, v$的间的相似性由$s(u, v)$表示，相应的，所有点对的相似度可以写作 $n\times n$的相似度矩阵$S$，并且有$s(u, v)=s_{uv}$。
 
-SimRank是一个基于结构上下文的相似度模型，它的核心思想是：如果两个节点的邻居节点非常相似，那么这两个节点也相似。节点$u, v$间的相似值用数学公式如下表达：
-\begin{equation}
-s(u, v) = \left\{
-        \begin{array}{ll}
-	1, & \quad u = v ; \\
-	\displaystyle\frac{c}{|I(u)||I(v)|}\displaystyle\sum_{u^\prime \in I(u), v^\prime \in I(v)} s(u^\prime, v^\prime), & \quad u \ne v.
-        \end{array}
-    \right.
-	\label{eq:one}
-\end{equation}
-其中，$0 < c < 1$ 衰减系数，用以提高临近结构对最终相似性的贡献权重，而降低更远结构的贡献权重。
-文献【1】证明了，上面的式子总是存在唯一的解，并且基于SimRank的定义，提出了一种基于矩阵乘法的迭代算法。
-设 $S^k$是相似度矩阵$S$在第$k$轮迭代中的计算结果，$S^0$为矩阵初始值，并且如果$u = v$ ，有$S_{uv} = 1$，否则$S_{uv} = 0$。
-则矩阵$S^{k+1}$的计算方式如下：
-\begin{equation}
-S^{k+1}_{uv} = \left\{
-        \begin{array}{ll}
-	1, &\hspace{-0.5em}  \! u = v ; \\
-	\displaystyle\frac{c}{|I(u)||I(v)|}\displaystyle\sum_{u^\prime \in I(u), v^\prime \in I(v)} S^{k+1}_{u^\prime v^\prime} , & \hspace{-0.5em} u \ne v.
-        \end{array}
-    \right.
-	\label{eq:two}
-\end{equation}
-文献【1】已经证明，$\lim_{k\to\infty}S^k_{uv} = s(u,v)$。可以看出，该算法的时间复杂度为$O(n^2)$， 空间复杂度为$O(kn^2d^2)$ time.
 
 SimRank的另一个模型是基于随机游走模型。节点序列$W=v_0v_1v_2\dots v_l$ 如果对任意$0 \leq i \leq l-1$都满足 $(v_i, v_{i+1})$ 都是 $G$ 中的边，
 则称其为 $G$中的一个游走。如果$W$还满足以下的Markov条件，即下式对所有的$i \geq1$ ,   $v_0, v_1, \dots, v_i \in V$成立：
@@ -641,6 +653,37 @@ s(u,v) = \sum\limits_{W_u, W_v} c^lPr\big((W_u, W_v)\big)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{分布式单源点相似度计算方法}\label{chapter_sssSimRank}
 \section{概述}
+SimRank是一个基于结构上下文的相似度模型，它的核心思想是：如果两个顶点的邻居顶点非常相似，那么这两个顶点也相似。
+为了方便描述，首先给出一些通用的符号定义。本文使用关系$(V, E)$表示一个图，其中 $V$是图的顶点集合，
+$E \subseteq V \times V$ 是图中边的集合。
+$n$ 和 $m$分别是图中顶点的个数、边的个数。顶点$u$ 称作顶点 $v$的入邻点（或出邻点），当且仅当$(u, v)$(或$(v,u)$) 是 $G$中的一条边。
+顶点$u$ 的所有入邻点用符号 $I(u)=\{v: (v, u) \in E\}$ 表示，所有出邻点用符号 $O(u)=\{v: (u, v) \in E\}$表示。
+图中所有顶点的平均入度（同样也是出度）用符号$d$表示。
+顶点$u, v$的间的相似性由$s(u, v)$表示，相应的，所有点对的相似度可以写作 $n\times n$的相似度矩阵$S$，并且有$s(u, v)=s_{uv}$。
+顶点$u, v$间的相似值用数学公式如下表达：
+\begin{equation}
+s(u, v) = \left\{
+        \begin{array}{ll}
+	1, & \quad u = v ; \\
+	\displaystyle\frac{c}{|I(u)||I(v)|}\displaystyle\sum_{u^\prime \in I(u), v^\prime \in I(v)} s(u^\prime, v^\prime), & \quad u \ne v.
+        \end{array}
+    \right.
+	\label{eq:one}
+\end{equation}
+其中，$0 < c < 1$ 衰减系数，用以提高邻近结构对最终相似性的贡献权重，而降低更远结构的贡献权重。
+文献【1】证明了上面的式子总是存在唯一的解，并且基于SimRank的定义，提出了一种基于矩阵乘法的迭代算法。
+设 $S^k$是相似度矩阵$S$在第$k$轮迭代中的计算结果，$S^0$为矩阵初始值，并且如果$u = v$ ，有$S_{uv} = 1$，否则$S_{uv} = 0$。
+则矩阵$S^{k+1}$的计算方式如下：
+\begin{equation}
+S^{k+1}_{uv} = \left\{
+        \begin{array}{ll}
+	1, &\hspace{-0.5em}  \! u = v ; \\
+	\displaystyle\frac{c}{|I(u)||I(v)|}\displaystyle\sum_{u^\prime \in I(u), v^\prime \in I(v)} S^{k+1}_{u^\prime v^\prime} , & \hspace{-0.5em} u \ne v.
+        \end{array}
+    \right.
+	\label{eq:two}
+\end{equation}
+文献【1】已经证明，$\lim_{k\to\infty}S^k_{uv} = s(u,v)$。可以看出，该算法的时间复杂度为$O(n^2)$，空间复杂度为$O(kn^2d^2)$。
 \section{相关工作}
 为了方便叙述， 我们用$n$表示输入图的节点个数，用$m$表示图的边的个数，用$d$表示图中节点的平均度数。 
 对于迭代算法，使用$k$表示算法需要迭代的次数。
@@ -1125,33 +1168,35 @@ $c$被设置为0.5，相应的，$k$被设置为$k=6$。
 针对以上问题，我们提出一种高效的分布式图划分算法，实验结果表明，该方法具有较高的效率以及较好的可扩展性。
 
 \section{相关工作}
-目前针对图分割的一些研究，主要有以下几种：
+目前学术界对图划分问题做了大量的一些研究，概括地说，目前的划分方法主要有以下几种：
 
-\textbf{单节点串行算法。 } 文献【23】证明了图分割问题是一个NP完全问题。 
+\textbf{单节点串行算法。 } 文献【23】证明了图划分问题是一个NP完全问题。 
 因此，早起很多工作都集中在设计一些近似算法以求得次优解。
 文献【5】提出了Kernighan-Lin(KL)算法，该方法首先将图初始划分为偶数个分块，
 然后基于一些启发式信息不断交换不同分块中的节点，直到不同划分之间的边割($edge-cut$)的权重之和达到最小。
 KL算法每次迭代的时间复杂度为$O(n^3)$，它的划分质量较高，但是不能应用在超图上，而且对于规模稍大的输入图就显得无能为力。
-FM算法【6】改进了KL算法中的顶点交换策略，每次不再交换一堆顶点而是在改为基于分割线使得顶点在分割线两侧移动。
-顶点移动的标准是最大化划分的负载均衡度。做了一些改进，包括每一次迭代中只移动一个点而不是交换两个点，并且将算法的运用范围扩展到了超图。
-FM算法每次迭代拥有线性的时间复杂度。
-还有一些基于模拟退火【24】，遗传算法【25】的解决方案。这些方法研究的都是基于内存的小图。
+FM算法【6】改进了KL算法中的顶点交换策略，每次不再交换一堆顶点而是改为基于分割线使得顶点在分割线两侧移动。
+顶点移动的标准是最大化划分的负载均衡度。同时FM算法将算法的运用范围扩展到了超图(supergraph)，它的每次迭代拥有线性的时间复杂度。
+还有一些基于模拟退火【24】，遗传算法【25】的解决方案。
+这些方法的研究对象都是基于内存存储的小图。
+
 为了能够应对更大规模的图，一些多层次划分的方法相继被提出，包括 Metis[8]，Chaco[7]和Scotch[10]。
 这些方法主要由三个步骤组成：图的塌缩(coarsening phase)、初始划分(initial partition)、恢复(uncoarsening phase)。
 其中，塌缩是指将图中若干顶点变为一个顶点，同时减少边的个数，从而提取出整个图拓扑信息的“骨骼”并基于此构造一个更小的图; 
-初始划分指的是经过多次塌缩过程后，在小图上运行传统图划分算法；
-最后恢复过程是按照塌缩步骤的相反顺序逐渐将图恢复成原来的形状。
+初始划分指的是经过多次塌缩过程后，在小图上运行传统图划分算法得到一个原始划分；
+最后恢复过程是按照塌缩步骤的相反顺序逐渐将图恢复成原来的形状，并将原始划分投影成原输入图上的划分。
 这三个阶段缺一不可， 共同完成了从大规模图数据到简单小图再重新恢复的过程。
+尽管可以处理的图规模有所扩大，它们的研究对象依然都是基于内存存储的小图。
 
 \textbf{单节点并行算法。 } 为了进一步充分利用现代CPU的多核特性，从以上这些单线程算法中演化出一些并行化算法，
 典型的有ParMetis[11]，Pt-Scotch[12]等。 
-这些算法或多或少地挖掘出图划分问题本身的潜在计算可并行性，所以其能够处理的图的规模也获得了的提升。 
+这些算法或多或少地挖掘出图划分问题本身潜在的计算可并行性，所以其能够处理的图的规模也获得了的提升。 
 但总的来说这些方法仍然是基于单计算节点的，其计算能力受到有限的计算资源的限制，对规模更大的（上百万节点）图无能为力。
 
 \textbf{分布式图划分。 } 近年来，一些专门用于图计算的分布式平台越来越流行，包括Pregel[15]，Giraph[X]，Spark GraphX[TODO]等等。
-这些平台的一个典型特点是支持以顶点为中心(vertex-centric)的编程范式，并且在平台层面拥有原生的顶点间消息通信机制。
-作为处理图计算任务的第一步，往往读入输入数据时就需要以某种方式将输入图进行某种形式的划分。
-上面几个流行的平台尽管也开放了一些接口支持用户按照需求设计自己的划分方法，但都没有提供一个直接可用的、高效的分布式图划分方法。
+这些平台的一个典型特点是支持以顶点为中心(vertex-centric)的编程范式，并且在系统层面拥有原生的顶点间消息通信机制。
+然而上面几个流行的平台尽管也开放了一些接口支持用户按照需求设计自己的划分方法，但都没有提供一个直接可用的、高效的分布式图划分方法。
+在读入输入数据时，它们往往使用随机划分的方法加载图数据，其划分质量没有任何保障。
 
 \section{算法的基本框架}
 我们从以下两方面来考虑图划分算法的优化目标：
@@ -1166,7 +1211,6 @@ FM算法每次迭代拥有线性的时间复杂度。
  $W_{P}=\sum\nolimits_{e(u,v) \in E, u \in C_i, v \in C_j} w\big(e(u,v)\big)$，即所有连接不同分块的边的权重之和。
  理论上，$W_P$应尽可能的小。
 \end{enumerate}
-
 我们的算法借鉴多层次划分的思想，即通过不断的coarsen步骤使得原图的规模越来越小，
 当图的规模小到某个可以接受的阈值时，再使用KL或FM等单节点算法直接进行划分。
 最后划分的结果再直接投影到原图中，这样就得到了最终的划分结果。
@@ -1179,18 +1223,19 @@ FM算法每次迭代拥有线性的时间复杂度。
 \end{figure}
 
 \subsection{塌缩步骤}
-设原始输入图为$G_{0}(E_0,V_0)$，并假设迭代塌缩过程中产生的中间图由记号$G_1, G_2, \dots, G_t$表示，
+设原始输入图为$G_{0}(E_0,V_0)$，并假设迭代塌缩过程中产生的中间图由记号$G_1, G_2, \dots, G_t$表示。
 相应的，由中间图产生的划分称作$P_1, P_2, \dots, P_{t}$。
 注意到迭代过程中图的划分与其输入图下标是对应的，即$G_{i-1} \rightarrow P_i \rightarrow G_i$。
 我们首先给出塌缩的具体过程。
 \begin{definition}
-塌缩图的结构。 迭代塌缩过程中，给定图$G_i(V_i, E_i)$上的划分$P_i=(C_1, C_2, \dots, C_n)$，基于$P_i$上构造塌缩图$G_{i+1}(V_{i+1}, E_{i+1})$如下：
- 令$V_{i+1} = P_i$，即$P_i$中的每一个划分对应$G_{i+1}$中的一个新节点；边$(C_i, C_j) \in E_{i+1}$当且仅当$\exists
+塌缩图的拓扑结构。 迭代塌缩过程中，给定图$G_i(V_i, E_i)$上的划分$P_i=(C_1, C_2, \dots, C_n)$，基于$P_i$上构造塌缩图$G_{i+1}(V_{i+1}, E_{i+1})$如下：
+ 令$V_{i+1} = P_i$，即$P_i$中的每一个划分对应$G_{i+1}$中的一个新顶点；边$(C_i, C_j) \in E_{i+1}$当且仅当$\exists
  u \in C_i, v \in C_j$ 并且 $(u, v) \in E_i$。
 \end{definition}
 通过这样的塌缩过程，显然有$|V_{i+1}| < |V_i|$，也就是说图的规模在迭代中不断变小。
+经过反复塌缩后，图$G_i$的规模会降低到某个阈值以下。
 \begin{definition}
-塌缩图的权重。 设初始输入图$G_{0}(V,E)$中每个顶点有单位权重$w_u=1$，每条边$(u,v)$同样有单位权重$w_{u,v}=1$。
+塌缩图的权重。 设初始输入图$G_{0}(V_0,E_0)$中每个顶点有单位权重$w_u=1$，每条边$(u,v)$同样有单位权重$w_{u,v}=1$。
 设迭代过程中基于图$G_i$构造塌缩图$G_{i+1}$，并且有$V_{i+1}=(C_1, C_2, \dots, C_n)$，
 那么新的图中顶点$u$的权重定义为:
 \begin{equation}
@@ -1202,7 +1247,7 @@ w(u) = \sum\limits_{v \in C_k} w(v)
  \begin{equation}
 w(C_i, C_j) = \sum\limits_{e(u,v) \in E_i, u \in C_i, v \in C_j} w\big(e(u,v)\big)
 \end{equation}
-即压缩图中的新边的权重等于该边在原图中代表的两个分块中所有相连接的边的权重之和，而新顶点的权重为原图中对应分块中的所有顶点的权重之和。
+即压缩图中的新边的权重等于该边在原图中代表的两个分块间所有相连接的边的权重之和，而新顶点的权重为原图中对应分块中的所有顶点的权重之和。
 \end{definition}
 通过这样的权重赋值方式，保证了塌缩后的图具有如下特性：
 \begin{enumerate}
@@ -1211,10 +1256,11 @@ w(C_i, C_j) = \sum\limits_{e(u,v) \in E_i, u \in C_i, v \in C_j} w\big(e(u,v)\bi
 \end{enumerate}
 
 那么，迭代过程中如何基于$G_{i-1}$生成划分$P_i$呢？
-ParMetis【】基于最大匹配(maximal match)来对图进行压缩。一个匹配指的是图中一个边的集合，其中每条边的端点两两不相交。
+ParMetis【】基于最大匹配(maximal match)来对图进行压缩。匹配指的是图中边集$E$的子集，其中每条边的端点两两不相交。
 如果一个匹配无法再加入其他边，那么这个匹配就是一个最大匹配。
-具体进行塌缩时，直接将匹配中的边的两个端点直接融合成一个新的顶点，不在匹配中的顶点继续保留，这样就可以产生塌缩后的图。
+具体进行塌缩时，ParMetis采取的做法是对匹配中的边，直接将其两个端点融合成一个新的顶点；而不在匹配中的顶点继续保留，这样就可以产生塌缩后的图。
 选择最大匹配的目的是最大程度地通过塌缩减小图的规模。
+
 文献【todo】给出了一种基于标签传播(Label Propogation，LP)的图划分思路。
 LP算法被广泛运用于解决社区发现(Community Detection)问题。
 社区，从直观上来看指的是网络中的一些密集群体，每个社区内部的顶点间的联系相对紧密，但是各个社区之间的连接相对来说却比较稀疏。
