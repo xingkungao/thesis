@@ -467,8 +467,8 @@ SimRank相似度可以通过随机游走模型解释，拥有坚实的理论基�
 
 
 另一方面，在大数据时代诸如MapReduce、Spark等通用式的分布式计算平台正在日益流行。
-这些计算平台充分发挥了分布式集群的威力，使得计算能力在横向上扩展（Scale Out)而不是在纵向上提高（Scale Up)，
-使得原来难以企及的计算任务变得可能。
+这些计算平台充分发挥了分布式集群的威力，计算能力在横向上扩展（Scale Out)而不是在纵向上提高（Scale Up)，
+使得原来难以企及的计算任务成为可能。
 基于这些平台，用户可以快速部署出自己的解决方案，使用其提供的编程接口专注于自己的计算任务，
 而无需关系分布式平台底层的复杂网络通信、资源分配、资源调度问题。
 
@@ -480,8 +480,70 @@ SimRank相似度可以通过随机游走模型解释，拥有坚实的理论基�
 
 \section{研究现状}
 \subsection{SimRank计算研究现状}
+如何衡量实体之间的相似性一直是各领域研究的热点，许多研究在特定应用邻域提出了各式各样的相似度度量标准。
+例如Jaccard similarity[], cosine similarity[], Dice similarity[]等等。
+反应在图数据中，这些相似度的核心思想都是“如果两个顶点拥有越多共同的邻居顶点，那么它们越相似”。
+显然，这些度量没能够图的整个拓扑结构。最简单的反例是，对于没有共同邻点的点对，上述度量会简单认为该点对没有丝毫的相似度。
+\begin{figure}[h]
+  \centering
+  \includegraphics[width= 0.75\textwidth]{figure/simrank.png}\\
+  \caption{一个简单图的SimRank计算结果。左边为原图，右边为原图的平方图（product graph)以及点对之间的相似度数值}
+  \label{fig:simrank_example}
+\end{figure}
+
+SimRank【】最早被用于衡量对象与对象之间关系图中对象所处于的结构上下文之间的相似性。
+SimRank的核心理念借鉴了PageRank【】，即“如果两个对象都与相似的对象相关，那么它们越相似”。
+它的有效性可以由图论中的随机游走模型直观地解释，又因为它基于图这种可以描述各种关系的离散结构，
+因此自提出以来，SimRank在很多不同的领域都有应用。
+
+SimRank的计算过程拥有较高的时间和空间复杂度。
+为了能够处理规模日益增长的图数据，近年来学术界提出了很多致力于提高SimRank计算效率的方法。
+典型的加速技巧包括对稀疏图数据使用稀疏矩阵计算技巧【】，减少随机游走生产数量的蒙特卡洛抽样方法【】，通过线性化的代数方法消除计算递归性【】，
+基于分布式平台的算法【】【delta-]等等。
+这些算法面向特定场景，或多或少地提高了计算效率。
+另一方面，一些致力于改进SimRank有效性的新标准也相继提出，典型的有SimFusion【】，SimRank++【】[prank]等等。
+此外，一些工作研究如何将SimRank运用到特定的图数据上，例如【】研究了如何在不确定图（uncertain graph)上衡量点对的相似性。
 
 \subsection{图划分研究现状}
+图划分是一个经典的NP完全问题。国内外对其进行了广泛深入的研究。
+传统的划分方法可以分为以下几种：谱方法、启发式算法、智能优化算法、多层次划分算法等。
+谱方法主要针对图的二划分，其基本思想是用图矩阵的第二大特征值和特征向量来实现图的划分，它的计算开销非常大；
+启发式方法基于局部的启发信息对问题进行求解，典型的代表方法有KL算法和FM算法，它们能处理的图规模非常有限；
+智能方法近年来比较流行，它通过对自然界的一些行为进行仿生模拟对问题进行建模，其划分质量有一定的随机性；
+多层次图划分的算法的典型代表是METIS。它通过塌缩-初始化分-恢复的迭代过程首先将图的规模降低到可以接受的范围，
+再基于一定的优化思想给出该小图划分，最后将划分投影为原始图上的划分。多层次方法拓展了算法的计算能力，
+被广泛地应用在各类大图的划分问题。
+
+近年来,随着互联网的普及,网络用户数快速增加。数据显示，全球最大的社交网络Facebook目前已经有20亿用户。
+随着网络中用户规模的不断扩大,与之对应的网络图动辄有数十亿个顶点和上万亿条边，
+普通的计算机由于内存的限制根本无法处理,这个一些常见的图计算任务带来巨大的挑战。
+在此背景下，将大规模图数据划分成多个分块散布到集群中的不同计算节点，从而充分利用分布式系统成为必然。
+\begin{figure*}[h]
+\centering
+\begin{subfigure}[b]{0.45\textwidth}
+	\center	\includegraphics[width=1\textwidth]{figure/partition_a.png}
+	\label{fig:p_1}
+	\caption{随机划分}
+\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{figure/partition_b.png}
+	\caption{高质量划分}
+	\label{fig:p_2}
+\end{subfigure}
+\caption{对同一个图的两个划分。 左图是随机划分结果，其边割集较大；右图划分质量高，其边割集较小，并且图中的稠密子图得到了保留}
+\label{fig:partition}
+\end{figure*}
+图划分问题的主要优化目标包括：划分结果力求均衡，即每个分块中的顶点数目大致相等；
+最小化横跨不同分块的边的数量。图\ref{fig:partition}展示了对同一个图的两种划分结果。
+从图中可以很直观地区分出划分质量的好坏。
+对超大规模图而言，其划分过程还许满足以下要求：
+
+1）算法需要有极好的可扩展性，这要求算法本身能够充分发觉划分过程的计算可并行性，可以通过堆砌计算节点获得更大的处理能力；
+
+2）划分结果需要较好地保留原图的语义。
+现实生活中的图并不是随机生成的，它们的拓扑结构往往隐含着语义（semantic）层面的信息。好的划分算法应当考虑其中的语义信息。
+
 
 \section{技术背景}
 \subsection{Spark背景介绍}
@@ -496,10 +558,11 @@ Spark改进了Hadoop[14]批处理框架在迭代计算与交互式处理方面�
 目前，Spark已经成长为包含Spark SQL，Spark Streaming, MLlib, GraphX等多个子项目的完善的生态系统。
 使用Spark，用户只需调用编程接口来实现自己的数据计算任务，而无需关心数据的具体分布、并行调度策略、集群节点之间的数据传送与错误恢复等复杂的底层细节。
 凭借其高效、用户友好、通用的优点，Spark在学术界和工业界得到了广泛的实际应用。
-\begin{figure}[htbp]
+\begin{figure}[h]
   \centering
   \includegraphics[width= 0.7\textwidth]{figure/spark_stack.png}\\
-  \caption{Spark系统架构}\label{fig:spark_stack}
+  \caption{Spark系统架构}
+  \label{fig:spark_stack}
 \end{figure}
 一个典型的Spark集群通常包括以下几个组件：
 1)Driver Program, 每一个Spark应用程序都包含一个driver program，它执行用户的main函数，并负责在集群调度所有的并行化操作。
@@ -507,12 +570,13 @@ Spark改进了Hadoop[14]批处理框架在迭代计算与交互式处理方面�
 然后，Driver Program会把应用程序的Jar包发送给这些Executor，计算过程中会将计算Task分配给这些Executor。
 2)Cluster Manager, 它是向集群申请各种资源的一个额外的服务。Spark支持Mesos, YARN等等。
 3)Executor, 它是运行在集群中每一个Worker Node上的一个进程，负责本节点上数据的读写以及各种计算。
-\begin{figure}[htbp]
+\begin{figure}[h]
   \centering
   \includegraphics[width= 0.7\textwidth]{figure/spark_components.png}\\
-  \caption{Spark系统架构}\label{fig:spark_components}
+  \caption{Spark系统架构}
+  \label{fig:spark_components}
 \end{figure}
-\subsection{Spark数据模型}
+%\subsection{Spark数据模型}
 Spark采用了一种被称为弹性分布式数据集（RDDs, Resilient Distributed Datasets）的分布式数据抽象，它支持工作集的重用，同时拥有非循环数据流模型（acyclic data flow model）的优点，即数据的负载均衡、位置感知和容错机制。同时RDD是一种受到限制的抽象，这体现在它是只读的，并且只能由已有的分布式数据集或其他RDD执行转换操作来创建。通过递归式地保存自己与其ParentRDD之间的转换记录(lineage)，当发生数据分区丢失时RDD可以利用这些记录重新进行计算，快速地恢复数据。
 RDD的缺点是它只能提供粒度较粗的转换(coarse-grained transformation)并且它是只读的，这对于一些需要频繁更新数据集的一部分的应用，可能会带来性能上的不足。矩阵计算就是一个需要频繁更新矩阵本身的操作，因此实现算法时要格外注意如何解决这个问题。
 RDD可以调用的操作包括转换(transformation)和动作(action)两类。每一个转换操作都会基于调用它的一个或多个parentRdd产生一个新的RDD，所有的转换操作都是懒惰(lazy evaluation)的，这意味着用户在一个RDD上调用一个转换操作并不会立即执行，Spark只是把它当作matadata记住了这些操作。只有当该RDD执行动作操作时，Spark才会利用这些metatada自后往前地追踪到当前RDD最古老的parentRDD，然后从前往后顺序计算这些RDD之间的转换。Spark提供了多种多样的转换，例如map, mapPartitions, union, join, filter等等。
@@ -520,9 +584,10 @@ RDD可以调用的操作包括转换(transformation)和动作(action)两类。�
 \begin{figure}[htbp]
   \centering
   \includegraphics[width= 0.7\textwidth]{figure/rdd_dependency.png}\\
-  \caption{Spark系统架构}\label{fig:rdd_dependency}
+  \caption{Spark系统架构}
+  \label{fig:rdd_dependency}
 \end{figure}
-\subsection{Spark常用编程接口}
+%\subsection{Spark常用编程接口}
 Spark提供的编程接口，主要包括两类：转化和动作。
 其中，典型的转化包括以下几类： 
 \begin{enumerate}
@@ -556,9 +621,10 @@ GraphX通过引入一个新的图抽象来拓展Spark中的RDD: Resilient Distri
 \begin{figure}[htbp]
   \centering
   \includegraphics[width= 0.7\textwidth]{figure/property_graph.png}\\
-  \caption{一个简单的属性图。左图为图的拓扑信息及其关联的属性；右图为该属性图底层存储的RDD}\label{fig:property_graph}
+  \caption{一个简单的属性图。左图为图的拓扑信息及其关联的属性；右图为该属性图底层存储的RDD}
+  \label{fig:property_graph}
 \end{figure}
-\subsection{GraphX编程范式}
+%\subsection{GraphX编程范式}
 
 \section{本文主要研究工作}
 分析已有的计算方法我们发现，传统的单机SimRank计算方法对于大规模的输入图无能无力，
@@ -605,50 +671,6 @@ GraphX通过引入一个新的图抽象来拓展Spark中的RDD: Resilient Distri
 
 第五章：总结与展望。总结本文所阐述的所有算法，并对下一步工作做出展望。
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{SimRank原理及技术背景}\label{chapter_smallworld}
-\section{SimRank}
-
-
-SimRank的另一个模型是基于随机游走模型。节点序列$W=v_0v_1v_2\dots v_l$ 如果对任意$0 \leq i \leq l-1$都满足 $(v_i, v_{i+1})$ 都是 $G$ 中的边，
-则称其为 $G$中的一个游走。如果$W$还满足以下的Markov条件，即下式对所有的$i \geq1$ ,   $v_0, v_1, \dots, v_i \in V$成立：
-\begin{eqnarray}
-\label{eq:three}
-  Pr(X_i = v_i|X_{0} = v_{0},\dots, X_{i-1}  = v_{i-1}) \nonumber \\  
- =  Pr(X_i = v_i|X_{i-1} = v_{i-1})
-\end{eqnarray}
-其中，$X_i$ 表示在第$i$部，游走正好到达的节点。
-对任意$ u,v \in V$， $Pr(X_i=v|X_{i-1}=u)$表示在第$i-1$步到达节点$u$的随机游走将在第$i$步到达节点$v$的条件概率。
-对于SimRank问题，每一条随机游走从某个节点出发，然后顺着图$G$中的逆变，每一个步骤随机走向该节点的某一个入邻点，并且特别的，转移概率定义为
-\begin{equation}
-Pr(X_i=v_i|X_{i-1}=v_{i-1}) = \left\{
-        \begin{array}{ll}
-	\frac{1}{|I(v_{i-1})|}, & \quad (v_i, v_{i-1}) \in E; \\
-	0,  &\quad otherwise.
-        \end{array}
-    \right.
-	\label{eq:four}
-\end{equation}
-相应地，一条随机游走的概率，定义为：
- \begin{equation}
-Pr(W) = \prod_{i=1}^{l}Pr(X_i=v_i|X_{i-1}=v_{i-1})
-	\label{eq:seven}
-\end{equation}
-现在假设图$G$中有两条随机游走以相同速度分别从节点$u$和节点$v$同时出发，每次都顺着图中的逆边移动，也就是从当前所在节点移动到下一个入邻点，
-并且这两条随机游走在同一个节点$x$相遇并且为初次相遇，我们就把这两条终止在节点$x$的游走称作“匹配游走”。
-每一对匹配游走的长度就等于随机游走的步骤数。我们基于此定义相遇概率：
- \begin{equation}
-Pr\big((W_u, W_v)\big) = Pr(W_u)Pr(W_v)
-	\label{eq:five}
-\end{equation}
-文献【1】表明，节点$u,v$之间的相似度$s(u,v)$等于服从上面概率分布的若干匹配游走的均值：
- \begin{equation}
-s(u,v) = \sum\limits_{W_u, W_v} c^lPr\big((W_u, W_v)\big)
-	\label{eq:six}
-\end{equation}
-其中， ($W_u$, $W_v$) 是一对任意的匹配游走，$l$是游走的长度，$c$是前文定义的衰减系数。
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{分布式单源点相似度计算方法}\label{chapter_sssSimRank}
@@ -716,7 +738,46 @@ S^{k+1}_{uv} = \left\{
 我们首先要找出分别从节点$u$和节点$v$出发的所有匹配游走，然后聚合这些游走计算出它们的相遇概率。
 注意到想要枚举出任意长度（包括正无穷）的随机游走显然是不可行的，并且显然考虑的长度越长，最后计算得到的相似性越精确。
 现实应用中，我们考虑长度为$k$的游走得到的数值可以满足一般应用。
-\section{算法中心思想}
+\section{算法基本框架}
+\subsection{基于随机游走模型的建模}
+SimRank的另一个模型是基于随机游走模型。节点序列$W=v_0v_1v_2\dots v_l$ 如果对任意$0 \leq i \leq l-1$都满足 $(v_i, v_{i+1})$ 都是 $G$ 中的边，
+则称其为 $G$中的一个游走。如果$W$还满足以下的Markov条件，即下式对所有的$i \geq1$ ,   $v_0, v_1, \dots, v_i \in V$成立：
+\begin{eqnarray}
+\label{eq:three}
+  Pr(X_i = v_i|X_{0} = v_{0},\dots, X_{i-1}  = v_{i-1}) \nonumber \\  
+ =  Pr(X_i = v_i|X_{i-1} = v_{i-1})
+\end{eqnarray}
+其中，$X_i$ 表示在第$i$部，游走正好到达的节点。
+对任意$ u,v \in V$， $Pr(X_i=v|X_{i-1}=u)$表示在第$i-1$步到达节点$u$的随机游走将在第$i$步到达节点$v$的条件概率。
+对于SimRank问题，每一条随机游走从某个节点出发，然后顺着图$G$中的逆变，每一个步骤随机走向该节点的某一个入邻点，并且特别的，转移概率定义为
+\begin{equation}
+Pr(X_i=v_i|X_{i-1}=v_{i-1}) = \left\{
+        \begin{array}{ll}
+	\frac{1}{|I(v_{i-1})|}, & \quad (v_i, v_{i-1}) \in E; \\
+	0,  &\quad otherwise.
+        \end{array}
+    \right.
+	\label{eq:four}
+\end{equation}
+相应地，一条随机游走的概率，定义为：
+ \begin{equation}
+Pr(W) = \prod_{i=1}^{l}Pr(X_i=v_i|X_{i-1}=v_{i-1})
+	\label{eq:seven}
+\end{equation}
+现在假设图$G$中有两条随机游走以相同速度分别从节点$u$和节点$v$同时出发，每次都顺着图中的逆边移动，也就是从当前所在节点移动到下一个入邻点，
+并且这两条随机游走在同一个节点$x$相遇并且为初次相遇，我们就把这两条终止在节点$x$的游走称作“匹配游走”。
+每一对匹配游走的长度就等于随机游走的步骤数。我们基于此定义相遇概率：
+ \begin{equation}
+Pr\big((W_u, W_v)\big) = Pr(W_u)Pr(W_v)
+	\label{eq:five}
+\end{equation}
+文献【1】表明，节点$u,v$之间的相似度$s(u,v)$等于服从上面概率分布的若干匹配游走的均值：
+ \begin{equation}
+s(u,v) = \sum\limits_{W_u, W_v} c^lPr\big((W_u, W_v)\big)
+	\label{eq:six}
+\end{equation}
+其中， ($W_u$, $W_v$) 是一对任意的匹配游走，$l$是游走的长度，$c$是前文定义的衰减系数。
+
 文献【11】给出了一个计算单点对SimRank相似度的spSimRank算法。算法的核心思想是两个随机冲浪者分别从节点$u,v$出发，
 每一步跟随所在节点的入边；每经过一个节点$t$，原来的随机游走会产生$|I(t)|$ 个新的游走。这样的话经过$k$步游走之后，总共会产生
 $O(d^k)$ 个不同的游走，每条随机游走的长度不超过$k$。这些游走使用了一个叫做Path-Tree的数据结构来保存。然后对两个path-Tree中的所有随机游走
@@ -802,7 +863,7 @@ $W_u, W_v$ 的倒序游走一定也在其中
 以上两个事实的正确性是显然的。可以看出，总共需要生成的倒序游走的数量大约在$O(|Nei|d^k)$而不是暴力算法的$O(nd^k)$。
 事实上， $|Nei|$ 的复杂度为$O(d^k)$， 远比图$G$中点数目小，并且独立于$G$真实大小。
 
-\begin{figure}[t]
+\begin{figure}[h]
 \centering
 \label{fig:graph1}
 \resizebox{!}{!}{\input{temp1.tikz}}
@@ -810,7 +871,7 @@ $W_u, W_v$ 的倒序游走一定也在其中
 \end{figure}
 
 
-\begin{figure}[t]
+\begin{figure}[h]
     \centering
     %\subfig[fjalkf]
     \begin{subfigure}[b]{0.48\linewidth}        %% or \columnwidth
@@ -1029,9 +1090,9 @@ Spark运行版本为1.6.2， 底层分布式文件系统HDFS的版本号为2.6.0
 \hline
 \textbf{数据集} & \textbf{顶点数} & \textbf{边数} & \textbf{顶点平均度数} & \textbf{大小} \\
 \hline
-p2p-gnutella08 \footnotemark[1]  & {6,301}         & \num{20777}                   & 3.29                & 215.2KB\\
+p2p-gnutella08 \footnotemark[1]  & {6301}         & \num{20777}                   & 3.29                & 215.2KB\\
 \hline
-wiki-vote \footnotemark[2]    & 7,115 	& \num{103,689}                           &14.57                & 1.1MB  \\
+wiki-vote \footnotemark[2]    & 7115 	& \num{103689}                           &14.57                & 1.1MB  \\
 \hline
 %wiki-talk            & \num{2394385} & \num{5021410}          &2.10                   & 66.5MB\\
 %\hline
@@ -1092,7 +1153,7 @@ $c$被设置为0.5，相应的，$k$被设置为$k=6$。
 在规模最小的图p2p-gnutella08上， apSimRank需要运行2.1个小时才能完成计算，而nssSimRank需要计算1.2个小时。
 因为对于基于随机游走模型的算法而言，其运行效率主要取决于所生产的随机游走的数量，进一步地说，取决于需要从多少个领域$Nei$来展开生产随机游走。
 因此，我们比较sssSimRank和nssSimRank算法中生产$Nei$的数量。结果如图\ref{fig:ch1:runtime}所示。
-\begin{figure}[htbp]
+\begin{figure}[h]
   \centering
   \includegraphics[width= 1\textwidth]{figure/neighborhoods.eps}\\
   \caption{生成领域数量的比较}\label{fig:ch1:runtime}
@@ -1105,7 +1166,7 @@ $c$被设置为0.5，相应的，$k$被设置为$k=6$。
 这一观察同样表明算法中的概率筛子对稠密的图能更好地提高性能。
 \subsection{算法的可扩展性}
 我们考察分布式环境下算法的可扩展性。 首先考察算法运行时间随着输入图的大小的变化关系，结果如图\ref{fig:ch1:data_scalable}所示。
-\begin{figure}[htbp]
+\begin{figure}[h]
   \centering
   \includegraphics[width= 1\textwidth]{figure/data_scalability.eps}\\
   \caption{算法运行时间与输入图大小的变化关系}\label{fig:ch1:data_scalable}
@@ -1120,19 +1181,19 @@ $c$被设置为0.5，相应的，$k$被设置为$k=6$。
 这样更能提现计算量较为饱和的情况下算法的节点可扩展性。实验结果如图\ref{fig:ch1:node_scalable}所示。
 从图中可以看到，对不同规模的输入图，算法的运行时间随集群计算节点的增加而近乎线性的减少，
 这表面算法在分布式环境下具有良好的节点可扩展性。
-\begin{figure}[htbp]
+\begin{figure}[h]
   \centering
   \includegraphics[width= 1\textwidth]{figure/node_scalability.eps}\\
   \caption{算法运行时间与集群计算节点数量的变化关系}\label{fig:ch1:node_scalable}
 \end{figure}
 
-\section{小结}
+\section{本章小结}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{分布式图分割方法}\label{chapter_graphpartition}
 \section{概述}
 随着现实生活中数据规模的不断扩大，与之对应的图数据网络结构愈加复杂，典型的大图甚至有数十亿个节点和上万亿条边。
 普通的单台计算机由于运算内存的限制，远远无法承载大规模图数据的分析任务，
-这给基于图计算的数据分析任务带来了巨大的挑战。
+这给基于图计算的数据分析任务（如寻找连通分量、计算三角形和、PageRank、SimRank计算等）带来了巨大的挑战。
 为了解决单计算节点计算问题有限的问题，最理性的方案就是利用分布式计算，
 即将大规模图数据划分成多个子图装载到不同的分区或者不同计算节点上中，然后进行后续的图分析、图信息挖掘任务。
 
@@ -1215,7 +1276,7 @@ FM算法【6】改进了KL算法中的顶点交换策略，每次不再交换一
 当图的规模小到某个可以接受的阈值时，再使用KL或FM等单节点算法直接进行划分。
 最后划分的结果再直接投影到原图中，这样就得到了最终的划分结果。
 图\ref{fig:mlp_framework}揭示了多层次划分算法的大致框架。
-\begin{figure}[htbp]
+\begin{figure}[h]
   \centering
   \includegraphics[width= 0.75\textwidth]{figure/coarsen.jpg}\\
   \caption{多层次图划分的算法框架}
@@ -1275,7 +1336,7 @@ LP算法的思想非常简单：最初的时候我们给图中每个顶点一个
 当$G$中每个顶点的社区ID基本上不再变动时，算法结束。
 图\ref{fig:mlp_cd}展示了一个典型的社区发现结果。
 从图中可以直观的看到算法总共检测到了4个社区。如果直接将其当做图的一个4划分$P=(C_1, C_2, C_3, C_4)$，其划分质量也是不错的。
-\begin{figure}[htbp]
+\begin{figure}[h]
   \centering
   \includegraphics[width= 0.6\textwidth]{figure/lp.png}\\
   \caption{社区发现算法的结果，不同颜色代表不同的社区ID}
@@ -1516,9 +1577,60 @@ graph.triplets.map{
 我们首先统计有哪些边在当前图中横跨了不同的分块，然后使用reduceByKey操作把这些边变成变成一条新的边，
 这个过程中变得数量大大地减少了，并且新边的权重，以及新边两边端点的权重，都同时被更新了。
 \section{实验评估}
+\subsection{实验环境及数据集}
+我们采用的实验环境与上一章节完全一样。
+在数据集方面，我们一共使用了三个真实的数据集。
+其中，wiki-talk记录了维基百科用户共同编辑条目的关系；
+cit-Patents记录了1963至1999年间美国所有记录在案的专利之间的互相引用情况；
+ljournal-2008记录了一个虚拟社交网络中所有用户的交友关系。
+每个图数据一开始为普通的文本形式，每一行代表这图中的一条边。
+在开始实验前，所有的数据集都预先上传到分布式文件系统HDFS上。
+\begin{table}[h]
+\caption{数据集描述}
+\label{tab:dataset1}
+\centering
+\begin{tabular}{|l|r|r|r|r|}
+\hline
+\textbf{数据集} & \textbf{顶点数} & \textbf{边数} & \textbf{顶点平均度数} & \textbf{大小} \\
+\hline
+wiki-talk     \footnotemark[1]       & \num{2394385} & \num{5021410}          &2.10                   & 66.5MB\\
+\hline
+cit-Patents      \footnotemark[2]     & \num{3774768}  & \num{16518948 }          & 4.38             & 203.4MB\\
+\hline
+ljournal-2008  \footnotemark[3] & \num{5363260} & \num{79023142}         & 14.73            &1.2GB\\
+\hline
+%arabic-2005 \footnotemark[5]   & \num{22744080} & \num{639999458}      & 28.14           & 10.9GB\\
+%\hline
+%twitter-2010    & \num{41652230 } & \num{1468365182} & 26.1GB\\
+%\hline
+\end{tabular}
+\end{table}
+\footnotetext[1]{https://snap.stanford.edu/data/wiki-Talk.html}
+\footnotetext[2]{https://snap.stanford.edu/data/cit-Patents.html}
+\footnotetext[3]{http://law.di.unimi.it/webdata/ljournal-2008/}
+%\footnotetext[5]{http://law.di.unimi.it/webdata/arabic-2005/}
+\subsection{算法的有效性}
+我们主要从划分结果的边割大小衡量算法的划分质量。
+图展示了我们的算法mod_MLP与其他相关算法的最终划分质量比较。
+其中，METIS是经典的、久经改良的单节点图划分方法；lp_MLP【】也是一种多层次划分方法，但是其塌缩步骤基于标签传播（LP）算法实现；
+Random指对图中顶点采取随机方式直接等概率分配分块ID。
+具体运行时，上述四种算法的分块目标数被设为一样的数值$block=300$，等待每个算法完全运行结束后再基于划分结果计算边割的大小。
+从图中可以看出，其余三种算法的划分质量都大大超过了随机划分。
+mod_MLP表现出了可以与METIS相媲美的效果。
+同时可以看到mod_MLP的划分边割比lp_MLP要小，并且随着图规模的变大改进越明显，
+这表明相比于单纯的标签传播，基于模块度优化的塌缩过程更好地保留了原图中稠密的子结构。
+\begin{figure}[h]
+  \centering
+  \includegraphics[width= 0.6\textwidth]{figure/edge_cut.eps}\\
+  \caption{各分块之间的边割大小}
+   \label{fig:partitionquality}
+\end{figure}
+\subsection{算法的计算效率}
+\subsection{算法的可扩展性}
+
 \section{本章小结}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{分布式全点对相似度计算方法算法}\label{chapter_allSimRank}
+\chapter{分布式全点对相似度计算方法}\label{chapter_allSimRank}
 \section{概述}
 上一章节描述了计算单源点SimRank相似度的计算方法，如果进一步地考虑计算图$G$中全点对的相似度，
 那么不管是直接根据SimRank的定义采用矩阵迭代计算的方法，还是将全点对计算问题简单看做$|V|$个单源点相似度计算问题，
@@ -1531,7 +1643,31 @@ graph.triplets.map{
 试图将复杂的计算任务分解为如果如果更小、更容易处理的子任务。
 而本章将重点叙述其中的“分解”步骤：图划分，作为一个重要的中间步骤，分割的质量、效率直接关系到最终全点对相似度的计算效果。
 \section{相关工作}
+为了方便叙述， 我们用$n$表示输入图的节点个数，用$m$表示图的边的个数，用$d$表示图中节点的平均度数。 
+对于迭代算法，使用$k$表示算法需要迭代的次数。
 
+\textbf{基于矩阵乘法的计算方法}。 Jeh和Widom提出了第一个基于矩阵乘法的SimRank迭代计算方法，改算法计算全点对的相似性，其复杂度为$O(kn^2d^2)$
+.[9]随后通过剪纸、局部访问等技术在矩阵乘法层面将算法的时间复杂度提升到$O(kn^2d)$。【10】使用了快速矩阵乘法来加速计算过程。
+文献【12】进一步将算法的时间复杂度提高到$O(kn^2d^{\prime})$,其中$d^\prime < d$。
+文献【13】提出了一种基于Keonecker乘积和矩阵奇异值分解（SVD）的非迭代算法，该算法首先在$O(r^4N^2)$时间内计算一些出辅助矩阵，其中$r$是
+输入图的领接矩阵的秩，然后再在$O(r^4N^2)$时间内获取给定源点与其他所有节点的相似性。
+文献【14】使用了GPU来加速矩阵的计算速度。
+对于单点对的SimRank计算，文献【11】给出了一个时间复杂度为$O(kd^2\cdot \min{\{n^2, d^k\}}$的算法。
+文献【15】进一步地通过使用概率方法将时间复杂度提高到$O(km^2-m)$。
+
+\textbf{基于随机游走的计算方法}。
+图中节点$v$,$u$的相似性，可以解释为：以节点$u$和节点$v$分别为初始点，同步移动的随机游走第一次在某个节点相遇的概率的期望值。
+文献【16】给出了第一个基于随机游走的算法， 该算法首先建立一个大小为$O(nN)$的$N$个随机游走的“指纹”索引，然后基于索引查询单点对的相似性。
+文献【17】提出一种在随机游走中使用采样技巧计算单点对相似性，该方法在允许一定精度损失的情况下提高了计算效率。
+文献【18】研究了图中top-$k$个最相似点对的查询问题，其中$k$往往是一个非常小的值。
+该方法把单点对相似查询问题转变为规模为$G\times G$的乘积图上的查询问题。
+
+\textbf{分布式计算方法}。 文献【19】提出了一种基于增量变化的$Delta-SimRank$算法。该算法发现，SimRank可以改写为一种迭代的增量计算方式，
+即迭代过程中，不直接改变点对之间的相似性而是计算相对于上一轮迭代的增量。该方法充分利用了迭代计算过程中很多点对间相似性增量为0的事实，减小了
+计算过程中的数据传输量。
+文献【20】提出了一种基于Spark平台的分布式计算方法，该方法打破了计算点对相似性之间的递归依赖关系：首先线下计算一个不变矩阵$D$，然后线上根据$D$使用
+蒙特卡洛方法快速给出查询。然而，$D$的计算被当做一个解线性方程组的过程，这在分布式环境下非常低效，因此虽然算法线上查询的效率很高，
+但线下预处理的时间开销非常巨大。
 \section{算法框架}
 基于章节\ref{chapter_graphpartition}中对图做出的划分，我们现在给出一个计算全点对相似度的近似算法。
 文献【11】描述了一种基于图中分块结构（Block Structure）的若干性质来加速计算PageRank的方法，我们的近似算法直接受到了该算法的启发。
@@ -1654,8 +1790,101 @@ $w(v_i, v_j)$越大，说明在原图$G$中分块$C_i$与$C_j$的交叉边越多
  对图G中的两个划分$P_1, P_2$，
 \end{definition}
 \section{实验评估}
-\section{本章小结}
+\subsection{实验环境及数据集}
+我们部署的实验环境与上一章节完全一样。
+在数据集方面，我们一共使用了4个真实的数据集。
+其中三个来自于第二章中实验评估中使用的数据集：eu-2005, ljournal-2008, arabic-2005。
+除此之外，我们额外使用了由图wiki-topcats\footnotemark[1]加工而成的小规模图。
+wiki-topcats是一个记录维基百科中各个WEB超链接之间引用情况的有向图，
+所有的条目都一共被分为17364个不同的类别(category)。
+我们挑取其中较大的四个类别（由于wiki-topcats中类别是匿名的，我们暂称它们为C1-C4)，
+保留类别中的顶点以及它们之间的边，得到了规模如表\ref{tab:dataset3}所示的图。
+如无特别说明，下面wiki-topcats特指经我们抽取加工过的图。
+\footnotetext[1]{https://snap.stanford.edu/data/wiki-topcats.html}
+\begin{table}[h]
+\caption{数据集描述}
+\label{tab:dataset3}
+\centering
+\begin{subtable}{.4\linewidth}
+      \centering
+        \caption{各个类别中顶点数}
+       \begin{tabular}{|l|r|r|r|r|}
+\hline
+\textbf{分类} & \textbf{顶点数}  \\
+\hline
+C1 & \num{34722}     \\
+\hline
+C2 & \num{22700}     \\
+\hline
+C3 & \num{15303}     \\
+\hline
+C4 & \num{11662}     \\
+\hline
+\end{tabular}
+    \end{subtable}%
+   \begin{subtable}{.6\linewidth}
+      \centering
+        \caption{各个类别之间的边}
+       \begin{tabular}{|l|r|r|r|r|}
+\hline
+ & \textbf{C1} & \textbf{C2} & \textbf{C3} & \textbf{C4} \\
+\hline
+C1 & \num{96534} &  \num{14321} & \num{15678}   & \num{18323} \\
+\hline
+C2 & \num{9804}  & \num{82767}& \num{32130} &\num{135480} \\
+\hline
+C3 & \num{13098}  &\num{21104} &\num{51092}  &\num{11523}\\
+\hline
+C4 & \num{15431}   & \num{28873}& \num{9522} & \num{73564}\\
+\hline
+\end{tabular}
+    \end{subtable}% 
+\end{table}
 
+每个图数据一开始为普通的文本形式，每一行代表这图中的一条边。
+在开始实验前，所有的数据集都预先上传到分布式文件系统HDFS上。
+\subsection{算法的有效性}
+我们首先验证算法的有效性。严格地说，本文所提出的计算方法是一个计算SimRank相似度的近似算法。
+对于同一分块之内的点对，我们的结果与严格的SimRank相似度基本不存在差异。
+对于来自不同分块的点对，显然二者在数值上会有差异。
+我们在wiki-topcats上的实验结果表面，它们的计算结果在数值上差异不超过正负$5\%$。
+为了检验算法在实际应用中语义层面的有效性，我们使用PAM【】，一种基于顶点相似度的经典k-medoids图聚类算法，对wiki-topcats
+进行聚类，得出结果作为标准结果。同时，我们分别运行SimRank算法以及我们的算法，取被正确分类的顶点个数与顶点总数的比值作为准确率(accuracy)。
+结果表面，SimRank的准确率为0.6218，我们的算法的准确率为0.6221。
+从结果上看，我们的准确率基本与SimRank持平或有略微的提高，
+猜测这可能是我们使用了图划分预处理过程，一定程度上试图把原图中的稠密子图提取出来，从而消除了噪声。
+
+\subsection{算法的计算效率}
+我们分别比较我们的算法与基于稀疏矩阵计算的SimRank计算方法、基于传输量优化的Delta-SimRank算法各自的计算效率。
+其中，基于稀疏矩阵计算的SimRank过程直接根据公式\ref{eq:two}做对规模矩阵乘法；
+Delta-SimRank采用增量计算的方式，不直接更新点对之间的相似性而是计算相对于上一轮迭代的增量，最后再将之前的增量聚合起来得到最终解。
+三个算法都被编写为基于Spark的分布式程序，运行环境完全相同与相关参数设置完全相同。
+partitionSimRank预处理过程中设置的划分分块数为300，图划分时间计入算法总时间开销。
+表\ref{tab:cha3_time}展示了三个算法运行时间的比较结果。
+\begin{table}[ht]
+\caption{运行时间比较（min）}
+\label{tab:cha3_time}
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+& \textbf{matrixSimRank} & \textbf{DeltaSimRank} & \textbf{paritionSimRank} \\
+ % \textbf{flkdsjf} & \textbf{matrix-SimRank} & \textbf{Delta SimRank} & \textbf{parition_SimRank}  \\
+\hline
+eu-2005 & \num{1278.20} & \num{51.95}          & \num{16.38}       \\
+\hline
+ljournal-2008     & \num{6523.14}  & \num{402.03 }          & \num{32.38}    \\
+\hline
+arabic-2005  & - & \num{2045.50}         & \num{126.32}    \\
+\hline
+\end{tabular}
+\end{table}
+从表中可以看出，DeltaSimRank相比与SimRank在计算效率上有约几十倍的提高，这得益于其增量计算方式大大较少了迭代过程中产生的中间变量；
+而我们的算法相比于partitionSimRank，在计算效率上又有了高达几倍甚至十数倍的提升。
+这是因为，算法过程中耗时最大的块内点对相似度的计算量相比全图点对减少了$(n/m)^2$倍。
+
+\subsection{算法的可扩展性}
+
+\section{本章小结}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1666,17 +1895,17 @@ $w(v_i, v_j)$越大，说明在原图$G$中分块$C_i$与$C_j$的交叉边越多
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 致谢，应放在《结论》之后
 \begin{acknowledgement}
-白驹过隙间，我的三年研究生就要结束，我在南京大学七年的学习生活就要画上句号。
-在这即将离别校园之际，回想三年的校园生活，很多情景都历历在目。
+白驹过隙间，我的三年硕士研究生生涯就要结束，我在南京大学七年的学习生活就要划上句号。
+即将离别校园之际，回想三年的校园生活，很多情景都历历在目。
 研究生阶段，我的科研能力得到了提升，生活上也变得更加独立。
-在这里我衷心感谢我的导师、师兄弟、同学、朋友们，你们平时对我的教导、支持、帮助让我愉快地走完了这平凡的三年，感谢你们！
+在这里我衷心感谢我的导师、师兄弟、同学、朋友们，你们平时对我的教导、支持、帮助让我愉快地走完了这不平凡的三年，感谢你们！
 
-首先感谢我的导师唐杰。唐老师为人谦和，工作负责，在学术上对我们都尽心尽力地指导，在生活上对我们也多有照顾。
+首先感谢我的导师唐杰。唐老师为人谦和，工作负责，在学术上对我们尽心尽力地指导，在生活上对我们也多有照顾。
 无论是本课题的研究及论文的撰写，还是平时对我科研能力的塑造，唐老师都以身作则，对我提供了很多帮助。
 唐老师宽厚谦和的生活作风也潜移默化地影响着我，指导着我做一个脚踏实地的南大人。
 
-我还要感谢武钢山老师。武老师是多媒体教研室主任，他作风严瑾，要求严格，把握着最新的科研动向，同时管理着整个大组的研究学习工作。
-在此特别感谢武老师对我学习和生活上的种种帮助。
+我还要感谢武港山老师。武老师是多媒体教研室主任，他作风严瑾，要求严格，把握着最新的科研动向，同时管理着整个大组的研究学习工作。
+在此特别感谢武老师对我学习和生活上提供的种种帮助。
 
 还要感谢实验室的师兄师弟以及师妹们。三年以来你们给了我很多的关心和支持，很高兴能和你们同门，你们让我留下了很多美好的回忆。
 祝愿两位老师身体健康，万事如意！ 也祝各位同学学业有成，科研顺利！
