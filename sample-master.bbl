@@ -24,220 +24,195 @@
 \providecommand{\bibdate}[1]{#1}
 \providecommand{\biburl}[1]{\newline\url{#1}}
 
-\bibitem{newman2006structure}
-\bibauthor{NEWMAN M\@, BARAB{\'A}SI A-L\@, WATTS D~J}\@. \bibbooktitle{The
-  structure and dynamics of networks}\bibmark{[M]}\@.
-  \bibaddress{Princeton}\thinspace{}\textnormal{: }\bibpublisher{Princeton
-  University Press}\@, \bibyear{2006}\@.
+\bibitem{fouss2007random}
+\bibauthor{FOUSS F\@, PIROTTE A\@, RENDERS J-M, et~al}\@. \bibtitle{Random-walk
+  computation of similarities between nodes of a graph with application to
+  collaborative recommendation}\bibmark{[J]}\@. \bibjournal{IEEE Transactions
+  on knowledge and data engineering}\@, \bibyear{2007}\@,
+  \bibvolume{19}\bibnumber{(3)}\thinspace{}\textnormal{:
+  }\bibpages{355\thinspace{}\textnormal{--}\thinspace{}369}\@.
 
-\bibitem{newman2001random}
-\bibauthor{NEWMAN M~E\@, STROGATZ S~H\@, WATTS D~J}\@. \bibtitle{Random graphs
-  with arbitrary degree distributions and their applications}\bibmark{[J]}\@.
-  \bibjournal{Physical Review E}\@, \bibyear{2001}\@,
-  \bibvolume{64}\bibnumber{(2)}\thinspace{}\textnormal{: }\bibpages{026118}\@.
+\bibitem{dean1999finding}
+\bibauthor{DEAN J\@, HENZINGER M~R}\@. \bibtitle{Finding related pages in the
+  World Wide Web}\bibmark{[J]}\@. \bibjournal{Computer networks}\@,
+  \bibyear{1999}\@, \bibvolume{31}\bibnumber{(11)}\thinspace{}\textnormal{:
+  }\bibpages{1467\thinspace{}\textnormal{--}\thinspace{}1479}\@.
 
-\bibitem{aiello2000random}
-\bibauthor{AIELLO W\@, CHUNG F\@, LU L}\@. \bibtitle{A random graph model for
-  massive graphs}\bibmark{[C]} //\thinspace{}\bibbooktitle{Proceedings of the
-  thirty-second annual ACM symposium on Theory of computing}\@. \bibaddress{New
-  York}\thinspace{}\textnormal{: }\bibpublisher{ACM}\@,
-  \bibyear{2000}\thinspace{}\textnormal{:
-  }\bibpages{171\thinspace{}\textnormal{--}\thinspace{}180}\@.
+\bibitem{bhattacharya2006entity}
+\bibauthor{BHATTACHARYA I\@, GETOOR L}\@. \bibtitle{Entity resolution in
+  graphs}\bibmark{[J]}\@. \bibjournal{Mining graph data}\@,
+  \bibyear{2006}\thinspace{}\textnormal{: }\bibpages{311}\@.
 
-\bibitem{bollobas2001random}
-\bibauthor{BOLLOB{\'A}S B}\@. \bibbooktitle{Random
-  graphs\thinspace{}\textnormal{: }Vol~73}\bibmark{[M]}\@.
-  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{Cambridge
-  university press}\@, \bibyear{2001}\@.
+\bibitem{jeh2002simrank}
+\bibauthor{JEH G\@, WIDOM J}\@. \bibtitle{SimRank: a measure of
+  structural-context similarity}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{Proceedings of the eighth ACM SIGKDD
+  international conference on Knowledge discovery and data mining}\@.
+  \bibyear{2002}\thinspace{}\textnormal{:
+  }\bibpages{538\thinspace{}\textnormal{--}\thinspace{}543}\@.
 
-\bibitem{barabasi1999emergence}
-\bibauthor{BARAB{\'A}SI A-L\@, ALBERT R}\@. \bibtitle{Emergence of scaling in
-  random networks}\bibmark{[J]}\@. \bibjournal{science}\@, \bibyear{1999}\@,
-  \bibvolume{286}\bibnumber{(5439)}\thinspace{}\textnormal{:
-  }\bibpages{509\thinspace{}\textnormal{--}\thinspace{}512}\@.
+\bibitem{page1999pagerank}
+\bibauthor{PAGE L\@, BRIN S\@, MOTWANI R, et~al}\@. \bibtitle{The PageRank
+  citation ranking: bringing order to the web.}\bibmark{[J]}\@,
+  \bibyear{1999}\@.
 
-\bibitem{erdHos1961strength}
-\bibauthor{ERD{\H{O}}S P\@, RENYI A}\@. \bibtitle{On the strength of
-  connectedness of a random graph}\bibmark{[J]}\@. \bibjournal{Acta Mathematica
-  Hungarica}\@, \bibyear{1961}\@,
-  \bibvolume{12}\bibnumber{(1)}\thinspace{}\textnormal{:
-  }\bibpages{261\thinspace{}\textnormal{--}\thinspace{}267}\@.
+\bibitem{DBLP:conf/osdi/DeanG04}
+\bibauthor{DEAN J\@, GHEMAWAT S}\@. \bibtitle{MapReduce: Simplified Data
+  Processing on Large Clusters}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{{OSDI}}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{{USENIX}
+  Association}\@, \bibyear{2004}\thinspace{}\textnormal{:
+  }\bibpages{137\thinspace{}\textnormal{--}\thinspace{}150}\@.
 
-\bibitem{NVIDIAGRID}
-\bibauthor{{NVIDIA Corporation}}\@. \bibtitle{Nvidia GRID}\bibmark{[EB/OL]}\@.
-  \bibyear{2013} \bibcitedate{[2013-03-10]}\@.
-  \newline\url{http://www.nvidia.com/object/cloud-gaming.html}\@.
+\bibitem{DBLP:conf/hotcloud/ZahariaCFSS10}
+\bibauthor{ZAHARIA M\@, CHOWDHURY M\@, FRANKLIN M~J, et~al}\@. \bibtitle{Spark:
+  Cluster Computing with Working Sets}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{HotCloud}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{{USENIX}
+  Association}\@, \bibyear{2010}\@.
 
-\bibitem{marconi1909nobel}
-\bibauthor{MARCONI G}\@. \bibtitle{Wireless telegraphic
-  communication}\bibmark{[G]} //\thinspace{}\bibbooktitle{Nobel Prize
-  address}\@. \bibyear{1909}\@.
+\bibitem{jaccard1901etude}
+\bibauthor{JACCARD P}\@. \bibbooktitle{Etude comparative de la distribution
+  florale dans une portion des Alpes et du Jura}\bibmark{[M]}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{Impr. Corbaz}\@,
+  \bibyear{1901}\@.
 
-\bibitem{barabasi2003linked}
-\bibauthor{BARAB{\'A}SI A-L}\@. \bibbooktitle{Linked: How Everything is
-  Connected to Everything Else and What It Means for Business, Science, and
-  Everyday Life}\bibmark{[M]}\@. \bibaddress{New York}\thinspace{}\textnormal{:
-  }\bibpublisher{Plume}\@, \bibyear{2003}\@.
+\bibitem{baeza1999modern}
+\bibauthor{BAEZA-YATES R\@, RIBEIRO-NETO B\@, OTHERS}\@. \bibbooktitle{Modern
+  information retrieval\thinspace{}\textnormal{: }Vol~463}\bibmark{[M]}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{ACM press New
+  York}\@, \bibyear{1999}\@.
 
-\bibitem{pool1978}
-\bibauthor{{de Sola Pool} I\@, KOCHEN M}\@. \bibtitle{Contacts and
-  influence}\bibmark{[J]}\@. \bibjournal{Social Networks}\@, \bibyear{1978}\@,
-  \bibvolume{1}\thinspace{}\textnormal{:
-  }\bibpages{5\thinspace{}\textnormal{--}\thinspace{}51}\@.
+\bibitem{dice1945measures}
+\bibauthor{DICE L~R}\@. \bibtitle{Measures of the amount of ecologic
+  association between species}\bibmark{[J]}\@. \bibjournal{Ecology}\@,
+  \bibyear{1945}\@, \bibvolume{26}\bibnumber{(3)}\thinspace{}\textnormal{:
+  }\bibpages{297\thinspace{}\textnormal{--}\thinspace{}302}\@.
 
-\bibitem{luce1949method}
-\bibauthor{LUCE R~D\@, PERRY A~D}\@. \bibtitle{A method of matrix analysis of
-  group structure}\bibmark{[J/OL]}\@. \bibjournal{Psychometrika}\@,
-  \bibyear{1949}\@, \bibvolume{14}\bibnumber{(2)}\thinspace{}\textnormal{:
-  }\bibpages{95\thinspace{}\textnormal{--}\thinspace{}116}\@.
-  \newline\url{http://dx.doi.org/10.1007/BF02289146}\@.
+\bibitem{yu2012space}
+\bibauthor{YU W\@, ZHANG W\@, LIN X, et~al}\@. \bibtitle{A space and time
+  efficient algorithm for SimRank computation}\bibmark{[J]}\@.
+  \bibjournal{World Wide Web}\@, \bibyear{2012}\@,
+  \bibvolume{15}\bibnumber{(3)}\thinspace{}\textnormal{:
+  }\bibpages{327\thinspace{}\textnormal{--}\thinspace{}353}\@.
 
-\bibitem{watts1998smallworld}
-\bibauthor{WATTS D\@, STROGATZ S}\@. \bibtitle{Collective dynamics of
-  ``small-world'' networks}\bibmark{[J/OL]}\@. \bibjournal{Nature}\@,
-  \bibyear{1998}\@, \bibvolume{393}\thinspace{}\textnormal{:
-  }\bibpages{440\thinspace{}\textnormal{--}\thinspace{}442}\@.
-  \newline\url{http://dx.doi.org/10.1038/30918}\@.
+\bibitem{kusumoto2014scalable}
+\bibauthor{KUSUMOTO M\@, MAEHARA T\@, KAWARABAYASHI K-I}\@. \bibtitle{Scalable
+  similarity search for SimRank}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{Proceedings of the 2014 ACM SIGMOD international
+  conference on Management of data}\@. \bibyear{2014}\thinspace{}\textnormal{:
+  }\bibpages{325\thinspace{}\textnormal{--}\thinspace{}336}\@.
 
-\bibitem{gyarmati2010scafida}
-\bibauthor{GYARMATI L\@, {Trinh} T}\@. \bibtitle{Scafida: A scale-free network
-  inspired data center architecture}\bibmark{[J]}\@. \bibjournal{ACM SIGCOMM
-  Computer Communication Review}\@, \bibyear{2010}\@,
-  \bibvolume{40}\bibnumber{(5)}\thinspace{}\textnormal{:
-  }\bibpages{4\thinspace{}\textnormal{--}\thinspace{}12}\@.
+\bibitem{DBLP:journals/corr/MaeharaKK14}
+\bibauthor{MAEHARA T\@, KUSUMOTO M\@, KAWARABAYASHI K}\@. \bibtitle{Efficient
+  SimRank Computation via Linearization}\bibmark{[J]}\@. \bibjournal{CoRR}\@,
+  \bibyear{2014}\@, \bibvolume{abs/1411.7228}\@.
 
-\bibitem{molloy1995critical}
-\bibauthor{MOLLOY M\@, REED B}\@. \bibtitle{A critical point for random graphs
-  with a given degree sequence}\bibmark{[J]}\@. \bibjournal{Random structures
-  \& algorithms}\@, \bibyear{1995}\@,
-  \bibvolume{6}\bibnumber{(2-3)}\thinspace{}\textnormal{:
-  }\bibpages{161\thinspace{}\textnormal{--}\thinspace{}180}\@.
+\bibitem{cao2012delta}
+\bibauthor{CAO L\@, CHO B\@, KIM H~D, et~al}\@. \bibtitle{Delta-simrank
+  computing on mapreduce}\bibmark{[C]} //\thinspace{}\bibbooktitle{Proceedings
+  of the 1st International Workshop on Big Data, Streams and Heterogeneous
+  Source Mining: Algorithms, Systems, Programming Models and Applications}\@.
+  \bibyear{2012}\thinspace{}\textnormal{:
+  }\bibpages{28\thinspace{}\textnormal{--}\thinspace{}35}\@.
 
-\bibitem{frieze1992independence}
-\bibauthor{FRIEZE A~M\@, {\L}UCZAK T}\@. \bibtitle{On the independence and
-  chromatic numbers of random regular graphs}\bibmark{[J]}\@.
-  \bibjournal{Journal of Combinatorial Theory, Series B}\@, \bibyear{1992}\@,
-  \bibvolume{54}\bibnumber{(1)}\thinspace{}\textnormal{:
-  }\bibpages{123\thinspace{}\textnormal{--}\thinspace{}132}\@.
+\bibitem{DBLP:conf/acl/RotheS14}
+\bibauthor{ROTHE S\@, SCH{\"{U}}TZE H}\@. \bibtitle{CoSimRank: {A} Flexible
+  {\&} Efficient Graph-Theoretic Similarity Measure}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{{ACL} {(1)}}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{The Association
+  for Computer Linguistics}\@, \bibyear{2014}\thinspace{}\textnormal{:
+  }\bibpages{1392\thinspace{}\textnormal{--}\thinspace{}1402}\@.
 
-\bibitem{bender1978asymptotic}
-\bibauthor{BENDER E~A\@, CANFIELD E~R}\@. \bibtitle{The asymptotic number of
-  labeled graphs with given degree sequences}\bibmark{[J]}\@.
-  \bibjournal{Journal of Combinatorial Theory, Series A}\@, \bibyear{1978}\@,
-  \bibvolume{24}\bibnumber{(3)}\thinspace{}\textnormal{:
-  }\bibpages{296\thinspace{}\textnormal{--}\thinspace{}307}\@.
-
-\bibitem{erdos1960additive}
-\bibauthor{ERD{\"O}S P\@, R{\'E}NYI A}\@. \bibtitle{Additive properties of
-  random sequences of positive integers}\bibmark{[J]}\@. \bibjournal{Acta
-  Arithmetica}\@, \bibyear{1960}\@,
-  \bibvolume{6}\bibnumber{(1)}\thinspace{}\textnormal{:
-  }\bibpages{83\thinspace{}\textnormal{--}\thinspace{}110}\@.
-
-\bibitem{vazquez2002modeling}
-\bibauthor{V{\'A}ZQUEZ A\@, FLAMMINI A\@, MARITAN A, et~al}\@.
-  \bibtitle{Modeling of protein interaction networks}\bibmark{[J]}\@.
-  \bibjournal{Complexus}\@, \bibyear{2002}\@,
+\bibitem{DBLP:journals/pvldb/AntonellisGC08}
+\bibauthor{ANTONELLIS I\@, GARCIA{-}MOLINA H\@, CHANG C}\@.
+  \bibtitle{Simrank++: query rewriting through link analysis of the click
+  graph}\bibmark{[J]}\@. \bibjournal{{PVLDB}}\@, \bibyear{2008}\@,
   \bibvolume{1}\bibnumber{(1)}\thinspace{}\textnormal{:
-  }\bibpages{38\thinspace{}\textnormal{--}\thinspace{}44}\@.
+  }\bibpages{408\thinspace{}\textnormal{--}\thinspace{}421}\@.
 
-\bibitem{sole2002model}
-\bibauthor{SOL{\'E} R~V\@, PASTOR-SATORRAS R\@, SMITH E, et~al}\@. \bibtitle{A
-  model of large-scale proteome evolution}\bibmark{[J]}\@. \bibjournal{Advances
-  in Complex Systems}\@, \bibyear{2002}\@,
-  \bibvolume{5}\bibnumber{(01)}\thinspace{}\textnormal{:
-  }\bibpages{43\thinspace{}\textnormal{--}\thinspace{}54}\@.
+\bibitem{DBLP:conf/cikm/ZhaoHS09}
+\bibauthor{ZHAO P\@, HAN J\@, SUN Y}\@. \bibtitle{P-Rank: a comprehensive
+  structural similarity measure over information networks}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{{CIKM}}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{{ACM}}\@,
+  \bibyear{2009}\thinspace{}\textnormal{:
+  }\bibpages{553\thinspace{}\textnormal{--}\thinspace{}562}\@.
 
-\bibitem{goh2002classification}
-\bibauthor{GOH K-I\@, OH E\@, JEONG H, et~al}\@. \bibtitle{Classification of
-  scale-free networks}\bibmark{[J]}\@. \bibjournal{Proceedings of the National
-  Academy of Sciences}\@, \bibyear{2002}\@,
-  \bibvolume{99}\bibnumber{(20)}\thinspace{}\textnormal{:
-  }\bibpages{12583\thinspace{}\textnormal{--}\thinspace{}12588}\@.
+\bibitem{DBLP:conf/icde/ZhuZL16}
+\bibauthor{ZHU R\@, ZOU Z\@, LI J}\@. \bibtitle{SimRank computation on
+  uncertain graphs}\bibmark{[C]} //\thinspace{}\bibbooktitle{{ICDE}}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{{IEEE} Computer
+  Society}\@, \bibyear{2016}\thinspace{}\textnormal{:
+  }\bibpages{565\thinspace{}\textnormal{--}\thinspace{}576}\@.
 
-\bibitem{anthonisse1971rush}
-\bibauthor{ANTHONISSE J~M}\@. \bibtitle{The rush in a graph}\bibmark{[J]}\@.
-  \bibjournal{Amsterdam: University of Amsterdam Mathematical Centre}\@,
-  \bibyear{1971}\@.
+\bibitem{DBLP:journals/siamsc/HendricksonL95}
+\bibauthor{HENDRICKSON B\@, LELAND R~W}\@. \bibtitle{An Improved Spectral Graph
+  Partitioning Algorithm for Mapping Parallel Computations}\bibmark{[J]}\@.
+  \bibjournal{{SIAM} J. Scientific Computing}\@, \bibyear{1995}\@,
+  \bibvolume{16}\bibnumber{(2)}\thinspace{}\textnormal{:
+  }\bibpages{452\thinspace{}\textnormal{--}\thinspace{}469}\@.
 
-\bibitem{freeman1977set}
-\bibauthor{FREEMAN L~C}\@. \bibtitle{A set of measures of centrality based on
-  betweenness}\bibmark{[J]}\@. \bibjournal{Sociometry}\@,
-  \bibyear{1977}\thinspace{}\textnormal{:
-  }\bibpages{35\thinspace{}\textnormal{--}\thinspace{}41}\@.
+\bibitem{kernighan1970efficient}
+\bibauthor{KERNIGHAN B~W\@, LIN S}\@. \bibtitle{An efficient heuristic
+  procedure for partitioning graphs}\bibmark{[J]}\@. \bibjournal{The Bell
+  system technical journal}\@, \bibyear{1970}\@,
+  \bibvolume{49}\bibnumber{(2)}\thinspace{}\textnormal{:
+  }\bibpages{291\thinspace{}\textnormal{--}\thinspace{}307}\@.
 
-\bibitem{goh2001universal}
-\bibauthor{GOH K-I\@, KAHNG B\@, KIM D}\@. \bibtitle{Universal behavior of load
-  distribution in scale-free networks}\bibmark{[J]}\@. \bibjournal{Physical
-  Review Letters}\@, \bibyear{2001}\@,
-  \bibvolume{87}\bibnumber{(27)}\thinspace{}\textnormal{: }\bibpages{278701}\@.
+\bibitem{fiduccia1988linear}
+\bibauthor{FIDUCCIA C~M\@, MATTHEYSES R~M}\@. \bibtitle{A linear-time heuristic
+  for improving network partitions}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{Papers on Twenty-five years of electronic design
+  automation}\@. \bibyear{1988}\thinspace{}\textnormal{:
+  }\bibpages{241\thinspace{}\textnormal{--}\thinspace{}247}\@.
 
-\bibitem{adamic2000power}
-\bibauthor{ADAMIC L~A\@, HUBERMAN B~A}\@. \bibtitle{Power-law distribution of
-  the world wide web}\bibmark{[J]}\@. \bibjournal{Science}\@, \bibyear{2000}\@,
-  \bibvolume{287}\bibnumber{(5461)}\thinspace{}\textnormal{:
-  }\bibpages{2115\thinspace{}\textnormal{--}\thinspace{}2115}\@.
+\bibitem{Karypis95metis}
+\bibauthor{KARYPIS G\@, KUMAR V}\@. \bibtitle{METIS -- Unstructured Graph
+  Partitioning and Sparse Matrix Ordering System, Version 2.0}\bibmark{[R]}\@.
+  \bibyear{1995}\@.
 
-\bibitem{bianconi2001competition}
-\bibauthor{BIANCONI G\@, BARAB{\'A}SI A-L}\@. \bibtitle{Competition and
-  multiscaling in evolving networks}\bibmark{[J]}\@. \bibjournal{EPL
-  (Europhysics Letters)}\@, \bibyear{2001}\@,
-  \bibvolume{54}\bibnumber{(4)}\thinspace{}\textnormal{: }\bibpages{436}\@.
+\bibitem{DBLP:conf/nsdi/ZahariaCDDMMFSS12}
+\bibauthor{ZAHARIA M\@, CHOWDHURY M\@, DAS T, et~al}\@. \bibtitle{Resilient
+  Distributed Datasets: {A} Fault-Tolerant Abstraction for In-Memory Cluster
+  Computing}\bibmark{[C]} //\thinspace{}\bibbooktitle{{NSDI}}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{{USENIX}
+  Association}\@, \bibyear{2012}\thinspace{}\textnormal{:
+  }\bibpages{15\thinspace{}\textnormal{--}\thinspace{}28}\@.
 
-\bibitem{krapivsky2000connectivity}
-\bibauthor{KRAPIVSKY P~L\@, REDNER S\@, LEYVRAZ F}\@. \bibtitle{Connectivity of
-  growing random networks}\bibmark{[J]}\@. \bibjournal{Physical review
-  letters}\@, \bibyear{2000}\@,
-  \bibvolume{85}\bibnumber{(21)}\thinspace{}\textnormal{: }\bibpages{4629}\@.
+\bibitem{DBLP:conf/osdi/GonzalezXDCFS14}
+\bibauthor{GONZALEZ J~E\@, XIN R~S\@, DAVE A, et~al}\@. \bibtitle{GraphX: Graph
+  Processing in a Distributed Dataflow Framework}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{{OSDI}}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{{USENIX}
+  Association}\@, \bibyear{2014}\thinspace{}\textnormal{:
+  }\bibpages{599\thinspace{}\textnormal{--}\thinspace{}613}\@.
 
-\bibitem{dorogovtsev2000structure}
-\bibauthor{DOROGOVTSEV S~N\@, MENDES J~F~F\@, SAMUKHIN A~N}\@.
-  \bibtitle{Structure of growing networks with preferential
-  linking}\bibmark{[J]}\@. \bibjournal{Physical Review Letters}\@,
-  \bibyear{2000}\@, \bibvolume{85}\bibnumber{(21)}\thinspace{}\textnormal{:
-  }\bibpages{4633}\@.
+\bibitem{fogaras2005scaling}
+\bibauthor{FOGARAS D\@, R{\'A}CZ B}\@. \bibtitle{Scaling link-based similarity
+  search}\bibmark{[C]} //\thinspace{}\bibbooktitle{Proceedings of the 14th
+  international conference on World Wide Web}\@.
+  \bibyear{2005}\thinspace{}\textnormal{:
+  }\bibpages{641\thinspace{}\textnormal{--}\thinspace{}650}\@.
 
-\bibitem{barabasi2000scale}
-\bibauthor{BARAB{\'A}SI A-L\@, ALBERT R\@, JEONG H}\@. \bibtitle{Scale-free
-  characteristics of random networks: the topology of the world-wide
-  web}\bibmark{[J]}\@. \bibjournal{Physica A: Statistical Mechanics and its
-  Applications}\@, \bibyear{2000}\@,
-  \bibvolume{281}\bibnumber{(1)}\thinspace{}\textnormal{:
-  }\bibpages{69\thinspace{}\textnormal{--}\thinspace{}77}\@.
+\bibitem{lee2012top}
+\bibauthor{LEE P\@, LAKSHMANAN L~V\@, YU J~X}\@. \bibtitle{On top-k structural
+  similarity search}\bibmark{[C]} //\thinspace{}\bibbooktitle{2012 IEEE 28th
+  International Conference on Data Engineering}\@.
+  \bibyear{2012}\thinspace{}\textnormal{:
+  }\bibpages{774\thinspace{}\textnormal{--}\thinspace{}785}\@.
 
-\bibitem{price1965statistical}
-\bibauthor{PRICE D}\@. \bibtitle{Statistical studies of networks of scientific
-  papers}\bibmark{[C]} //\thinspace{}\bibbooktitle{Statistical Association
-  Methods for Mechanized Documentation: Symposium
-  Proceedings\thinspace{}\textnormal{: }Vol~269}\@.
-  \bibyear{1965}\thinspace{}\textnormal{: }\bibpages{187}\@.
+\bibitem{DBLP:journals/pvldb/LiFLCCL15}
+\bibauthor{LI Z\@, FANG Y\@, LIU Q, et~al}\@. \bibtitle{Walking in the Cloud:
+  Parallel SimRank at Scale}\bibmark{[J]}\@. \bibjournal{{PVLDB}}\@,
+  \bibyear{2015}\@, \bibvolume{9}\bibnumber{(1)}\thinspace{}\textnormal{:
+  }\bibpages{24\thinspace{}\textnormal{--}\thinspace{}35}\@.
 
-\bibitem{redner1998popular}
-\bibauthor{REDNER S}\@. \bibtitle{How popular is your paper? An empirical study
-  of the citation distribution}\bibmark{[J]}\@. \bibjournal{The European
-  Physical Journal B-Condensed Matter and Complex Systems}\@, \bibyear{1998}\@,
-  \bibvolume{4}\bibnumber{(2)}\thinspace{}\textnormal{:
-  }\bibpages{131\thinspace{}\textnormal{--}\thinspace{}134}\@.
-
-\bibitem{merton1968matthew}
-\bibauthor{MERTON R~K}\@. \bibtitle{The Matthew effect in
-  science}\bibmark{[J]}\@. \bibjournal{Science}\@, \bibyear{1968}\@,
-  \bibvolume{159}\bibnumber{(3810)}\thinspace{}\textnormal{:
-  }\bibpages{56\thinspace{}\textnormal{--}\thinspace{}63}\@.
-
-\bibitem{gilbert1959random}
-\bibauthor{GILBERT E~N}\@. \bibtitle{Random Graphs}\bibmark{[J/OL]}\@.
-  \bibjournal{Annals of Mathematical Statistics}\@, \bibyear{1959}\@,
-  \bibvolume{30}\bibnumber{(4)}\thinspace{}\textnormal{:
-  }\bibpages{1141\thinspace{}\textnormal{--}\thinspace{}1144}\@.
-  \newline\url{http://dx.doi.org/10.1214/aoms/1177706098}\@.
-
-\bibitem{erdos1959random}
-\bibauthor{ERD{\H{O}}S P\@, R{\'E}NYI A}\@. \bibtitle{On Random Graphs.
-  I}\bibmark{[J/OL]}\@. \bibjournal{Publicationes Mathematicae}\@,
-  \bibyear{1959}\@, \bibvolume{6}\thinspace{}\textnormal{:
-  }\bibpages{290\thinspace{}\textnormal{--}\thinspace{}297}\@.
-  \newline\url{http://www.renyi.hu/~p_erdos/1959-11.pdf}\@.
+\bibitem{li2010fast}
+\bibauthor{LI P\@, LIU H\@, YU J~X, et~al}\@. \bibtitle{Fast Single-Pair
+  SimRank Computation.}\bibmark{[C]} //\thinspace{}\bibbooktitle{SDM}\@.
+  \bibyear{2010}\thinspace{}\textnormal{:
+  }\bibpages{571\thinspace{}\textnormal{--}\thinspace{}582}\@.
 
 \bibitem{li2005towards}
 \bibauthor{LI L\@, ALDERSON D\@, DOYLE J~C, et~al}\@. \bibtitle{Towards a
@@ -246,282 +221,205 @@
   \bibyear{2005}\@, \bibvolume{2}\bibnumber{(4)}\thinspace{}\textnormal{:
   }\bibpages{431\thinspace{}\textnormal{--}\thinspace{}523}\@.
 
-\bibitem{solomonoff1951connectivity}
-\bibauthor{SOLOMONOFF R\@, RAPOPORT A}\@. \bibtitle{Connectivity of random
-  nets}\bibmark{[J/OL]}\@. \bibjournal{The bulletin of mathematical
-  biophysics}\@, \bibyear{1951}\@,
-  \bibvolume{13}\bibnumber{(2)}\thinspace{}\textnormal{:
-  }\bibpages{107\thinspace{}\textnormal{--}\thinspace{}117}\@.
-  \newline\url{http://dx.doi.org/10.1007/BF02478357}\@.
+\bibitem{lizorkin2008accuracy}
+\bibauthor{LIZORKIN D\@, VELIKHOV P\@, GRINEV M, et~al}\@. \bibtitle{Accuracy
+  estimate and optimization techniques for simrank computation}\bibmark{[J]}\@.
+  \bibjournal{Proceedings of the VLDB Endowment}\@, \bibyear{2008}\@,
+  \bibvolume{1}\bibnumber{(1)}\thinspace{}\textnormal{:
+  }\bibpages{422\thinspace{}\textnormal{--}\thinspace{}433}\@.
 
-\bibitem{albert1999diameter}
-\bibauthor{ALBERT R\@, JEONG H\@, BARAB{\'A}SI A-L}\@. \bibtitle{The diameter
-  of the world wide web}\bibmark{[J/OL]}\@, \bibyear{1999}\@,
-  \bibvolume{401}\thinspace{}\textnormal{:
-  }\bibpages{130\thinspace{}\textnormal{--}\thinspace{}131}\@.
-  \newline\url{http://dx.doi.org/10.1038/43601}\@.
+\bibitem{DBLP:conf/sc/HongRO13}
+\bibauthor{HONG S\@, RODIA N~C\@, OLUKOTUN K}\@. \bibtitle{On fast parallel
+  detection of strongly connected components {(SCC)} in small-world
+  graphs}\bibmark{[C]} //\thinspace{}\bibbooktitle{{SC}}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{{ACM}}\@,
+  \bibyear{2013}\thinspace{}\textnormal{:
+  }\bibpages{92:1\thinspace{}\textnormal{--}\thinspace{}92:11}\@.
 
-\bibitem{wang2003complex}
-\bibauthor{WANG X~F\@, CHEN G}\@. \bibtitle{Complex networks: small-world,
-  scale-free and beyond}\bibmark{[J/OL]}\@. \bibjournal{Circuits and Systems
-  Magazine, IEEE}\@, \bibyear{2003}\@,
-  \bibvolume{3}\bibnumber{(1)}\thinspace{}\textnormal{:
-  }\bibpages{6\thinspace{}\textnormal{--}\thinspace{}20}\@.
-  \newline\url{http://dx.doi.org/10.1109/MCAS.2003.1228503}\@.
+\bibitem{DBLP:journals/corr/abs-1011-0468}
+\bibauthor{KOLOUNTZAKIS M~N\@, MILLER G~L\@, PENG R, et~al}\@.
+  \bibtitle{Efficient Triangle Counting in Large Graphs via Degree-based Vertex
+  Partitioning}\bibmark{[J]}\@. \bibjournal{CoRR}\@, \bibyear{2010}\@,
+  \bibvolume{abs/1011.0468}\@.
 
-\bibitem{leskovec2008msn}
-\bibauthor{LESKOVEC J\@, HORVITZ E}\@. \bibtitle{Planetary-Scale Views on a
-  Large Instant-Messaging Network}\bibmark{[C]}
-  //\thinspace{}\bibbooktitle{Proceedings of the 17th international conference
-  on World Wide Web}\@. \bibaddress{New York}\thinspace{}\textnormal{:
-  }\bibpublisher{ACM}\@, \bibyear{2008}\@.
+\bibitem{garey1974somenp}
+\bibauthor{GAREY M~R\@, JOHNSON D~S\@, STOCKMEYER L}\@. \bibtitle{Some
+  simplified NP-complete problems}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{Proceedings of the sixth annual ACM symposium on
+  Theory of computing}\@. \bibyear{1974}\thinspace{}\textnormal{:
+  }\bibpages{47\thinspace{}\textnormal{--}\thinspace{}63}\@.
 
-\bibitem{leskovec2007msn}
-\bibauthor{LESKOVEC J\@, HORVITZ E}\@. \bibtitle{Worldwide Buzz:
-  Planetary-Scale Views on an Instant-Messaging Network}\bibmark{[R]}\@.
-  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibinstitution{Microsoft
-  Research}\@, \bibyear{2007}\@.
+\bibitem{johnson1989optimization}
+\bibauthor{JOHNSON D~S\@, ARAGON C~R\@, MCGEOCH L~A, et~al}\@.
+  \bibtitle{Optimization by simulated annealing: an experimental evaluation;
+  part I, graph partitioning}\bibmark{[J]}\@. \bibjournal{Operations
+  research}\@, \bibyear{1989}\@,
+  \bibvolume{37}\bibnumber{(6)}\thinspace{}\textnormal{:
+  }\bibpages{865\thinspace{}\textnormal{--}\thinspace{}892}\@.
 
-\bibitem{fass1996bacon}
-\bibauthor{FASS C\@, TURTLE B\@, GINELLI M}\@. \bibbooktitle{Six Degrees of
-  {K}evin {B}acon}\bibmark{[M]}\@. \bibaddress{New York
-  City}\thinspace{}\textnormal{: }\bibpublisher{Plume}\@, \bibyear{1996}\@.
+\bibitem{bui1996genetic}
+\bibauthor{BUI T~N\@, MOON B~R}\@. \bibtitle{Genetic algorithm and graph
+  partitioning}\bibmark{[J]}\@. \bibjournal{IEEE Transactions on computers}\@,
+  \bibyear{1996}\@, \bibvolume{45}\bibnumber{(7)}\thinspace{}\textnormal{:
+  }\bibpages{841\thinspace{}\textnormal{--}\thinspace{}855}\@.
 
-\bibitem{reynolds2011bacon}
-\bibauthor{REYNOLDS P}\@. \bibtitle{The Oracle of {B}acon}\bibmark{[EB/OL]}\@.
-  \bibcitedate{[2011-07-12]}\@.
-  \newline\url{http://oracleofbacon.org/cgi-bin/center-cgi?who=Kevin+Bacon}\@.
+\bibitem{leland1995chaco}
+\bibauthor{LELAND B~H~R\@, HENDRICKSON B}\@. \bibtitle{The Chaco user’s
+  guide: version 2.0}\bibmark{[R]}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibinstitution{Tech. Rep.
+  SAND94-2692, Sandia National Labs, Albuquerque, NM}\@, \bibyear{1995}\@.
 
-\bibitem{newman2001structure}
-\bibauthor{NEWMAN M}\@. \bibtitle{The structure of scientific collaboration
-  networks}\bibmark{[J/OL]}\@. \bibjournal{Proceedings of the National Academy
-  of Sciences}\@, \bibyear{2001}\@,
-  \bibvolume{98}\bibnumber{(2)}\thinspace{}\textnormal{:
-  }\bibpages{404\thinspace{}\textnormal{--}\thinspace{}409}\@.
-  \newline\url{http://dx.doi.org/10.1073/pnas.98.2.404}\@.
+\bibitem{pellegrini1996scotch}
+\bibauthor{PELLEGRINI F\@, ROMAN J}\@. \bibtitle{Scotch: A software package for
+  static mapping by dual recursive bipartitioning of process and architecture
+  graphs}\bibmark{[C]} //\thinspace{}\bibbooktitle{International Conference on
+  High-Performance Computing and Networking}\@.
+  \bibyear{1996}\thinspace{}\textnormal{:
+  }\bibpages{493\thinspace{}\textnormal{--}\thinspace{}498}\@.
 
-\bibitem{grossman2011erdos}
-\bibauthor{GROSSMAN J}\@. \bibtitle{Publications of {P}aul
-  {E}rd{\H{o}}s}\bibmark{[EB/OL]}\@.  \bibcitedate{[2011-02-01]}\@.
-  \newline\url{http://www.oakland.edu/enp/pubinfo/}\@.
+\bibitem{karypis1998parallel}
+\bibauthor{KARYPIS G\@, KUMAR V}\@. \bibtitle{A parallel algorithm for
+  multilevel graph partitioning and sparse matrix ordering}\bibmark{[J]}\@.
+  \bibjournal{Journal of Parallel and Distributed Computing}\@,
+  \bibyear{1998}\@, \bibvolume{48}\bibnumber{(1)}\thinspace{}\textnormal{:
+  }\bibpages{71\thinspace{}\textnormal{--}\thinspace{}95}\@.
 
-\bibitem{oakland2009erdos}
-\bibauthor{UNIVERSITY O}\@. \bibtitle{The {E}rd{\H{o}}s Number Project Data
-  Files}\bibmark{[EB/OL]}\@. \bibyear{2009} \bibcitedate{[2010-05-29]}\@.
-  \newline\url{http://www.oakland.edu/enp/thedata/}\@.
+\bibitem{chevalier2008pt}
+\bibauthor{CHEVALIER C\@, PELLEGRINI F}\@. \bibtitle{PT-Scotch: A tool for
+  efficient parallel graph ordering}\bibmark{[J]}\@. \bibjournal{Parallel
+  computing}\@, \bibyear{2008}\@,
+  \bibvolume{34}\bibnumber{(6-8)}\thinspace{}\textnormal{:
+  }\bibpages{318\thinspace{}\textnormal{--}\thinspace{}331}\@.
 
-\bibitem{goffman1969erdos}
-\bibauthor{GOFFMAN C}\@. \bibtitle{And what is your {E}rd{\H{o}}s
-  number?}\bibmark{[J]}\@. \bibjournal{American Mathematical Monthly}\@,
-  \bibyear{1969}\@, \bibvolume{76}\bibnumber{(7)}\thinspace{}\textnormal{:
-  }\bibpages{791}\@.
+\bibitem{malewicz2010pregel}
+\bibauthor{MALEWICZ G\@, AUSTERN M~H\@, BIK A~J, et~al}\@. \bibtitle{Pregel: a
+  system for large-scale graph processing}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{Proceedings of the 2010 ACM SIGMOD International
+  Conference on Management of data}\@. \bibyear{2010}\thinspace{}\textnormal{:
+  }\bibpages{135\thinspace{}\textnormal{--}\thinspace{}146}\@.
 
-\bibitem{milgram1967small}
-\bibauthor{MILGRAM S}\@. \bibtitle{The Small World Problem}\bibmark{[J]}\@.
-  \bibjournal{Psychology Today}\@, \bibyear{1967}\@,
-  \bibvolume{2}\thinspace{}\textnormal{:
-  }\bibpages{60\thinspace{}\textnormal{--}\thinspace{}67}\@.
+\bibitem{shao2012trinity}
+\bibauthor{SHAO B\@, WANG H\@, LI Y}\@. \bibtitle{The trinity graph
+  engine}\bibmark{[J]}\@. \bibjournal{Microsoft Research}\@, \bibyear{2012}\@,
+  \bibvolume{54}\@.
 
-\bibitem{travers1969experimental}
-\bibauthor{TRAVERS J\@, MILGRAM S}\@. \bibtitle{An Experimental Study of the
-  Small World Problem}\bibmark{[J]}\@. \bibjournal{Sociometry}\@,
-  \bibyear{1969}\@, \bibvolume{32}\bibnumber{(4)}\thinspace{}\textnormal{:
-  }\bibpages{425\thinspace{}\textnormal{--}\thinspace{}443}\@.
+\bibitem{raghavan2007near}
+\bibauthor{RAGHAVAN U~N\@, ALBERT R\@, KUMARA S}\@. \bibtitle{Near linear time
+  algorithm to detect community structures in large-scale
+  networks}\bibmark{[J]}\@. \bibjournal{Physical review E}\@, \bibyear{2007}\@,
+  \bibvolume{76}\bibnumber{(3)}\thinspace{}\textnormal{: }\bibpages{036106}\@.
 
-\bibitem{gurevich1961phd}
-\bibauthor{GUREVICH M}\@. \bibtitle{The Social Structure of Acquaintanceship
-  Networks}\bibmark{[D]}\@. \bibaddress{Cambridge, MA}\thinspace{}\textnormal{:
-  }\bibschool{Massachusetts Institute of Technology}\@, \bibyear{1961}\@.
+\bibitem{newman2006modularity}
+\bibauthor{NEWMAN M~E}\@. \bibtitle{Modularity and community structure in
+  networks}\bibmark{[J]}\@. \bibjournal{Proceedings of the national academy of
+  sciences}\@, \bibyear{2006}\@,
+  \bibvolume{103}\bibnumber{(23)}\thinspace{}\textnormal{:
+  }\bibpages{8577\thinspace{}\textnormal{--}\thinspace{}8582}\@.
 
-\bibitem{herrera2011generating}
-\bibauthor{HERRERA C\@, ZUFIRIA P~J}\@. \bibtitle{Generating scale-free
-  networks with adjustable clustering coefficient via random
-  walks}\bibmark{[C]} //\thinspace{}\bibbooktitle{Network Science Workshop
-  (NSW), 2011 IEEE}\@. \bibyear{2011}\thinspace{}\textnormal{:
-  }\bibpages{167\thinspace{}\textnormal{--}\thinspace{}172}\@.
+\bibitem{DBLP:conf/icde/WangXSW14}
+\bibauthor{WANG L\@, XIAO Y\@, SHAO B, et~al}\@. \bibtitle{How to partition a
+  billion-node graph}\bibmark{[C]} //\thinspace{}\bibbooktitle{{ICDE}}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{{IEEE} Computer
+  Society}\@, \bibyear{2014}\thinspace{}\textnormal{:
+  }\bibpages{568\thinspace{}\textnormal{--}\thinspace{}579}\@.
 
-\bibitem{greenberg2008towards}
-\bibauthor{GREENBERG A\@, LAHIRI P\@, MALTZ D~A, et~al}\@. \bibtitle{Towards a
-  next generation data center architecture: scalability and
-  commoditization}\bibmark{[C]} //\thinspace{}\bibbooktitle{Proceedings of the
-  ACM workshop on Programmable routers for extensible services of tomorrow}\@.
-  \bibyear{2008}\thinspace{}\textnormal{:
-  }\bibpages{57\thinspace{}\textnormal{--}\thinspace{}62}\@.
-
-\bibitem{leighton1992introduction}
-\bibauthor{LEIGHTON F~T}\@. \bibbooktitle{Introduction to parallel algorithms
-  and architectures}\bibmark{[M]}\@.
-  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{Morgan Kaufmann
-  San Francisco}\@, \bibyear{1992}\@.
-
-\bibitem{guo2009bcube}
-\bibauthor{GUO C\@, LU G\@, LI D, et~al}\@. \bibtitle{BCube: a high
-  performance, server-centric network architecture for modular data
-  centers}\bibmark{[J]}\@. \bibjournal{ACM SIGCOMM Computer Communication
-  Review}\@, \bibyear{2009}\@,
-  \bibvolume{39}\bibnumber{(4)}\thinspace{}\textnormal{:
-  }\bibpages{63\thinspace{}\textnormal{--}\thinspace{}74}\@.
-
-\bibitem{guo2008dcell}
-\bibauthor{GUO C\@, WU H\@, TAN K, et~al}\@. \bibtitle{Dcell: a scalable and
-  fault-tolerant network structure for data centers}\bibmark{[C]}
-  //\thinspace{}\bibbooktitle{ACM SIGCOMM Computer Communication
-  Review\thinspace{}\textnormal{: }Vol~38}\@.
-  \bibyear{2008}\thinspace{}\textnormal{:
-  }\bibpages{75\thinspace{}\textnormal{--}\thinspace{}86}\@.
-
-\bibitem{lockwood2007netfpga}
-\bibauthor{LOCKWOOD J~W\@, MCKEOWN N\@, WATSON G, et~al}\@.
-  \bibtitle{NetFPGA--an open platform for gigabit-rate network switching and
-  routing}\bibmark{[C]} //\thinspace{}\bibbooktitle{Microelectronic Systems
-  Education, 2007. MSE'07. IEEE International Conference on}\@.
-  \bibyear{2007}\thinspace{}\textnormal{:
-  }\bibpages{160\thinspace{}\textnormal{--}\thinspace{}161}\@.
-
-\bibitem{VDE}
-\bibauthor{{SourceForge}}\@. \bibtitle{VDE: Virtual Distributed
-  Ethernet}\bibmark{[CP/OL]}\@. \bibyear{2013} \bibcitedate{[2013-03-09]}\@.
-  \newline\url{https://vde.sourceforge.net}\@.
-
-\bibitem{QUAGGA}
-\bibtitle{{Quagga} Routing Suite}\bibmark{[EB/OL]}\@.
-  \bibcitedate{[2013-03-09]}\@. \newline\url{http://www.nongnu.org/quagga/}\@.
-
-\bibitem{kohler2000click}
-\bibauthor{KOHLER E\@, MORRIS R\@, CHEN B, et~al}\@. \bibtitle{The Click
-  modular router}\bibmark{[J]}\@. \bibjournal{ACM Transactions on Computer
-  Systems (TOCS)}\@, \bibyear{2000}\@,
-  \bibvolume{18}\bibnumber{(3)}\thinspace{}\textnormal{:
-  }\bibpages{263\thinspace{}\textnormal{--}\thinspace{}297}\@.
-
-\bibitem{han2010packetshader}
-\bibauthor{HAN S\@, JANG K\@, PARK K, et~al}\@. \bibtitle{PacketShader: a
-  GPU-accelerated software router}\bibmark{[J]}\@. \bibjournal{ACM SIGCOMM
-  Computer Communication Review}\@, \bibyear{2010}\@,
-  \bibvolume{40}\bibnumber{(4)}\thinspace{}\textnormal{:
-  }\bibpages{195\thinspace{}\textnormal{--}\thinspace{}206}\@.
-
-\bibitem{dobrescu2009routebricks}
-\bibauthor{DOBRESCU M\@, EGI N\@, ARGYRAKI K, et~al}\@. \bibtitle{RouteBricks:
-  exploiting parallelism to scale software routers}\bibmark{[C]}
-  //\thinspace{}\bibbooktitle{Proceedings of the ACM SIGOPS 22nd symposium on
-  Operating systems principles}\@. \bibyear{2009}\thinspace{}\textnormal{:
-  }\bibpages{15\thinspace{}\textnormal{--}\thinspace{}28}\@.
-
-\bibitem{hu2011review}
-\bibauthor{{HU Fei}\@, {QIU Meikang}\@, {LI Jiayin}, et~al}\@. \bibtitle{A
-  Review on cloud computing: Design challenges in Architecture and
-  Security}\bibmark{[J]}\@. \bibjournal{Journal of Computing and Information
-  Technology}\@, \bibyear{2011}\@,
+\bibitem{lizorkin2010accuracy}
+\bibauthor{LIZORKIN D\@, VELIKHOV P\@, GRINEV M, et~al}\@. \bibtitle{Accuracy
+  estimate and optimization techniques for SimRank computation}\bibmark{[J]}\@.
+  \bibjournal{The VLDB Journal—The International Journal on Very Large Data
+  Bases}\@, \bibyear{2010}\@,
   \bibvolume{19}\bibnumber{(1)}\thinspace{}\textnormal{:
-  }\bibpages{25\thinspace{}\textnormal{--}\thinspace{}55}\@.
+  }\bibpages{45\thinspace{}\textnormal{--}\thinspace{}66}\@.
 
-\bibitem{varia2010architecting}
-\bibauthor{VARIA J}\@. \bibtitle{Architecting for the cloud: Best
-  practices}\bibmark{[R]}\@. \bibaddress{[S.l.]}\thinspace{}\textnormal{:
-  }\bibinstitution{Amazon Web Services}\@, \bibyear{2010}\@.
+\bibitem{he2010parallel}
+\bibauthor{HE G\@, FENG H\@, LI C, et~al}\@. \bibtitle{Parallel SimRank
+  computation on large graphs with iterative aggregation}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{Proceedings of the 16th ACM SIGKDD international
+  conference on Knowledge discovery and data mining}\@.
+  \bibyear{2010}\thinspace{}\textnormal{:
+  }\bibpages{543\thinspace{}\textnormal{--}\thinspace{}552}\@.
 
-\bibitem{greenberg2009vl2}
-\bibauthor{GREENBERG A\@, HAMILTON J~R\@, JAIN N, et~al}\@. \bibtitle{VL2: a
-  scalable and flexible data center network}\bibmark{[C]}
-  //\thinspace{}\bibbooktitle{ACM SIGCOMM Computer Communication
-  Review\thinspace{}\textnormal{: }Vol~39}\@.
-  \bibyear{2009}\thinspace{}\textnormal{:
-  }\bibpages{51\thinspace{}\textnormal{--}\thinspace{}62}\@.
+\bibitem{li2010fast1}
+\bibauthor{LI C\@, HAN J\@, HE G, et~al}\@. \bibtitle{Fast computation of
+  simrank for static and dynamic information networks}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{Proceedings of the 13th International Conference
+  on Extending Database Technology}\@. \bibyear{2010}\thinspace{}\textnormal{:
+  }\bibpages{465\thinspace{}\textnormal{--}\thinspace{}476}\@.
 
-\bibitem{al2008scalable}
-\bibauthor{AL-FARES M\@, LOUKISSAS A\@, VAHDAT A}\@. \bibtitle{A scalable,
-  commodity data center network architecture}\bibmark{[C]}
-  //\thinspace{}\bibbooktitle{ACM SIGCOMM Computer Communication
-  Review\thinspace{}\textnormal{: }Vol~38}\@.
-  \bibyear{2008}\thinspace{}\textnormal{:
-  }\bibpages{63\thinspace{}\textnormal{--}\thinspace{}74}\@.
+\bibitem{yu2013towards}
+\bibauthor{YU W\@, LIN X\@, ZHANG W}\@. \bibtitle{Towards efficient SimRank
+  computation on large networks}\bibmark{[C]} //\thinspace{}\bibbooktitle{Data
+  Engineering (ICDE), 2013 IEEE 29th International Conference on}\@.
+  \bibyear{2013}\thinspace{}\textnormal{:
+  }\bibpages{601\thinspace{}\textnormal{--}\thinspace{}612}\@.
 
-\bibitem{pallis2006insight}
-\bibauthor{PALLIS G\@, VAKALI A}\@. \bibtitle{Insight and perspectives for
-  content delivery networks}\bibmark{[J]}\@. \bibjournal{Communications of the
-  ACM}\@, \bibyear{2006}\@,
-  \bibvolume{49}\bibnumber{(1)}\thinspace{}\textnormal{:
-  }\bibpages{101\thinspace{}\textnormal{--}\thinspace{}106}\@.
+\bibitem{he2014assessing}
+\bibauthor{HE J\@, LIU H\@, YU J~X, et~al}\@. \bibtitle{Assessing single-pair
+  similarity over graphs by aggregating first-meeting
+  probabilities}\bibmark{[J]}\@. \bibjournal{Information Systems}\@,
+  \bibyear{2014}\@, \bibvolume{42}\thinspace{}\textnormal{:
+  }\bibpages{107\thinspace{}\textnormal{--}\thinspace{}122}\@.
 
-\bibitem{Dean2009}
-\bibauthor{DEAN J}\@. \bibtitle{Designs, Lessons, and Advice from Building
-  Large Distributed Systems.}\bibmark{[J]}\@. \bibjournal{Keynote from LADIS
-  2009}\@, \bibyear{2009}\@.
+\bibitem{zaharia2012resilient}
+\bibauthor{ZAHARIA M\@, CHOWDHURY M\@, DAS T, et~al}\@. \bibtitle{Resilient
+  distributed datasets: A fault-tolerant abstraction for in-memory cluster
+  computing}\bibmark{[C]} //\thinspace{}\bibbooktitle{Proceedings of the 9th
+  USENIX conference on Networked Systems Design and Implementation}\@.
+  \bibyear{2012}\thinspace{}\textnormal{:
+  }\bibpages{2\thinspace{}\textnormal{--}\thinspace{}2}\@.
 
-\bibitem{broder2000graph}
-\bibauthor{BRODER A\@, KUMAR R\@, MAGHOUL F, et~al}\@. \bibtitle{Graph
-  structure in the web}\bibmark{[J]}\@. \bibjournal{Computer networks}\@,
-  \bibyear{2000}\@, \bibvolume{33}\bibnumber{(1)}\thinspace{}\textnormal{:
-  }\bibpages{309\thinspace{}\textnormal{--}\thinspace{}320}\@.
+\bibitem{karypis1995analysis}
+\bibauthor{KARYPIS G\@, KUMAR V}\@. \bibtitle{Analysis of multilevel graph
+  partitioning}\bibmark{[C]} //\thinspace{}\bibbooktitle{Supercomputing, 1995.
+  Proceedings of the IEEE/ACM SC95 Conference}\@.
+  \bibyear{1995}\thinspace{}\textnormal{:
+  }\bibpages{29\thinspace{}\textnormal{--}\thinspace{}29}\@.
 
-\bibitem{kleinberg1999authoritative}
-\bibauthor{KLEINBERG J~M}\@. \bibtitle{Authoritative sources in a hyperlinked
-  environment}\bibmark{[J]}\@. \bibjournal{Journal of the ACM (JACM)}\@,
-  \bibyear{1999}\@, \bibvolume{46}\bibnumber{(5)}\thinspace{}\textnormal{:
-  }\bibpages{604\thinspace{}\textnormal{--}\thinspace{}632}\@.
+\bibitem{barber2009detecting}
+\bibauthor{BARBER M~J\@, CLARK J~W}\@. \bibtitle{Detecting network communities
+  by propagating labels under constraints}\bibmark{[J]}\@. \bibjournal{Physical
+  Review E}\@, \bibyear{2009}\@,
+  \bibvolume{80}\bibnumber{(2)}\thinspace{}\textnormal{: }\bibpages{026129}\@.
 
-\bibitem{Kleinberg00thesmall-world}
-\bibauthor{KLEINBERG J}\@. \bibtitle{The Small-World Phenomenon: An Algorithmic
-  Perspective}\bibmark{[C]} //\thinspace{}\bibbooktitle{in Proceedings of the
-  32nd ACM Symposium on Theory of Computing}\@.
-  \bibyear{2000}\thinspace{}\textnormal{:
-  }\bibpages{163\thinspace{}\textnormal{--}\thinspace{}170}\@.
+\bibitem{leung2009towards}
+\bibauthor{LEUNG I~X\@, HUI P\@, LIO P, et~al}\@. \bibtitle{Towards real-time
+  community detection in large networks}\bibmark{[J]}\@. \bibjournal{Physical
+  Review E}\@, \bibyear{2009}\@,
+  \bibvolume{79}\bibnumber{(6)}\thinspace{}\textnormal{: }\bibpages{066107}\@.
 
-\bibitem{1967Milgram}
-\bibauthor{MILGRAM S}\@. \bibtitle{The Small World Problem}\bibmark{[J]}\@.
-  \bibjournal{Psychology Today}\@, \bibyear{1967}\@,
-  \bibvolume{2}\thinspace{}\textnormal{:
-  }\bibpages{60\thinspace{}\textnormal{--}\thinspace{}67}\@.
+\bibitem{liu2009does}
+\bibauthor{LIU X\@, MURATA T}\@. \bibtitle{How does label propagation algorithm
+  work in bipartite networks?}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{Proceedings of the 2009 IEEE/WIC/ACM
+  International Joint Conference on Web Intelligence and Intelligent Agent
+  Technology-Volume 03}\@. \bibyear{2009}\thinspace{}\textnormal{:
+  }\bibpages{5\thinspace{}\textnormal{--}\thinspace{}8}\@.
 
-\bibitem{wikipedia_moores_law}
-\bibauthor{{Wikipedia contributors}}\@. \bibtitle{{Moore's
-  law}}\bibmark{[EB/OL]}\@. \bibpublisher{Wikipedia, The Free Encyclopedia}\@,
-  \bibyear{2015} \bibmodifydate{(2015/06/14)} \bibcitedate{[2015/06/15]}\@.
-  \newline\url{https://en.wikipedia.org/wiki/Moore%27s_law}\@.
+\bibitem{gregory2010finding}
+\bibauthor{GREGORY S}\@. \bibtitle{Finding overlapping communities in networks
+  by label propagation}\bibmark{[J]}\@. \bibjournal{New Journal of Physics}\@,
+  \bibyear{2010}\@, \bibvolume{12}\bibnumber{(10)}\thinspace{}\textnormal{:
+  }\bibpages{103018}\@.
 
-\bibitem{dubash2010}
-\bibauthor{DUBASH M}\@. \bibtitle{{Moore's Law is dead, says Gordon
-  Moore}}\bibmark{[EB/OL]}\@. \bibpublisher{Techworld}\@, \bibyear{2010}
-  \bibmodifydate{(2010/4/13)} \bibcitedate{[2015/6/16]}\@.
-  \newline\url{http://www.techworld.com/news/operating-systems/moores-law-is-dead-says-gordon-moore-3576581/}\@.
+\bibitem{boldi2011layered}
+\bibauthor{BOLDI P\@, ROSA M\@, SANTINI M, et~al}\@. \bibtitle{Layered label
+  propagation: A multiresolution coordinate-free ordering for compressing
+  social networks}\bibmark{[C]} //\thinspace{}\bibbooktitle{Proceedings of the
+  20th international conference on World wide web}\@.
+  \bibyear{2011}\thinspace{}\textnormal{:
+  }\bibpages{587\thinspace{}\textnormal{--}\thinspace{}596}\@.
 
-\bibitem{kanellos2003}
-\bibauthor{KANELLOS M}\@. \bibtitle{{Intel scientists find wall for Moore's
-  Law}}\bibmark{[EB/OL]}\@. \bibpublisher{CNET}\@, \bibyear{2003}
-  \bibmodifydate{(2003/12/1)} \bibcitedate{[2015/6/16]}\@.
-  \newline\url{http://news.cnet.com/2100-1008-5112061.html}\@.
+\bibitem{newman2004finding}
+\bibauthor{NEWMAN M~E\@, GIRVAN M}\@. \bibtitle{Finding and evaluating
+  community structure in networks}\bibmark{[J]}\@. \bibjournal{Physical review
+  E}\@, \bibyear{2004}\@,
+  \bibvolume{69}\bibnumber{(2)}\thinspace{}\textnormal{: }\bibpages{026113}\@.
 
-\bibitem{intel2014}
-\bibauthor{{Intel Corporation}}\@. \bibtitle{{Intel discloses newest
-  microarchitecture and 14 nanometer manufacturing process technical
-  details}}\bibmark{[EB/OL]}\@. \bibpublisher{{Intel Corporation}}\@,
-  \bibyear{2014} \bibmodifydate{(2014/8/11)} \bibcitedate{[2015/6/16]}\@.
-  \newline\url{http://newsroom.intel.com/community/intel_newsroom/blog/2014/08/11/intel-discloses-newest-microarchitecture-and-14-nanometer-manufacturing-process-technical-details}\@.
-
-\bibitem{moammer2015}
-\bibauthor{MOAMMER K}\@. \bibtitle{{TSMC Launching 10nm FinFET Process In 2016,
-  7nm In 2017}}\bibmark{[EB/OL]}\@. \bibpublisher{WCCF Tech}\@, \bibyear{2015}
-  \bibmodifydate{(2015/4/19)} \bibcitedate{[2015/6/16]}\@.
-  \newline\url{http://wccftech.com/tsmc-promises-10nm-production-2016-7nm-2017/}\@.
-
-\bibitem{shrout2014}
-\bibauthor{SHROUT R}\@. \bibtitle{{Intel Xeon E5-2600 v3 processor overview:
-  Haswell-EP up to 18 cores}}\bibmark{[EB/OL]}\@. \bibyear{2014}
-  \bibmodifydate{(2014/9/8)} \bibcitedate{[2015/6/16]}\@.
-  \newline\url{http://www.pcper.com/reviews/Processors/Intel-Xeon-E5-2600-v3-Processor-Overview-Haswell-EP-18-Cores}\@.
-
-\bibitem{intel2012}
-\bibauthor{{Intel Corporation}}\@. \bibtitle{{Intel chips
-  timeline}}\bibmark{[EB/OL]}\@. \bibpublisher{{Intel Corporation}}\@,
-  \bibyear{2012} \bibmodifydate{(2012/7/13)} \bibcitedate{[2015/6/16]}\@.
-  \newline\url{http://www.intel.co.uk/content/www/uk/en/history/history-intel-chips-timeline-poster.html}\@.
-
-\bibitem{wikipedia_transistor_count}
-\bibauthor{{Wikipedia contributors}}\@. \bibtitle{{Transistor
-  count}}\bibmark{[EB/OL]}\@. \bibpublisher{Wikipedia, The Free
-  Encyclopedia}\@, \bibyear{2015} \bibmodifydate{(2015/6/10)}
-  \bibcitedate{[2015/6/16]}\@.
-  \newline\url{https://en.wikipedia.org/wiki/Transistor_count}\@.
+\bibitem{blondel2008fast}
+\bibauthor{BLONDEL V~D\@, GUILLAUME J-L\@, LAMBIOTTE R, et~al}\@.
+  \bibtitle{Fast unfolding of communities in large networks}\bibmark{[J]}\@.
+  \bibjournal{Journal of statistical mechanics: theory and experiment}\@,
+  \bibyear{2008}\@, \bibvolume{2008}\bibnumber{(10)}\thinspace{}\textnormal{:
+  }\bibpages{P10008}\@.
 
 \end{thebibliography}

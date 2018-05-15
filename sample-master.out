@@ -17,7 +17,7 @@
 \BOOKMARK [1][-]{section.2.1}{2.1 概述}{chapter.2}% 17
 \BOOKMARK [1][-]{section.2.2}{2.2 相关工作}{chapter.2}% 18
 \BOOKMARK [1][-]{section.2.3}{2.3 算法基本框架}{chapter.2}% 19
-\BOOKMARK [2][-]{subsection.2.3.1}{2.3.1 基于随机游走模型的建模}{section.2.3}% 20
+\BOOKMARK [2][-]{subsection.2.3.1}{2.3.1 基于随机游走的SimRank建模}{section.2.3}% 20
 \BOOKMARK [1][-]{section.2.4}{2.4 算法的优化}{chapter.2}% 21
 \BOOKMARK [2][-]{subsection.2.4.1}{2.4.1 减少随机游走的数量}{section.2.4}% 22
 \BOOKMARK [2][-]{subsection.2.4.2}{2.4.2 压缩中间数据的表示}{section.2.4}% 23
@@ -60,6 +60,8 @@
 \BOOKMARK [2][-]{subsection.4.5.4}{4.5.4 算法的可扩展性}{section.4.5}% 60
 \BOOKMARK [1][-]{section.4.6}{4.6 本章小结}{chapter.4}% 61
 \BOOKMARK [0][-]{chapter.5}{5 总结与展望}{}% 62
-\BOOKMARK [0][-]{chapter*.28}{致 谢}{}% 63
-\BOOKMARK [0][-]{chapter*.29}{参考文献}{}% 64
-\BOOKMARK [0][-]{chapter*.30}{简历与科研成果}{}% 65
+\BOOKMARK [1][-]{section.5.1}{5.1 总结}{chapter.5}% 63
+\BOOKMARK [1][-]{section.5.2}{5.2 展望}{chapter.5}% 64
+\BOOKMARK [0][-]{chapter*.20}{致 谢}{}% 65
+\BOOKMARK [0][-]{chapter*.21}{参考文献}{}% 66
+\BOOKMARK [0][-]{chapter*.22}{简历与科研成果}{}% 67
