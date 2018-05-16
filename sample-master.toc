@@ -14,23 +14,22 @@
 \contentsline {section}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}相关工作}{10}{section.2.2}
 \contentsline {section}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}算法基本框架}{11}{section.2.3}
 \contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}基于随机游走的SimRank建模}{11}{subsection.2.3.1}
-\contentsline {section}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}算法的优化}{13}{section.2.4}
-\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}减少随机游走的数量}{13}{subsection.2.4.1}
-\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}压缩中间数据的表示}{14}{subsection.2.4.2}
-\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}使用动态规划技巧加速随机游走的匹配}{15}{subsection.2.4.3}
-\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}使用概率阈值剔除极小的概率}{16}{subsection.2.4.4}
-\contentsline {section}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}算法的复杂度分析}{17}{section.2.5}
-\contentsline {section}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6}基于Spark平台的算法实现}{17}{section.2.6}
-\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}邻域收集步骤}{18}{subsection.2.6.1}
-\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}匹配游走步骤}{19}{subsection.2.6.2}
-\contentsline {section}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7}实验评估}{19}{section.2.7}
-\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}实验环境}{19}{subsection.2.7.1}
-\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}实验数据集}{20}{subsection.2.7.2}
-\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}实验参数设置}{20}{subsection.2.7.3}
-\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}算法有效性}{21}{subsection.2.7.4}
-\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}算法的效率}{21}{subsection.2.7.5}
-\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6}算法的可扩展性}{22}{subsection.2.7.6}
-\contentsline {section}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}8}本章小结}{23}{section.2.8}
+\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}减少随机游走的数量}{13}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}压缩中间数据的表示}{14}{subsection.2.3.3}
+\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}使用动态规划技巧加速随机游走的匹配}{15}{subsection.2.3.4}
+\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}使用概率阈值剔除极小的概率}{17}{subsection.2.3.5}
+\contentsline {section}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}算法的复杂度分析}{17}{section.2.4}
+\contentsline {section}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}基于Spark平台的算法实现}{17}{section.2.5}
+\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}邻域收集步骤}{18}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}匹配游走步骤}{18}{subsection.2.5.2}
+\contentsline {section}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6}实验评估}{19}{section.2.6}
+\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}实验环境}{19}{subsection.2.6.1}
+\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}实验数据集}{20}{subsection.2.6.2}
+\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}实验参数设置}{20}{subsection.2.6.3}
+\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}算法有效性}{20}{subsection.2.6.4}
+\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}算法的效率}{21}{subsection.2.6.5}
+\contentsline {subsection}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6}算法的可扩展性}{22}{subsection.2.6.6}
+\contentsline {section}{\numberline {2\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}7}本章小结}{24}{section.2.7}
 \contentsline {chapter}{\numberline {3}分布式图分割方法}{25}{chapter.3}
 \contentsline {section}{\numberline {3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}概述}{25}{section.3.1}
 \contentsline {section}{\numberline {3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}相关工作}{26}{section.3.2}
@@ -47,17 +46,19 @@
 \contentsline {chapter}{\numberline {4}分布式全点对相似度计算方法}{41}{chapter.4}
 \contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}概述}{41}{section.4.1}
 \contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}相关工作}{41}{section.4.2}
-\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}算法框架}{42}{section.4.3}
-\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}基于Spark平台的算法实现}{46}{section.4.4}
-\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}实验评估}{46}{section.4.5}
-\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}实验环境及数据集}{46}{subsection.4.5.1}
-\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}算法的有效性}{47}{subsection.4.5.2}
-\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}算法的计算效率}{47}{subsection.4.5.3}
-\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}算法的可扩展性}{48}{subsection.4.5.4}
-\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}6}本章小结}{48}{section.4.6}
-\contentsline {chapter}{\numberline {5}总结与展望}{49}{chapter.5}
-\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}总结}{49}{section.5.1}
-\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}展望}{50}{section.5.2}
-\contentsline {chapter}{致\hspace {2em}谢}{51}{chapter*.20}
-\contentsline {chapter}{参考文献}{53}{chapter*.21}
-\contentsline {chapter}{简历与科研成果}{59}{chapter*.22}
+\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}算法的基本框架}{42}{section.4.3}
+\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}分块间的相似度}{43}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}点对全局相似度估计}{44}{subsection.4.3.2}
+\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}算法复杂度分析}{45}{subsection.4.3.3}
+\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}实验评估}{46}{section.4.4}
+\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}实验环境及数据集}{46}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}算法的有效性}{46}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}3}算法的计算效率}{47}{subsection.4.4.3}
+\contentsline {subsection}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}4}算法的可扩展性}{48}{subsection.4.4.4}
+\contentsline {section}{\numberline {4\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}5}本章小结}{49}{section.4.5}
+\contentsline {chapter}{\numberline {5}总结与展望}{51}{chapter.5}
+\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}1}总结}{51}{section.5.1}
+\contentsline {section}{\numberline {5\tmspace +\thinmuskip {.1667em}.\tmspace +\thinmuskip {.1667em}2}展望}{52}{section.5.2}
+\contentsline {chapter}{致\hspace {2em}谢}{53}{chapter*.21}
+\contentsline {chapter}{参考文献}{55}{chapter*.22}
+\contentsline {chapter}{简历与科研成果}{63}{chapter*.23}

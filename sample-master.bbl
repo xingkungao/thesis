@@ -323,13 +323,19 @@
   Society}\@, \bibyear{2014}\thinspace{}\textnormal{:
   }\bibpages{568\thinspace{}\textnormal{--}\thinspace{}579}\@.
 
-\bibitem{lizorkin2010accuracy}
-\bibauthor{LIZORKIN D\@, VELIKHOV P\@, GRINEV M, et~al}\@. \bibtitle{Accuracy
-  estimate and optimization techniques for SimRank computation}\bibmark{[J]}\@.
-  \bibjournal{The VLDB Journal—The International Journal on Very Large Data
-  Bases}\@, \bibyear{2010}\@,
-  \bibvolume{19}\bibnumber{(1)}\thinspace{}\textnormal{:
-  }\bibpages{45\thinspace{}\textnormal{--}\thinspace{}66}\@.
+\bibitem{yu2013towards}
+\bibauthor{YU W\@, LIN X\@, ZHANG W}\@. \bibtitle{Towards efficient SimRank
+  computation on large networks}\bibmark{[C]} //\thinspace{}\bibbooktitle{Data
+  Engineering (ICDE), 2013 IEEE 29th International Conference on}\@.
+  \bibyear{2013}\thinspace{}\textnormal{:
+  }\bibpages{601\thinspace{}\textnormal{--}\thinspace{}612}\@.
+
+\bibitem{li2010fast1}
+\bibauthor{LI C\@, HAN J\@, HE G, et~al}\@. \bibtitle{Fast computation of
+  simrank for static and dynamic information networks}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{Proceedings of the 13th International Conference
+  on Extending Database Technology}\@. \bibyear{2010}\thinspace{}\textnormal{:
+  }\bibpages{465\thinspace{}\textnormal{--}\thinspace{}476}\@.
 
 \bibitem{he2010parallel}
 \bibauthor{HE G\@, FENG H\@, LI C, et~al}\@. \bibtitle{Parallel SimRank
@@ -339,19 +345,26 @@
   \bibyear{2010}\thinspace{}\textnormal{:
   }\bibpages{543\thinspace{}\textnormal{--}\thinspace{}552}\@.
 
-\bibitem{li2010fast1}
-\bibauthor{LI C\@, HAN J\@, HE G, et~al}\@. \bibtitle{Fast computation of
-  simrank for static and dynamic information networks}\bibmark{[C]}
-  //\thinspace{}\bibbooktitle{Proceedings of the 13th International Conference
-  on Extending Database Technology}\@. \bibyear{2010}\thinspace{}\textnormal{:
-  }\bibpages{465\thinspace{}\textnormal{--}\thinspace{}476}\@.
+\bibitem{ilprints579}
+\bibauthor{KAMVAR S\@, HAVELIWALA T\@, MANNING C, et~al}\@.
+  \bibtitle{Exploiting the Block Structure of the Web for Computing
+  PageRank}\thinspace{}\textnormal{: }\bibnumber{2003-17}\bibmark{[R]}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibinstitution{Stanford
+  InfoLab}\@, \bibyear{2003}\@.
 
-\bibitem{yu2013towards}
-\bibauthor{YU W\@, LIN X\@, ZHANG W}\@. \bibtitle{Towards efficient SimRank
-  computation on large networks}\bibmark{[C]} //\thinspace{}\bibbooktitle{Data
-  Engineering (ICDE), 2013 IEEE 29th International Conference on}\@.
-  \bibyear{2013}\thinspace{}\textnormal{:
-  }\bibpages{601\thinspace{}\textnormal{--}\thinspace{}612}\@.
+\bibitem{kaufman:clustering1990}
+\bibauthor{KAUFMAN L\@, ROUSSEEUW P}\@. \bibbooktitle{Finding Groups in Data:
+  an introduction to cluster analysis}\bibmark{[M]}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{Wiley}\@,
+  \bibyear{1990}\@.
+
+\bibitem{lizorkin2010accuracy}
+\bibauthor{LIZORKIN D\@, VELIKHOV P\@, GRINEV M, et~al}\@. \bibtitle{Accuracy
+  estimate and optimization techniques for SimRank computation}\bibmark{[J]}\@.
+  \bibjournal{The VLDB Journal—The International Journal on Very Large Data
+  Bases}\@, \bibyear{2010}\@,
+  \bibvolume{19}\bibnumber{(1)}\thinspace{}\textnormal{:
+  }\bibpages{45\thinspace{}\textnormal{--}\thinspace{}66}\@.
 
 \bibitem{he2014assessing}
 \bibauthor{HE J\@, LIU H\@, YU J~X, et~al}\@. \bibtitle{Assessing single-pair
