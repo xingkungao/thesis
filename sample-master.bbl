@@ -167,6 +167,20 @@
   automation}\@. \bibyear{1988}\thinspace{}\textnormal{:
   }\bibpages{241\thinspace{}\textnormal{--}\thinspace{}247}\@.
 
+\bibitem{bui1996genetic}
+\bibauthor{BUI T~N\@, MOON B~R}\@. \bibtitle{Genetic algorithm and graph
+  partitioning}\bibmark{[J]}\@. \bibjournal{IEEE Transactions on computers}\@,
+  \bibyear{1996}\@, \bibvolume{45}\bibnumber{(7)}\thinspace{}\textnormal{:
+  }\bibpages{841\thinspace{}\textnormal{--}\thinspace{}855}\@.
+
+\bibitem{johnson1989optimization}
+\bibauthor{JOHNSON D~S\@, ARAGON C~R\@, MCGEOCH L~A, et~al}\@.
+  \bibtitle{Optimization by simulated annealing: an experimental evaluation;
+  part I, graph partitioning}\bibmark{[J]}\@. \bibjournal{Operations
+  research}\@, \bibyear{1989}\@,
+  \bibvolume{37}\bibnumber{(6)}\thinspace{}\textnormal{:
+  }\bibpages{865\thinspace{}\textnormal{--}\thinspace{}892}\@.
+
 \bibitem{Karypis95metis}
 \bibauthor{KARYPIS G\@, KUMAR V}\@. \bibtitle{METIS -- Unstructured Graph
   Partitioning and Sparse Matrix Ordering System, Version 2.0}\bibmark{[R]}\@.
@@ -255,20 +269,6 @@
   //\thinspace{}\bibbooktitle{Proceedings of the sixth annual ACM symposium on
   Theory of computing}\@. \bibyear{1974}\thinspace{}\textnormal{:
   }\bibpages{47\thinspace{}\textnormal{--}\thinspace{}63}\@.
-
-\bibitem{johnson1989optimization}
-\bibauthor{JOHNSON D~S\@, ARAGON C~R\@, MCGEOCH L~A, et~al}\@.
-  \bibtitle{Optimization by simulated annealing: an experimental evaluation;
-  part I, graph partitioning}\bibmark{[J]}\@. \bibjournal{Operations
-  research}\@, \bibyear{1989}\@,
-  \bibvolume{37}\bibnumber{(6)}\thinspace{}\textnormal{:
-  }\bibpages{865\thinspace{}\textnormal{--}\thinspace{}892}\@.
-
-\bibitem{bui1996genetic}
-\bibauthor{BUI T~N\@, MOON B~R}\@. \bibtitle{Genetic algorithm and graph
-  partitioning}\bibmark{[J]}\@. \bibjournal{IEEE Transactions on computers}\@,
-  \bibyear{1996}\@, \bibvolume{45}\bibnumber{(7)}\thinspace{}\textnormal{:
-  }\bibpages{841\thinspace{}\textnormal{--}\thinspace{}855}\@.
 
 \bibitem{leland1995chaco}
 \bibauthor{LELAND B~H~R\@, HENDRICKSON B}\@. \bibtitle{The Chaco user’s
