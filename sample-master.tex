@@ -83,11 +83,11 @@
 % 该编号可在下述网址查询：http://www.udcc.org/udcsummary/php/index.php?lang=chi
 \udc{004.72}
 % 国家图书馆封面上的论文标题第一行，不可换行。此属性可选，默认值为通过\title设置的标题。
-\nlctitlea{基于Spark的大规模图数据中的}
+\nlctitlea{基于Spark的大规模图数据}
 % 国家图书馆封面上的论文标题第二行，不可换行。此属性可选，默认值为空白。
-\nlctitleb{点对SimRank相似度计算}
+\nlctitleb{中的点对SimRank相似度}
 % 国家图书馆封面上的论文标题第三行，不可换行。此属性可选，默认值为空白。
-\nlctitlec{}
+\nlctitlec{计算}
 % 导师的单位名称及地址
 \supervisorinfo{南京大学计算机科学与技术系~~南京市栖霞区仙林大道163号~~210023}
 % 答辩委员会主席
@@ -133,9 +133,9 @@
 % 论文作者所在学校或机构的名称。此属性可选，默认值为``南京大学''。
 \institute{南京大学}
 % 论文的提交日期，需设置年、月、日。
-\submitdate{2018年5月10日}
+\submitdate{2018年5月26日}
 % 论文的答辩日期，需设置年、月、日。
-\defenddate{2018年6月1日}
+\defenddate{2018年5月25日}
 % 论文的定稿日期，需设置年、月、日。此属性可选，默认值为最后一次编译时的日期，精确到日。
 %% \date{2013年5月1日}
 
@@ -147,7 +147,7 @@
 % 论文作者姓名的拼音
 \englishauthor{GAO Xing-Kun}
 % 导师姓名职称的英文
-\englishsupervisor{Associate Professor Tang Jie}
+\englishsupervisor{Associate Professor TANG Jie}
 % 论文作者学科与专业的英文名
 \englishmajor{Computer Science and Techonology}
 % 论文作者所在院系的英文名称
@@ -158,7 +158,7 @@
 % 格式，即``Month day, year''，其中``Month''为月份的英文名全称，首字母大写；``day''为
 % 该月中日期的阿拉伯数字表示；``year''为年份的四位阿拉伯数字表示。此属性可选，默认值为最后
 % 一次编译时的日期。
-\englishdate{May 20, 2018}
+\englishdate{May 25, 2018}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 设置论文的中文摘要
@@ -358,22 +358,25 @@ font=\small]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 论文的中文摘要
 \begin{abstract}
-在基于图计算的数据分析应用中，如何衡量图中顶点之间的相似度是一个非常重要的问题，在很多领域有重要的应用。
-SimRank是近年来比较流行的相似性度量，相比于其他相似度指标，它能更好地反应整个图的结构信息。
-然而它的计算代价较高，随着图数据规模越来越大，对SimRank相似度高效的计算方法显得非常必要。
+在基于图计算的数据分析应用中，如何衡量图中顶点之间的相似度是一个非常重要的课题，在很多领域有广泛的应用。
+SimRank是近年来比较流行的相似性度量，相比于其他相似度指标，它能更好地反应图的结构信息。
+然而它的计算代价较高，传统计算方法已经不适用于规模越来越大的图数据。
 另一方面，Spark作为一种分布式计算平台能够简化用户编写分布式应用的逻辑，自问世以来迅速在学术界和产业界得到广泛的使用。
-因此在大数据时代，基于Spark或类似平台设计高效的大规模图数据中点对SimRank相似度的分布式计算方法，有着重要的现实意义。
+因此，基于Spark或类似平台设计高效的大规模图数据中点对SimRank相似度的分布式计算方法，有着重要的现实意义。
 本文针对上述问题展开了深入的研究，取得的主要成果有：
 \begin{enumerate}
- \item 针对图中单源点SimRank相似度计算问题，设计了一种基于随机游走模型的分布式计算方法，并提出了计算过程中的一些优化技巧。
- 同时，基于Spark平台给出了算法的分布式实现。
- \item 提出并实现了一种基于模块度优化的多层次分布式图划分方法，算法在划分过程中较好地保留了图中的局部稠密子图，
- 在考虑划分约束条件的情况下保证了划分的负载均衡，并力求最小化各个分块之间的边割权重。
- 同时，基于Spark平台给出了算法实现。
- \item 基于以上的分布式图划分结果，针对图中全点对SimRank相似度计算问题，设计了一种基于分治思路的近似计算方法。
- 该算法通过分别计算分块内点对的相似度以及分块本身的相似度，来估计所有点对的全局相似度。
- 算法极大地加速了计算时间，同时计算结果拥有较高的精确度。
- 同时，基于Spark平台给出了算法的分布式实现。
+ \item 针对单源点SimRank相似度计算问题，提出并实现了一种基于随机游走模型的分布式计算方法。
+ 算法通过减少随机游走的数量降低计算的时间复杂度，通过紧凑的中间数据表示方式降低空间复杂度，通过将对游走的匹配计算过程分发至整个集群
+ 达到高并行度。
+ 在真实数据集上的实验结果表明，算法对随机游走的数量降低了数百倍以上，同时表现出近乎线性的可扩展性。
+ 
+ \item 提出并实现了一种基于模块度优化的多层次分布式图划分方法，算法在划分过程中较好地保留了图中的稠密子结构，
+ 在考虑划分约束条件的情况下保证了顶点的均衡划分，并力求最小化各个分块之间的边割权重。
+ 实验结果表明，算法的划分质量可以媲美经典算法METIS，同时有较好的可扩展性。
+ 
+ \item 基于以上的分布式图划分结果，针对全点对SimRank相似度计算问题，提出并实现了一种基于分治思路的计算方法。
+ 该算法通过分别计算分块内点对的相似度以及分块本身的相似度，来计算所有点对的全局相似度。
+ 实验结果表明，该算法保持了计算结果有效性的同时，极大提高了计算效率。
 \end{enumerate}
 
 % 中文关键词。关键词之间用中文全角分号隔开，末尾无标点符号。
@@ -385,11 +388,10 @@ SimRank是近年来比较流行的相似性度量，相比于其他相似度指�
 \begin{englishabstract}
 In graph-based data analysis applications, how to measure similarity between vertices in a graph is a
 very important research topic which has a wide range of applications in many fields.
-Among them, SimRank is one similarity measure with growing popularity in recent years.
-Compared with others, SimRank is able to capture the topology of the entire graph. 
-However, computation of SimRank is costly in both time and space.
-To deal with the ever growing graph size in the era of Big Data, 
-efficient computation methods of SimRank is an urgent demand.
+Among all the measures, SimRank is the one with growing popularity in recent years.
+Compared with others, SimRank is able to capture the topology of the  graph. 
+However, computation of SimRank is costly in both time and space, making traditional computing methods
+failing to handle graph data with ever-growing size.
 On the other hand, as today's popular big data computing engine, Apache Spark significantly simplifies user's programming logic
 with the interface it provides when developing distributed applications. 
 Therefore, to design an efficient distributed algorithm to compute SimRank similarity for vertex pair in large-scale graphs
@@ -397,21 +399,24 @@ based on Spark or other systems is of great significance.
 
 This article addresses the above problems and our main contributions are summarized as follows:
 \begin{enumerate}
- \item To compute the single-source SimRank similarity, we designed an algorithm based on the random-walk model.
- Some practical optimizations techniques are proposed. We managed to implement the algorithm on top of Spark.
+ \item To compute the single-source SimRank similarity, we proposed and implemented an algorithm based on the random-walk model.
+ The algorithm reduces time complexity by producing less random walks, 
+ reduces space complexity by compressing the representation of intermediate data,
+ achieves high parallelism by distributing the matching process of random walks to the whole cluster.
+ Experiments on real-world data show that the number of random walks has a decrease of two or more orders of magnitude,
+ and the running time achieves near-linear scalability.
  \item We proposed a distributed multi-level  partitioning algorithm based on modularity maximization for large graphs.
  In the processing of partitioning, the local dense subgraphs are well preserved within blocks.
- Load balance is carefully maintained with respect to specific constraints, 
+ Load balance of vertices is carefully maintained with respect to specific constraints, 
  and efforts are made to minimize the edge cut weights between blocks. 
- An implementation of the algorithm based on Spark is presented.
+ Experiments show that the algorithm achieves good partition quality comparable to METIS, and good scalability.
  \item With the help of the above graph partitioning scheme, we proposed an divide-and-conquer algorithm to 
  compute the all-pair SimRank similarity.
  The algorithm partitions the graph into blocks, obtains similarity of each node-pair within blocks, then treats each 
  block as a new vertex forming a coarsening graph to get the similarity between each block. 
- A global similarity for all vertex pairs is approximated based on these two similarities.
- Experiments show that the accuracy of the algorithm is acceptable when the processing time cost is drastically reduced.
- We also give its implementation based on Spark.
-\end{enumerate}
+ A global similarity for all vertex pairs is computed based on these two similarities.
+ Experiments show that the accuracy of the algorithm is acceptable when the processing time is drastically reduced.
+ \end{enumerate}
 
 % 英文关键词。关键词之间用英文半角逗号隔开，末尾无符号。
 \englishkeywords{Graph Data, SimRank Similarity, Distributed Computing, Spark}
@@ -444,48 +449,44 @@ This article addresses the above problems and our main contributions are summari
 图（graph）作为一种能够刻画实体之间关系的抽象结构，在很多领域中有着重要的应用。
 例如，电子商务中商品与用户之间的交易行为，科研著作中各类论文之间的相互参考引用，
 Web中个网页之间的链接，以及社交网络中用户之间的交流传播等等行为，本质上都可以
-通过基于图来建模。 从图中挖掘出深层次的信息也成了学术界尤其是产业界的一个重要课题。
+通过基于图来建模。 从图中挖掘出深层次的信息也成了学术界以及产业界的一个重要课题。
 
-相似性度量，即比较不同对象之间的相似度，是一个经典的课题。
+相似性度量，即比较不同对象之间的相似度，是一个经典的问题。
 在推荐系统\cite{fouss2007random}领域，人们关心哪几类商品一定程度上是相似的；
 在信息检索\cite{dean1999finding}领域，人们关心如何从WWW找出相似的网页或文章，并对其聚类；
 在实体解析\cite{bhattacharya2006entity}领域，人们关心如何从从复杂网络中推测出不同角色是否在真实世界代表着同一个真实实体。
-可以看出，现实生活中对相似度的计算无处不在。
+可以看出，现实生活中对相似度的使用无处不在。
 
-而为了准确度量出“相似性”这一概念，学者们提出了各式各样的相似度指标。
-其中，SimRank\cite{jeh2002simrank}是近年来比较流行的一种度量图中节点相似性的模型，与传统方法不同的是，
-它考虑了整个图的拓扑结构，其基本思想与著名的网页排序算法PageRank\cite{page1999pagerank}有相似之处：
-如果两个顶点的邻居顶点点非常相似，那么这两个顶点也相似。
-SimRank相似度可以通过随机游走模型解释，拥有坚实的理论基础，近年来在很多应用中得到了广泛的应用。
+为了准确度量出“相似性”这一概念，学者们提出了各式各样的相似度指标。
+其中，SimRank\cite{jeh2002simrank}是近年来比较流行的一种度量图中节点相似性的模型。
+与传统方法不同的是，它考虑了图的拓扑结构，其基本思想与著名的网页排序算法PageRank\cite{page1999pagerank}有相似之处：
+如果两个顶点的邻居顶点非常相似，那么这两个顶点也相似。
+SimRank相似度可以通过随机游走模型解释，拥有坚实的理论基础，近年来在很多领域中得到了广泛的应用。
 
 传统的SimRank计算，可以归为三类问题：1）单顶点对(single-pair)的相似度计算；
-2）单源点(single-source)的相似度计算； 3）全节点对(all-pair)的相似度计算。
-这三个计算任务的复杂度依次增加，由计算图中某一对顶点的相似度，
-到图中某顶点到其他所有顶点的相似度，再到计算图中所有顶点对的相似度。
-正因为SimRank试图充分利用整个图结构的拓扑信息，它的计算具有较高的时间复杂度和空间复杂度。
+2）单源点(single-source)的相似度计算； 3）全点对(all-pair)的相似度计算。
+这三个计算任务的复杂度依次增加，由计算图中某一对顶点的相似度，到图中某顶点到其它所有顶点的相似度，再到计算图中所有顶点对的相似度。
+正因为SimRank试图充分利用图数据的拓扑信息，它的计算过程具有较高的时间复杂度和空间复杂度。
 然而随着互联网技术的发展，人类已经跨入大数据时代。
-社交网络用户呈现出爆发性地增长，电子商务变得日益普及，万维网上网络数据也不断增多，现实生活中图数据的规模越来越大。
-传统的SimRank相似度计算方法已经无法适用与大规模的图分析任务。
+社交网络用户呈现出爆发性地增长，电子商务正在日益普及，万维网上网络数据也不断增多，现实生活中图数据的规模越来越大。
+传统的SimRank相似度计算方法已经无法适用于当下的大规模图数据。
 
+另一方面，在大数据时代诸如MapReduce\cite{DBLP:conf/osdi/DeanG04}、Spark\cite{DBLP:conf/hotcloud/ZahariaCFSS10}等通用式分布式计算平台日益流行。
+这些计算平台充分发挥了分布式集群的威力，谋求计算能力在横向上扩展（Scale Out)而不是在纵向上提高（Scale Up)，使得原来难以完成的计算分析任务成为可能。
+基于这些平台，用户可以使用其提供的编程接口专注于自己的计算任务，快速部署出自己的解决方案，
+而无需关心分布式平台底层的复杂网络通信、资源分配、资源调度等问题。
 
-另一方面，在大数据时代诸如MapReduce\cite{DBLP:conf/osdi/DeanG04}、Spark\cite{DBLP:conf/hotcloud/ZahariaCFSS10}等通用式的分布式计算平台正在日益流行。
-这些计算平台充分发挥了分布式集群的威力，计算能力在横向上扩展（Scale Out)而不是在纵向上提高（Scale Up)，
-使得原来难以企及的计算任务成为可能。
-基于这些平台，用户可以快速部署出自己的解决方案，使用其提供的编程接口专注于自己的计算任务，
-而无需关系分布式平台底层的复杂网络通信、资源分配、资源调度问题。
-
-因此，基于此类分布式计算平台设计出高效的分布式SimRank计算方法，具有现实意义。
-目前现有的分布式计算方法主要是基于矩阵计算，而对于顶点数超过百万的大图，
-其邻接矩阵的元素规模超过万亿，面对如此庞大的输入规模传统基于矩阵计算的方法根本无法满足需求。
-面向日益增长的大规模图数据处理的需求，设计新的分布式SimRank相似度计算方法就显得非常必要。
+目前现有的分布式计算方法主要是按照Map-Reduce编程范式的直接计算，或是基于矩阵计算，而对于顶点数超过百万的大图，其邻接矩阵的元素规模超过万亿。
+面对如此庞大的输入规模，传统基于矩阵计算的方法根本无法满足需求。
+因此，面向日益增长的大规模图数据处理的需求，设计新的分布式SimRank相似度计算方法就显得非常必要。
 
 
 \section{研究现状}
 \subsection{SimRank计算研究现状}
 如何衡量实体之间的相似性一直是各领域研究的热点，许多研究在特定应用领域提出了各式各样的相似度度量标准。
-例如Jaccard similarity \cite{jaccard1901etude}, cosine similarit \cite{baeza1999modern}, Dice similarity\cite{dice1945measures}等等。
+例如Jaccard similarity \cite{jaccard1901etude}, cosine similarity \cite{baeza1999modern}, Dice similarity\cite{dice1945measures}等等。
 反映在图数据中，这些相似度的核心思想都是“如果两个顶点拥有越多共同的邻居顶点，那么它们越相似”。
-显然，这些度量没能够反映出图的整个拓扑结构。最简单的反例是，对于没有共同邻点的点对，上述度量会简单认为它们没有丝毫的相似度。
+显然，这些度量没能够反映出图的拓扑信息。最简单的反例是，对于没有共同邻点的点对，上述度量会简单认为它们没有丝毫的相似度。
 \begin{figure}[h]
   \centering
   \includegraphics[width= 0.75\textwidth]{figure/simrank.png}\\
@@ -1032,7 +1033,7 @@ value是一串元素，每个元素记录着以$key$为根节点的子树中所�
 因为根据公式\ref{eq:seven}，这些游走的概率非常之小，对最终的计算精度基本可以忽略不计。
 $\delta$的取值应当注意在算法的精度与时间、空间复杂度取得平衡，更大的$\delta$意味着更低的精度，但是算法
 整体的时间复杂度和空间复杂度更低，反之反是。
-\section{算法的复杂度分析}
+\subsection{算法的复杂度分析}
 我们综合分析一下算法的复杂度。源点$u$可达的顶点的数目大约为$O(d^k)$，
 而对于其中的每一个可达顶点，都拥有一个大小为$O(d^k)$，隐式包含$O(d^k)$条逆序游走信息的邻域，
 因此，总的空间复杂度为$O(d^{2k})$。因为这个过程中所有产生的游走都需要通过网络传输，所以通信开销也是$O(d^{2k})$。
@@ -1233,9 +1234,12 @@ $c$被设置为0.5，相应地，$k$被设置为$k=6$。
 \section{概述}
 随着现实生活中数据规模的不断扩大，与之对应的图数据网络结构愈加复杂，规模不断增大，典型的大图甚至有数十亿个节点和上万亿条边。
 普通的单台计算机由于运算内存的限制，远远无法胜任对大规模图数据的计算处理任务，
-这给解决一些基于图计算的常见问题（如寻找连通分量\cite{DBLP:conf/sc/HongRO13}、计算三角形和\cite{DBLP:journals/corr/abs-1011-0468}、PageRank\cite{page1999pagerank}、SimRank\cite{jeh2002simrank}计算等）带来了巨大的挑战。
+这给解决一些基于图计算的常见问题（如寻找连通分量\cite{DBLP:conf/sc/HongRO13}、计算三角形\cite{DBLP:journals/corr/abs-1011-0468}、计算PageRank\cite{page1999pagerank}、
+计算SimRank\cite{jeh2002simrank}计算等）带来了巨大的挑战。
 因此，首先将图划分成多个子图装载到不同计算节点上中，然后再充分利用分布式平台进行后续的图分析、图信息挖掘任务，
 是处理大规模图数据唯一可行的路径。
+
+图划分可以分为两种策略：基于顶点的划分(vertex cut)和基于边的划分(edge cut)。
 
 图划分问题可以用数学语言描述如下： 给定一个图$G(V, E)$，设其顶点数量$|V|=n$,边的数量$|E|=m$，图的划分即将$V$划分为$k$个子集$(C_1, C_2, \dots, C_k)$，
 使得对任意$1 \leq i,j \leq k$，满足下列约束：
@@ -2039,7 +2043,7 @@ arabic-2005  & - & \num{2045.50}         & \num{126.32}    \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 学位论文的正文应以《结论》作为最后一章
 \chapter{总结与展望}\label{chapter_concludes}
-\section{总结}
+\section{全文工作总结}
 图作为能够刻画事物之间联系的通用数据结构，在现实生活中无处不在。
 而图中顶点的相似度衡量在众多领域有大量的运用。
 本文关注SimRank相似度，相比于其他度量它能够更好地反映图的拓扑结构，因此成为近年来比较流行的相似度。
@@ -2056,7 +2060,7 @@ arabic-2005  & - & \num{2045.50}         & \num{126.32}    \\
  任意点对的全局相似度通过它们估计得出。 算法在实际数据集上表现出了较好的有效性，并且极大地降低了计算时间。
 \end{enumerate}
 
-\section{展望}
+\section{下一步工作展望}
 本文提出的算法已经在真实数据集上证明了其优越性。但仍存在一定的不足，还需要进一步研究，主要体现在以下几个方面：
 \begin{enumerate}
  \item 本文提出的图划分算法只考虑了最终划分结果的顶点数量的分配均衡，并没有考虑每个分块内边的数量的相对均衡。

@@ -195,6 +195,13 @@
   \bibyear{2005}\thinspace{}\textnormal{:
   }\bibpages{641\thinspace{}\textnormal{--}\thinspace{}650}\@.
 
+\bibitem{DBLP:conf/sigmod/TianX16}
+\bibauthor{TIAN B\@, XIAO X}\@. \bibtitle{{SLING:} {A} Near-Optimal Index
+  Structure for SimRank}\bibmark{[C]} //\thinspace{}\bibbooktitle{{SIGMOD}
+  Conference}\@. \bibaddress{[S.l.]}\thinspace{}\textnormal{:
+  }\bibpublisher{{ACM}}\@, \bibyear{2016}\thinspace{}\textnormal{:
+  }\bibpages{1859\thinspace{}\textnormal{--}\thinspace{}1874}\@.
+
 \bibitem{lee2012top}
 \bibauthor{LEE P\@, LAKSHMANAN L~V\@, YU J~X}\@. \bibtitle{On top-k structural
   similarity search}\bibmark{[C]} //\thinspace{}\bibbooktitle{2012 IEEE 28th

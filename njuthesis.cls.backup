@@ -91,8 +91,8 @@
 \RequirePackage{setspace}
 \RequirePackage{fancyhdr}
 \RequirePackage{shortvrb}
-\RequirePackage{xltxtra}
-\RequirePackage[CJKnumber,CJKchecksingle]{xeCJK}
+%\RequirePackage{xltxtra}
+\RequirePackage[CJKchecksingle]{xeCJK}
 \RequirePackage{CJKnumb}
 \defaultfontfeatures{Mapping=tex-text}
 \punctstyle{plain}
