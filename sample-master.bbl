@@ -263,6 +263,14 @@
   Partitioning}\bibmark{[J]}\@. \bibjournal{CoRR}\@, \bibyear{2010}\@,
   \bibvolume{abs/1011.0468}\@.
 
+\bibitem{DBLP:conf/eurosys/ChenSCC15}
+\bibauthor{CHEN R\@, SHI J\@, CHEN Y, et~al}\@. \bibtitle{PowerLyra:
+  differentiated graph computation and partitioning on skewed
+  graphs}\bibmark{[C]} //\thinspace{}\bibbooktitle{EuroSys}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{{ACM}}\@,
+  \bibyear{2015}\thinspace{}\textnormal{:
+  }\bibpages{1:1\thinspace{}\textnormal{--}\thinspace{}1:15}\@.
+
 \bibitem{garey1974somenp}
 \bibauthor{GAREY M~R\@, JOHNSON D~S\@, STOCKMEYER L}\@. \bibtitle{Some
   simplified NP-complete problems}\bibmark{[C]}

@@ -737,8 +737,8 @@ s(u, v) = \left\{
 \begin{equation}
 S^{k+1}_{uv} = \left\{
         \begin{array}{ll}
-	1, &\hspace{-0.5em}  \! u = v ; \\
-	\displaystyle\frac{c}{|I(u)||I(v)|}\displaystyle\sum_{u^\prime \in I(u), v^\prime \in I(v)} S^{k+1}_{u^\prime v^\prime} , & \hspace{-0.5em} u \ne v.
+	1 &\hspace{-0.5em}  \! u = v  \\
+	\displaystyle\frac{c}{|I(u)||I(v)|}\displaystyle\sum_{u^\prime \in I(u), v^\prime \in I(v)} S^{k+1}_{u^\prime v^\prime}  & \hspace{-0.5em} u \ne v
         \end{array}
     \right.
 	\label{eq:two}
@@ -1068,6 +1068,10 @@ $\delta$的具体取值应在算法的精度与时间、空间复杂度之间取
 \end{enumerate}
 上述四个步骤中第1个和第2个很相似，区别只是要获得邻域的顶点的数量（1 vs $|Nei|$）。
 因此我们重点描述第2、 3、 4步骤在Spark平台上的实现。
+
+我们首先将表示图的原始文本数据上传至分布式文件系统HDFS上，然后Spark读入图数据，生成对应的RDD。
+在计算过程中，由于需要迭代计算，所以需要使用Spark提供的cache机制将RDD内容缓存在内存中，这样可以极大地提高迭代计算的效率。
+计算过程还需要使用Spark的broadcast机制将所有主游走广播到集群中每一个计算节点上。broadcast适合传输规模小、不会改变的数据。
 \subsection{邻域收集步骤}
 \begin{algorithm}[h]
 \captionof{algorithm}{Collect Neighborhood}
@@ -1088,7 +1092,7 @@ $\delta$的具体取值应在算法的精度与时间、空间复杂度之间取
 	\EndProcedure
 \end{algorithmic}
 \end{algorithm}
-代码\ref{algo:nei_collect}展示了生成邻域的具体细节。
+算法\ref{algo:nei_collect}展示了生成邻域的具体细节。
 算法总共接受3个参数：$edgeRDD$表示从HDFS读入的、每个元素代表图中一条边的RDD，$Nei$是要生成邻域的出发顶点集合，$k$是游走的最大长度。
 首先我们把图从按照边存储的格式变为邻接表这种格式，并存储在$graphRDD$中（第2-3行），
 然后我们从$graphRDD$生成$nbrhdRDD$（第4行），这个RDD里面存放着所有的邻域。
@@ -1100,7 +1104,7 @@ $nbrRDD$表示所有邻域的最外面一层，初始化时它就是集合$Nei$�
 
 \subsection{匹配游走步骤}
 
-\begin{algorithm}[h]
+\begin{algorithm}[t]
 \captionof{algorithm}{Compute SimRank}
 \label{algo:match}
 \begin{algorithmic}[1]
@@ -1129,18 +1133,22 @@ $value$是所有以$key$终点的随机游走；剩下两个参数$u$和$k$分�
 注意到$nbrhdRDD$中的所有元素以$v$为$key$被Spark默认的Partitioner均匀分布在集群中，因此整个计算过程是分布式的。
 计算出的结果被组装成一个列表（第7行），然后经flagmap操作发射出去（第8-9行），
 最后经由reduceByKey操作将属于不同$v$的相似度$s(u,v)$聚集起来，并送至Driver Program（第11-12行）。
-注意到$nbrhdRDD$中的所有元素以$v$为$key$被Spark默认的Partitioner均匀分布在集群中，因此整个计算过程是分布式的。
-计算出的结果被组装成一个列表（第7行），然后经flagmap操作发射出去（第8-9行），
-最后经由reduceByKey操作将属于不同$v$的相似度$s(u,v)$聚集起来，并送至Driver Program（第11-12行）。
+
+	
+
 \section{实验评估}
 \subsection{实验环境}
 所有的实验在一个由6个硬件完全相同的计算节点组成的集群上完成，每台计算节点处理器为12核的Intel Xeon E-2650，频率为2.1GHz，
 内存为64GB，硬盘为1TB。 计算节点之间由千兆网卡连接。所有的节点上运行Ubuntu 16.04操作系统。 
 Spark运行版本为1.6.2， 底层分布式文件系统HDFS的版本号为2.6.0。
-所有的6个节点都配置为slave节点，其中一个节点被二外配置为master节点。 
-在Spark运行时，我们为其分配了10GB的内存。
+所有的6个节点都配置为slave节点，其中一个节点被额外配置为master节点。 
+在Spark运行时，我们为每个executor分配了10GB的内存。
 \subsection{实验数据集}
 我们一共使用了5个真实的图数据来评估算法的性能。 数据集的具体细节如表\ref{tab:dataset1}。
+其中，p2p-gnutella08是一个P2P文件分享网络的结构；
+wiki-vote是一个反映维基百科用户竞选社区管理者而相互投票情况的数据；
+eu-2005是一个从.eu域名爬取的小部分网页连接数据；
+ljournal-2008记录了一个虚拟社交网络中所有用户的交友关系。
 每个图一开始为普通的文本形式，每一行代表这图中的一条边。
 在开始实验前，所有的数据集都预先上传到分布式文件系统HDFS上。
 \begin{table}[h]
@@ -1151,35 +1159,40 @@ Spark运行版本为1.6.2， 底层分布式文件系统HDFS的版本号为2.6.0
 \hline
 \textbf{数据集} & \textbf{顶点数} & \textbf{边数} & \textbf{顶点平均度数} & \textbf{大小} \\
 \hline
-p2p-gnutella08 \footnotemark[1]  & {6301}         & \num{20777}                   & 3.29                & 215.2KB\\
+p2p-gnutella08 \footnotemark[1]  & \num{6301}         & \num{20777}                   & \num{3.29}               & \num{215.2}KB\\
 \hline
-wiki-vote \footnotemark[2]    & 7115 	& \num{103689}                           &14.57                & 1.1MB  \\
+wiki-vote \footnotemark[2]    & \num{7115} 	& \num{103689}                           &\num{14.57 }              & \num{1.1}MB  \\
 \hline
 %wiki-talk            & \num{2394385} & \num{5021410}          &2.10                   & 66.5MB\\
 %\hline
-eu-2005       \footnotemark[3]     & \num{862664}  & \num{19235140 }          & 22.29             & 256.4MB\\
+eu-2005       \footnotemark[3]     & \num{862664}  & \num{19235140 }          & \num{22.29}             & \num{256.4}MB\\
 \hline
-ljournal-2008  \footnotemark[4] & \num{5363260} & \num{79023142}         & 14.73            &1.2GB\\
+ljournal-2008  \footnotemark[4] & \num{5363260} & \num{79023142}         & \num{14.73}            &\num{1.2}GB\\
 \hline
-arabic-2005 \footnotemark[5]   & \num{22744080} & \num{639999458}      & 28.14           & 10.9GB\\
+arabic-2005 \footnotemark[5]   & \num{22744080} & \num{639999458}      & \num{28.14}           & \num{10.9}GB\\
 %\hline
 %twitter-2010    & \num{41652230 } & \num{1468365182} & 26.1GB\\
 \hline
 \end{tabular}
 \end{table}
+\footnotetext[1]{https://snap.stanford.edu/data/p2p-Gnutella08.html}
+\footnotetext[2]{https://snap.stanford.edu/data/wiki-Vote.html}
+\footnotetext[3]{http://law.di.unimi.it/webdata/eu-2005/}
+\footnotetext[4]{http://law.di.unimi.it/webdata/ljournal-2008/}
+\footnotetext[5]{http://law.di.unimi.it/webdata/arabic-2005/}
 \subsection{实验参数设置}
-根据文献文献\cite{lizorkin2008accuracy}中的描述，通常算法所需要的最大迭代次数$k$是由衰减系数$c$和算法的预期精度决定的。 
+根据文献\cite{lizorkin2008accuracy}中的描述，通常算法所需要的最大迭代次数$k$是由衰减系数$c$和最终结果所要求的精度决定的。 
 如果希望最终误差 $s^*(u,v) - s^k(u,v)$小于某个$\epsilon$，那么$k$至少要被设置为$k=\lfloor \log_c \epsilon \rfloor$。
 在我们的实验中，我们选取$\epsilon=0.01$，因为这样的精度可以满足大多数实际应用。 
 $c$被设置为0.5，相应地，$k$被设置为$k=6$。
 此外，用于过滤掉极小概率的游走的阈值被设置为$\delta=0.002$。注意到这里的$\delta$指的是一个随机游走的概率阈值，
-根据公式\ref{eq:five}，对于一对匹配好的游走，其对应的匹配概率相应的变成${\delta}^2$。
+根据公式\ref{eq:five}，对于一对匹配好的游走，其对应的匹配概率相应的阈值变成${\delta}^2$。
 如果再考虑到因子$c^l$，那么这个概率是极端小的，完全可以忽略。
 
-算法精度的测试采用的方法是多次实验取平均值，每次实验时随机选取图中的某个顶点为查询顶点。
-具体的，对与小图（大小<10MB），我们重复实验100次计算其平均值；对于更大的图，重复次数设为1000。
+算法精度的测试方法是多次实验取平均值，每次实验时随机选取图中的某个顶点为查询顶点。
+对于小图（大小<10MB），我们重复实验1000次计算其平均值；对于更大的图，重复次数设为10000。
 \subsection{算法有效性}
-\begin{figure*}[h]
+\begin{figure}[h]
 \centering
 \begin{subfigure}[b]{0.48\textwidth}
 	\center
@@ -1193,54 +1206,56 @@ $c$被设置为0.5，相应地，$k$被设置为$k=6$。
 	\caption{wiki-vote}
 	\label{fig:ch1:effec:two}
 \end{subfigure}
-\label{fig:ch1:effec}
-\caption{apSimRank和sssSimRank的相似性误差随迭代次数的变化曲线比较}
-\end{figure*}
-我们首先比较我们的算法和全点对算法的精度和收敛速度。
-我们选取的精度指标为平均误差(mean error)，即$ME = \frac{1}{n}\sum_{v \in V}{\left|s(u,v) - s^k(u,v)\right|}$，
-其中$s(u,v)$为根据\ref{eq:two}迭代计算至完全收敛的真实相似性，$s^k(u,v)$为我们算法迭代$k$次后的相似性。
+\caption{标准计算方法和sssSimRank的相似性误差随迭代次数的变化曲线比较}
+\label{fig:ch1:effect}
+\end{figure}
+首先比较我们的算法sssSimRank和标准计算方式apSimRank的时间收敛速度。
+选取的误差指标为平均误差(mean error)，即$ME = \frac{1}{n}\sum_{v \in V}{\left|s(u,v) - s^k(u,v)\right|}$，
+其中$s(u,v)$为根据公式\ref{eq:two}迭代计算至完全收敛的真实相似性，$s^k(u,v)$为我们算法迭代$k$次后的相似性。
 我们在两个小图上进行实验。其中p2p-gnutella08是个比
-较稀疏的图，平均顶点度数$d=3.29$，而wiki-vote是一个更加稠密的图，平均顶点度数为$d=15.57$。
-图\ref{fig:ch1:effec}为最终的比较结果。
-从图中可以看到，全点对算法和我们的算法在6次迭代以内精度都得到了收敛， 我们的算法sssSimRank有更好的收敛速度，三次迭代之后平均误差就在$10^{-4}$以内。
-另一个现象是在图\ref{fig:ch1:effec:one}中sssSimRank的平均误差与apSimRnak的差距比图\ref{fig:ch1:effec:two}更小，
-这是因为我们的算法中使用了概率筛除的缘故。对于同一个概率阈值$\delta$，图的平均顶点度数越大，小概率游走越多， 相应的，被剔除的小概率游走越多，
-所以对最终精度的影响越来越大。 本质上，$\delta$的作用是牺牲一定的精度来换取计算效率的提高。
+较稀疏的图，平均顶点度数$d=3.29$；而wiki-vote是一个更加稠密的图，平均顶点度数为$d=15.57$。
+图\ref{fig:ch1:effect}为最终的比较结果。
+从图中可以看到，二者在6次迭代以内精度都得到了收敛， 我们的算法sssSimRank有更好的收敛速度，三次迭代之后平均误差就在$10^{-4}$以内。
+这是因为我们的算法“抓大放小”剔除了小概率游走，而apSimRank仍然需要继续计算它们。
+另一个现象是在图\ref{fig:ch1:effec:one}中sssSimRank的平均误差与apSimRank的差距比图\ref{fig:ch1:effec:two}更小，
+这是因为我们的算法中使用了概率筛除的缘故。对于同一个概率阈值$\delta$，图的平均顶点度数越大，则小概率游走越多， 相应地，被剔除的小概率游走越多，
+所以对最终精度的影响越大。 
+本质上，$\delta$的作用是牺牲一定的精度来换取计算效率的提高。
 即便如此， sssSimRank的相似性误差仍然非常小（$<10^{-4}$）， 完全可以满足大部分应用的精度需求。
 \subsection{算法的效率}
-为了比较算法的运行效率，我们分别基于Spark平台实现了分布式的全点对算法apSimRank， \ref{algo:nssSimRank}算法nssSimRank，以及本文提出的算法sssSimRank。
+为了比较算法的运行效率，我们分别基于Spark平台实现了分布式的全点对算法apSimRank， 算法\ref{algo:nssSimRank}所示的nssSimRank，以及本文提出的算法sssSimRank。
 直接比较这三个算法的运行时间非常困难，因为apSimRank以及nssSimRank实际运行非常耗时，
 在规模最小的图p2p-gnutella08上， apSimRank需要运行2.1个小时才能完成计算，而nssSimRank需要计算1.2个小时。
-因为对于基于随机游走模型的算法而言，其运行效率主要取决于所生产的随机游走的数量，进一步地说，取决于需要从多少个领域$Nei$来展开生产随机游走。
+因为对于基于随机游走模型的算法而言，其运行效率主要取决于所生产的随机游走的数量，进一步地说，取决于需要从多少个领域$Nei$来展开生成随机游走。
 因此，我们比较sssSimRank和nssSimRank算法中生产$Nei$的数量。结果如图\ref{fig:ch1:runtime}所示。
 \begin{figure}[h]
   \centering
   \includegraphics[width= 1\textwidth]{figure/neighborhoods.eps}\\
   \caption{生成领域数量的比较}\label{fig:ch1:runtime}
 \end{figure}
-从图中可以看出，sssSimRank极大地减少了生成领域的数量。
+从图中可以看出，sssSimRank极大地减少了生成邻域的数量。
 当$\delta=0$时，即算法没有筛除概率极小的游走时，领域数量减少了大约1500x倍。
-从图中还可以观察到领域数量与概率阈值$delta$之间的关系。
-当$\delta$越来越大时，意味这概率“筛子”的“孔”变得越来粗，幸存的随机游走会变得越来越少。
-图\ref{fig:ch1:runtime}还表明，图eu-2005和arabic-2005减少领域的比例比图p2p-gnutella08和ljournal-2008要大很多，
+从图中还可以观察到邻域数量与概率阈值$delta$之间的关系。
+当$\delta$越来越大时，意味着概率“筛子”的“孔”变得越来粗，幸存的随机游走会越来越少。
+图\ref{fig:ch1:runtime}还表明，我们的算法在数据集eu-2005和arabic-2005减少邻域的比例比图p2p-gnutella08和ljournal-2008要大很多，
 这一观察同样表明算法中的概率筛子对稠密的图能更好地提高性能。
 \subsection{算法的可扩展性}
 我们考察分布式环境下算法的可扩展性。 首先考察算法运行时间随着输入图的大小的变化关系，结果如图\ref{fig:ch1:data_scalable}所示。
+图中展示了当集群计算节点数目固定时，对于不同的$\delta$，运行时间随输入图规模大小变化的情况。 
+可以看出，输入图的规模从215KB增长到10.9GB，而对应的运行时间基本上近似的随着输入规模大小线性的变化，
+这一结论对不同的$\delta$都成立。这展示出sssSimRank良好的数据可扩展性。
 \begin{figure}[h]
   \centering
   \includegraphics[width= 1\textwidth]{figure/data_scalability.eps}\\
   \caption{算法运行时间与输入图大小的变化关系}\label{fig:ch1:data_scalable}
 \end{figure}
 
-图中展示了当集群计算节点数目固定时，对于不同的$\delta$，运行时间随输入图规模大小变化的情况。 
-可以看出，输入图的规模从215KB增长到10.9GB，而对应的运行时间基本上近似的随着输入规模大小线性的变化，
-这一结论对不同的$\delta$都成立。这展示出sssSimRank良好的数据可扩展性。
 我们还考察了当输入图的规模固定时，算法运行效率随集群中计算节点数量变化的情况。
 所有的输入图使用同样的参数配置，$k=6$， $\delta=10^{-4}$。 计算节点数量从2增加到6。
-注意到我们把$\delta$取得非常小，是因为$delta$越小，算法剔除的游走越少，算法的计算量越大。
-这样更能提现计算量较为饱和的情况下算法的节点可扩展性。实验结果如图\ref{fig:ch1:node_scalable}所示。
+注意到我们把$\delta$取得非常小，是因为$delta$越小，算法剔除的游走越少，总的计算量越大，
+这样更能体现计算量较为饱和的情况下算法的节点可扩展性。实验结果如图\ref{fig:ch1:node_scalable}所示。
 从图中可以看到，对不同规模的输入图，算法的运行时间随集群计算节点的增加而近乎线性的减少，
-这表面算法在分布式环境下具有良好的节点可扩展性。
+这表明我们的分布式计算方法具有良好的节点可扩展性。
 \begin{figure}[h]
   \centering
   \includegraphics[width= 1\textwidth]{figure/node_scalability.eps}\\
@@ -1252,18 +1267,31 @@ $c$被设置为0.5，相应地，$k$被设置为$k=6$。
 算法消除了单机算法无法处理大规模图数据的缺陷，具有较好的并行度。
 本文给出了算法在Spark平台上的实现，基于真实数据的实验结果验证了算法的计算效率、有效性和可扩展性。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{分布式图分割方法}\label{chapter_graphpartition}
+\chapter{基于模块度优化的分布式大规模  \\ 图划分方法}\label{chapter_graphpartition}
 \section{概述}
-随着现实生活中数据规模的不断扩大，与之对应的图数据网络结构愈加复杂，规模不断增大，典型的大图甚至有数十亿个节点和上万亿条边。
+随着现实生活中数据规模的不断扩大，与之对应的图数据网络结构愈加复杂，规模也不断增大，典型的大图甚至有数十亿个顶点和上万亿条边。
 普通的单台计算机由于运算内存的限制，远远无法胜任对大规模图数据的计算处理任务，
-这给解决一些基于图计算的常见问题（如寻找连通分量\cite{DBLP:conf/sc/HongRO13}、计算三角形\cite{DBLP:journals/corr/abs-1011-0468}、计算PageRank\cite{page1999pagerank}、
-计算SimRank\cite{jeh2002simrank}计算等）带来了巨大的挑战。
+这给解决一些基于图计算的常见问题（如寻找连通分量\cite{DBLP:conf/sc/HongRO13}、
+计算三角形\cite{DBLP:journals/corr/abs-1011-0468}、计算PageRank\cite{page1999pagerank}、
+计算SimRank\cite{jeh2002simrank}等）带来了巨大的挑战。
 因此，首先将图划分成多个子图装载到不同计算节点上中，然后再充分利用分布式平台进行后续的图分析、图信息挖掘任务，
-是处理大规模图数据唯一可行的路径。
+是处理大规模图数据唯一可行的方案。
 
-图划分可以分为两种策略：基于顶点的划分(vertex cut)和基于边的划分(edge cut)。
+图划分按划分对象归类为为两类：切分边(edge cuts)和切分顶点(vertex cuts)。
+前者以顶点为最小单位进行划分，划分后图中的一条边的两个端点可以处于不同的分块中；
+后者以边为最小单位进行划分，划分后同一个顶点可以出现在多个分块中的多条边中。
+图\ref{fig:partition_scheme}展示了两种不同的方法。
+\begin{figure}[h]
+  \centering
+  \includegraphics[width= 0.7\textwidth]{figure/partition_approach.png}\\
+  \caption{两种划分方式。左图以顶点为单位划分，右图以边为单位划分}
+  \label{fig:partition_scheme}
+\end{figure}
+这两种划分方法有各自适用的场景\cite{DBLP:conf/eurosys/ChenSCC15}：对于绝大多数顶点度数都很低的图，前者更合适，因为顶点存放在本地的邻接表规模较小；
+而对于有很多极高度数的顶点的图，后者是更合适的选择，因为与这些顶点相关的计算可以分发到不同计算节点上去实现负载均衡。
+本文关注以边为对象的划分方式，如无特殊说明，本文下面提到的图划分都是指对图中顶点的划分。
 
-图划分问题可以用数学语言描述如下： 给定一个图$G(V, E)$，设其顶点数量$|V|=n$,边的数量$|E|=m$，图的划分即将$V$划分为$k$个子集$(C_1, C_2, \dots, C_k)$，
+图划分问题可以用数学语言描述如下： 给定一个图$G(V, E)$，图的划分即将$V$划分为$k$个子集$(C_1, C_2, \dots, C_k)$，
 使得对任意$1 \leq i,j \leq k$，满足下列约束：
 \begin{equation}
 \begin{aligned}
@@ -1294,35 +1322,40 @@ $c$被设置为0.5，相应地，$k$被设置为$k=6$。
 针对以上问题，我们提出一种高效的分布式图划分算法，实验结果表明，该方法具有较高的效率以及较好的可扩展性。
 
 \section{相关工作}
-目前学术界对图划分问题做了大量的一些研究，概括地说，目前的划分方法主要有以下几种：
+目前学术界对图划分问题做了大量的研究，概括地说，目前的划分方法主要有以下几种：
 
 \textbf{单节点串行算法。 } 文献\cite{garey1974somenp}证明了图划分问题是一个NP完全问题。 
 因此，早起很多工作都集中在设计一些近似算法以求得次优解。
 文献\cite{kernighan1970efficient}提出了Kernighan-Lin(KL)算法，该方法首先将图初始划分为偶数个分块，
-然后基于一些启发式信息不断交换不同分块中的节点，直到不同划分之间的边割($edge-cut$)的权重之和达到最小。
-KL算法每次迭代的时间复杂度为$O(n^3)$，它的划分质量较高，但是不能应用在超图上，而且对于规模稍大的输入图就显得无能为力。
+然后基于一些启发式信息不断交换不同分块中的顶点，直到不同划分之间的边割($edge-cut$)的权重之和达到最小。
+KL算法每次迭代的时间复杂度为$O(n^3)$，它的划分质量较高，但是不能应用在超图(supergraph)上，而且对于规模稍大的输入图就显得无能为力。
 FM算法\cite{fiduccia1988linear}改进了KL算法中的顶点交换策略，每次不再交换一堆顶点而是改为基于分割线使得顶点在分割线两侧移动。
-顶点移动的标准是最大化划分的负载均衡度。同时FM算法将算法的运用范围扩展到了超图(supergraph)，它的每次迭代拥有线性的时间复杂度。
+顶点移动的标准是最大化划分的负载均衡度。FM算法的适用范围扩展到了超图，它的每次迭代拥有线性的时间复杂度。
 还有一些基于模拟退火\cite{johnson1989optimization}，遗传算法\cite{bui1996genetic}的解决方案。
-这些方法的研究对象都是基于内存存储的小图。
+这些方法的研究对象都是基于单节点内存存储的小图。
 
-为了能够应对更大规模的图，一些多层次划分的方法相继被提出，包括 Metis\cite{Karypis95metis}，Chaco\cite{leland1995chaco}和Scotch\cite{pellegrini1996scotch}。
-这些方法主要由三个步骤组成：图的塌缩(coarsening phase)、初始划分(initial partition)、恢复(uncoarsening phase)。
+为了能够应对更大规模的图，一些多层次划分的方法相继被提出，包括 Metis\cite{Karypis95metis}，Chaco\cite{leland1995chaco}
+和Scotch\cite{pellegrini1996scotch}。
+这些方法主要由三个步骤组成：图的塌缩(coarsening phase)、初始划分(initial partition phase)、恢复(uncoarsening phase)。
 其中，塌缩是指将图中若干顶点变为一个顶点，同时减少边的个数，从而提取出整个图拓扑信息的“骨骼”并基于此构造一个更小的图; 
-初始划分指的是经过多次塌缩过程后，在小图上运行传统图划分算法得到一个原始划分；
-最后恢复过程是按照塌缩步骤的相反顺序逐渐将图恢复成原来的形状，并将原始划分投影成原输入图上的划分。
+初始划分指的是经过多次塌缩过程后，在得到的小图上运行传统图划分算法得到一个原始划分；
+最后恢复过程按照塌缩步骤的相反顺序逐渐将图恢复成原来的形状，将原始划分投影成原输入图上的最终划分。
 这三个阶段缺一不可， 共同完成了从大规模图数据到简单小图再重新恢复的过程。
-尽管可以处理的图规模有所扩大，目前这些软件包可接受的输入数据依然都是基于内存存储的小图。
+尽管可以处理的图规模有所扩大，目前这些软件包可接受的输入数据依然都是基于单节点存储的小图。
 
 \textbf{单节点并行算法。 } 为了进一步充分利用现代CPU的多核特性，从以上这些单线程算法中演化出一些并行化算法，
 典型的有ParMetis\cite{karypis1998parallel}，Pt-Scotch\cite{chevalier2008pt}等。 
 这些算法或多或少地挖掘出图划分问题本身潜在的计算可并行性，所以其能够处理的图的规模也获得了的提升。 
 但总的来说这些方法仍然是基于单计算节点的，其计算能力受到有限的计算资源的限制，对规模更大的（上百万节点）图无能为力。
 
-\textbf{分布式图划分。 } 近年来，一些专门用于图计算的分布式平台越来越流行，包括Pregel\cite{malewicz2010pregel},Spark GraphX\cite{DBLP:conf/osdi/GonzalezXDCFS14}, Trinity\cite{shao2012trinity}等等。
+\textbf{分布式图划分。 } 近年来，一些专门用于图计算的分布式平台越来越流行，包括Pregel\cite{malewicz2010pregel},
+Spark GraphX\cite{DBLP:conf/osdi/GonzalezXDCFS14}, Trinity\cite{shao2012trinity}等等。
 这些平台的一个典型特点是支持以顶点为中心(vertex-centric)的编程范式，并且在系统层面拥有原生的顶点间消息通信机制。
 然而上面几个流行的平台尽管也开放了一些接口支持用户按照需求设计自己的划分方法，但都没有提供一个直接可用的、高效的分布式图划分方法。
 在读入输入数据时，它们往往使用随机划分的方法加载图数据，其划分质量没有任何保障。
+以GraphX为例，它提供了几种简单的以边为划分对象的划分机制：EdgePartition2D， EdgePartition1D， RandomVertexCut，CanonicalRandomVertexCut。
+第一种对图的邻接矩阵进行二维的划分，例如对9$\times$9的矩阵，将其均匀划分成9个3$\times3$的分块，在把这些分块划分到集群中的9个节点上去。
+剩下三种方式都是按照边的两个端点的ID信息进行哈希从而将边划分到不同节点中去。
 
 \section{算法的基本框架}
 我们从以下两方面来考虑图划分算法的优化目标：
