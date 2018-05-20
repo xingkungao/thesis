@@ -323,6 +323,30 @@ font=\small]
 \end{tikzpicture}
 \end{filecontents*}
 
+\begin{filecontents*}{temp7.tikz}
+\begin{tikzpicture}
+\tikzset{vertex/.style = {shape=circle,draw,minimum size=10 pt}}
+\tikzset{edge/.style = {-,> = latex'}}
+% vertices
+\node[vertex] (a) at  (2,2) {a,d};
+\node[vertex] (b) at  (1,1) {c,f};
+\node[vertex] (c) at  (3,1) {b,j};
+\node[vertex] (d) at  (0,0) {e,g};
+\node[vertex] (e) at  (2,0) {h,i};
+\node[vertex] (f) at  (4,0) {k,l};
+
+%edges
+\draw[edge] (a) to (b);
+\draw[edge] (a) to (c);
+\draw[edge] (b) to (d);
+\draw[edge] (b) to (e);
+\draw[edge] (c) to (e);
+\draw[edge] (c) to (f);
+\draw[edge] (d) to (e);
+\draw[edge] (e) to (f);
+\end{tikzpicture}
+\end{filecontents*}
+
 \begin{filecontents*}{temp6.tikz}
 \begin{tikzpicture}
 \tikzset{vertex/.style = {shape=circle,draw,minimum size=10 pt, fill=gray}}
@@ -1284,7 +1308,7 @@ $c$被设置为0.5，相应地，$k$被设置为$k=6$。
 \begin{figure}[h]
   \centering
   \includegraphics[width= 0.7\textwidth]{figure/partition_approach.png}\\
-  \caption{两种划分方式。左图以顶点为单位划分，右图以边为单位划分}
+  \caption{两种划分方式。左图以顶点为基本划分单位，右图以边为基本划分单位}
   \label{fig:partition_scheme}
 \end{figure}
 这两种划分方法有各自适用的场景\cite{DBLP:conf/eurosys/ChenSCC15}：对于绝大多数顶点度数都很低的图，前者更合适，因为顶点存放在本地的邻接表规模较小；
@@ -1354,27 +1378,34 @@ Spark GraphX\cite{DBLP:conf/osdi/GonzalezXDCFS14}, Trinity\cite{shao2012trinity}
 然而上面几个流行的平台尽管也开放了一些接口支持用户按照需求设计自己的划分方法，但都没有提供一个直接可用的、高效的分布式图划分方法。
 在读入输入数据时，它们往往使用随机划分的方法加载图数据，其划分质量没有任何保障。
 以GraphX为例，它提供了几种简单的以边为划分对象的划分机制：EdgePartition2D， EdgePartition1D， RandomVertexCut，CanonicalRandomVertexCut。
-第一种对图的邻接矩阵进行二维的划分，例如对9$\times$9的矩阵，将其均匀划分成9个3$\times3$的分块，在把这些分块划分到集群中的9个节点上去。
+第一种方式对图的邻接矩阵进行二维的划分，例如对9$\times$9的矩阵，将其均匀划分成9个3$\times3$的分块，再把这些分块划分到集群中的9个节点上去。
 剩下三种方式都是按照边的两个端点的ID信息进行哈希从而将边划分到不同节点中去。
+
+\textbf{流式图划分。} 文献\cite{DBLP:conf/wsdm/TsourakakisGRV14}\cite{DBLP:conf/kdd/StantonK12}研究了流式图的划分方法。
+这种场景下图中的顶点以数据流的形式流入系统，算法无法感知图的全局拓扑结构。这类方法使用一些简单的局部启发式信息对图进行划分，因而划分质量往往不是最优。
 
 \section{算法的基本框架}
 我们从以下两方面来考虑图划分算法的优化目标：
 \begin{enumerate}
- \item 划分结果顶点的分配均衡。 考虑一个由$k$个计算节点组成的集群，存储资源（硬盘）散落在每个计算节点上，
- 所以理想情况下最终划分的结果应当尽可能的均匀分布在集群中。也就是说，每个划分的大小应当在$\frac{|V|}{k}$左右，
- 或者说划分过程中应该避免$|C| > \frac{|V|}{k}$的分块的产生。
- 如果仍然有某个分块分布式地存储在超过一个结算节点上，那所谓的分布式图划分就没有意义。
+ \item 划分结果顶点的分配均衡。 理想情况下，每个分块中顶点的数目应该尽可能相似。 
+ 如果用$bs$表示分块中顶点数目的上限，那么对划分$P=(C_1, C_2, \dots, C_n)$，应该有$\max\limits_{i}|C_i| \leq bs$。
+约束条件$bs$的设置可以与具体情景有关，比如集群中计算节点的内存容量一定满足是$bs$的一个上限。
  \item 划分结果的质量。 理想情况下图划分算法应该可以把图中稠密的子图归类于一个分块中。
  但是图中稠密子图的规模天然是不均匀的，而划分过程中有负载均衡的限制，因此我们需要从整体考虑划分的质量。
- 设$P$是图$G(V,E)$的一个划分，定义其边割为
- $W_{P}=\sum\nolimits_{e(u,v) \in E, u \in C_i, v \in C_j} w\big(e(u,v)\big)$，即所有连接不同分块的边的权重之和。
- 理论上，$W_P$应尽可能的小。
+ 设$P$是图$G(V,E)$的一个划分，定义其边割(edge-cut)为
+ $EC =\sum\nolimits_{e(u,v) \in E, u \in C_i, v \in C_j} w\big(e(u,v)\big)$，即所有连接不同分块的边的权重之和。
+ 理论上，$EC$应尽可能的小。
 \end{enumerate}
-我们的算法借鉴多层次划分的思想，即通过不断的coarsen步骤使得原图的规模越来越小，
-当图的规模小到某个可以接受的阈值时，再使用KL或FM等单节点算法直接进行划分。
-最后划分的结果再直接投影到原图中，这样就得到了最终的划分结果。
-图\ref{fig:mlp_framework}揭示了多层次划分算法的大致框架。
-\begin{figure}[h]
+我们的算法借鉴多层次划分（Multi-Level Partitioning）的思想,主要有下面三个步骤：
+\begin{enumerate}
+ \item 首先不断地通过塌缩步骤使原图的规模越来越小。
+每次进行塌缩时，先对图做效果有限的简单划分，然后将划分结果的每一个分块当做一个新的顶点，分块之间的边当做一条新的边，形成一个规模小很多的图。
+\item 经过多次迭代塌缩后，图的规模小到某个可以接受的阈值，再使用KL或FM等传统高质量单节点算法直接进行划分，得到初始划分的结果。
+\item 最后将初始化分划直接投影到原图中，这样就得到了最终的划分结果。
+\end{enumerate}
+图\ref{fig:mlp_framework}揭示了多层次划分算法的大致框架，每一步的具体细节将在下文给出。
+
+\begin{figure}[th]
   \centering
   \includegraphics[width= 0.75\textwidth]{figure/coarsen.jpg}\\
   \caption{多层次图划分的算法框架}
@@ -1382,8 +1413,8 @@ Spark GraphX\cite{DBLP:conf/osdi/GonzalezXDCFS14}, Trinity\cite{shao2012trinity}
 \end{figure}
 
 \subsection{塌缩步骤}
-设原始输入图为$G_{0}(E_0,V_0)$，并假设迭代塌缩过程中产生的中间图由记号$G_1, G_2, \dots, G_t$表示。
-相应的，由中间图产生的划分称作$P_1, P_2, \dots, P_{t}$。
+设原始输入图为$G_{0}(E_0,V_0)$，迭代塌缩过程中产生的中间图由记号$G_1, G_2, \dots, G_t$表示。
+相应地，由中间图产生的划分表示为$P_1, P_2, \dots, P_{t}$。
 注意到迭代过程中图的划分与其输入图下标是对应的，即$G_{i-1} \rightarrow P_i \rightarrow G_i$。
 我们首先给出塌缩的具体过程。
 \begin{definition}
@@ -1402,31 +1433,32 @@ Spark GraphX\cite{DBLP:conf/osdi/GonzalezXDCFS14}, Trinity\cite{shao2012trinity}
 w(u) = \sum\limits_{v \in C_k} w(v)
 \end{equation}
 其中，$C_k$为图$G_{i+1}$中新顶点$u$在图$G_i$中对应的分块。
-类似的，边$e=(C_i, C_j)$的新权重定义为：
+类似地，边$e=(C_i, C_j)$的新权重定义为：
  \begin{equation}
-w(C_i, C_j) = \sum\limits_{e(u,v) \in E_i, u \in C_i, v \in C_j} w\big(e(u,v)\big)
+w(C_i, C_j) = \sum\limits_{(u,v) \in E_i, u \in C_i, v \in C_j} w(u,v)
 \end{equation}
-即压缩图中的新边的权重等于该边在原图中代表的两个分块间所有相连接的边的权重之和，而新顶点的权重为原图中对应分块中的所有顶点的权重之和。
+即塌缩图中的新顶点的权重为原图中对应分块中的所有顶点的权重之和，新边的权重等于该边在原图中代表的两个分块间所有相连接的边的权重之和。
 \end{definition}
 通过这样的权重赋值方式，保证了塌缩后的图具有如下特性：
 \begin{enumerate}
  \item 边的权重赋值方式使得划分塌缩后的图所的边割代价与划分原图保持一致，这样可以保证图划分质量的一致性。
  \item 顶点的权重赋值方式使得划分塌缩后的图的负载均衡状况与划分原图保持一致，这样可以保证划分过程中负载均衡的一致性。
 \end{enumerate}
+\subsection{基于模块度优化的塌缩}
+那么迭代过程中如何基于$G_{i-1}$生成划分$P_i$呢？
+ParMetis\cite{karypis1998parallel}基于最大匹配(maximal match)来对图进行塌缩。
+匹配指的是图中边集$E$的子集，其中每条边的端点两两不相交。如果一个匹配无法再加入其它边，那么这个匹配就是一个最大匹配。
+ParMetis首先寻找图中的最大匹配，然后对匹配中的边直接将其两个端点融合成一个新的顶点；而不在匹配中的顶点继续保留，这样就可以产生塌缩后的图。
+选择最大匹配的目的是最大程度地减小图的规模。
+这是ParMetis实现$G_{i-1} \rightarrow P_i \rightarrow G_i$转换的主要逻辑。	
 
-那么，迭代过程中如何基于$G_{i-1}$生成划分$P_i$呢？
-ParMetis\cite{karypis1998parallel}基于最大匹配(maximal match)来对图进行压缩。匹配指的是图中边集$E$的子集，其中每条边的端点两两不相交。
-如果一个匹配无法再加入其他边，那么这个匹配就是一个最大匹配。
-具体进行塌缩时，ParMetis采取的做法是对匹配中的边，直接将其两个端点融合成一个新的顶点；而不在匹配中的顶点继续保留，这样就可以产生塌缩后的图。
-选择最大匹配的目的是最大程度地通过塌缩减小图的规模。
-
-文献\cite{raghavan2007near}给出了一种基于标签传播(Label Propogation，LP)来解决社区发现(Community Detection)问题的算法。
-社区，从直观上来看指的是网络中的一些密集群体，每个社区内部的顶点间的联系相对紧密，但是各个社区之间的连接相对来说却比较稀疏。
+我们的塌缩过程借鉴了社区发现(Community Detection)的思想。
+社区，从直观上来看指的是网络中的一些密集群体，每个社区内部的顶点间的连接相对紧密，但是各个社区之间的连接相对来说却比较稀疏。
 社区发现任务与图划分任务的区别在于，前者不会固定社区的数量，因为具体社区的个数是由输入图的内在结构决定的；
-而后者往往会设定需要划分的分块个数$k$。
-两者的相似之处在于，社区检测过程中图中局部联系紧密的子结构往往会共享同一个社区ID，这与图划分任务的内在要求相一致。
+而后者往往会设定需要划分的分块个数$\alpha$。
+两者的相似之处在于，社区发现过程中图中局部联系紧密的子结构往往会共享同一个社区ID，这与图划分任务的内在要求相一致。
 图\ref{fig:mlp_cd}展示了一个典型的社区发现结果。
-从图中可以直观的看到算法总共检测到了4个社区。如果直接将其当做图的一个4划分$P=(C_1, C_2, C_3, C_4)$，其划分质量也是不错的。
+从图中可以直观地看到算法总共检测到了4个社区。如果直接将其当做图的一个4划分$P=(C_1, C_2, C_3, C_4)$，其划分质量也是不错的。
 \begin{figure}[h]
   \centering
   \includegraphics[width= 0.6\textwidth]{figure/lp.png}\\
@@ -1434,28 +1466,57 @@ ParMetis\cite{karypis1998parallel}基于最大匹配(maximal match)来对图进�
    \label{fig:mlp_cd}
 \end{figure}
 
-LP算法的思想非常简单：最初的时候我们给图中每个顶点一个单独的社区ID，
+\iffalse
+文献\cite{raghavan2007near}给出了一种基于标签传播(Label Propogation，LP)来解决社区发现问题的算法。
+LP算法的思想非常简单：最初的时候我们为图中每个顶点分配一个单独的社区ID，
 然后我们迭代式地为每个顶点更新社区ID。
-每次迭代中，每个顶点将其邻居顶点所属社区ID出现次数最多的那个作为自己新的ID。
+每次迭代每个顶点将其邻居顶点所属社区ID出现次数最多的那个作为自己新的ID。
 当$G$中每个顶点的社区ID基本上不再变动时，算法结束。
 与其他图塌缩方法（例如最大匹配）相比，基于社区检测的方法能够更好地感知原图中的语义。
-
-
 上述社区发现过程中，确定每个顶点所属的社区ID并没有使用$G$中任何的先验信息或者是既定的目标函数，
 而只是利用了图中顶点与其邻居顶点的局部相似性原理。
-本文借鉴了文献\cite{newman2006modularity}中模块度(modularity)的思想，试图在迭代过程中有方向性地寻找合适的社区ID。
+\fi
+本文借鉴了文献\cite{newman2006modularity}中模块度(modularity)最大化的思想，它是常见的社区检测方法之一。
 模块度是常用的一种衡量网络中社区稳定度的方法。
 简而言之，对于一个已经分配好社区（或划分）的图，分配在同一社区的边占总边数的比例，与对这些边随机分配得到的概率期望，这两者的差就是其模块度。
-用数学预言描述，设$d_v$表示顶点$v$的度数, $C_v$表示节点$v$所在社区的ID，图的模块度的定义如下：
+图\ref{fig:modu_paritition}比较了一个简单图上的基于最大匹配和模块度优化进行塌缩的结果，从中可以明显看出后者更好地保留了原图中的稠密子结构，
+即更好地保留了图中的语义成分。
+
+用数学预言描述，设$d_v$表示顶点$v$的度数, $C_v$表示节点$v$所在社区的ID，图的模块度定义如下：
 \begin{equation}
 \label{eq:mod}
 Q = \frac{1}{2W}\sum\limits_{u, v \in V} \left[w_{u,v} - \frac{{d_u}{d_v}}{2W} \right]\delta \left(C_u, C_v\right),
 \end{equation}
-其中$\delta(C_u, C_v)$表示顶点$u, v$是否处于一个社区，即如果$C_v = C_u$，那么$\delta(c_u, c_v)$等于１；否则为０。
-$w_{u,v}$表示边$(u,v)$是否存在，即如果$(u,v)\in E$,那么$w_{u,v}=1$，
+其中$\delta(C_u, C_v)$表示顶点$u, v$是否处于一个社区，即如果$C_v = C_u$那么$\delta(C_u, C_v)$等于１；否则为０。
+$w_{u,v}$表示边$(u,v)$的权重，对于不带边权的图，可以认为如果$(u,v)\in E$那么$w_{u,v}=1$，
 否则为0。$W$表示图中所有边的权重之和，即$W=\sum_{(u,v) \in E}w_{uv}$。
-
-按照上面的定义，我们有如下的定理：
+\begin{figure}[t]
+    \centering
+    %\subfig[fjalkf]
+    \begin{subfigure}[b]{0.4\linewidth}        %% or \columnwidth
+        \centering
+        \label{fig:two:one}
+	\resizebox{!}{!}{\input{temp5.tikz}}
+	\caption{$G$}
+	\label{fig:figure2:figure1} 
+	\end{subfigure}
+    \begin{subfigure}[b]{0.4\linewidth}        %% or \columnwidth
+     \centering
+	\resizebox{!}{!}{\input{temp7.tikz}}
+	\caption{通过最大匹配塌缩后的图$G\prime$}
+	\label{fig:figure2:figure2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.4\linewidth}        %% or \columnwidth
+     \centering
+	\resizebox{!}{!}{\input{temp6.tikz}}
+	\caption{通过模块度优化塌缩后的图$G\prime$}
+	\label{fig:figure2:figure2}
+    \end{subfigure}
+    \caption{(a)为一个简单的示例图$G$，(b)为$G$该通过最大匹配算法塌缩后形成的图$G\prime$, 每个顶点代表$G$中的一个划分，(c)为$G$通过模块度优化算法塌缩后形成的图$G\prime$, 每个顶点代表$G$中的一个划分}
+    \label{fig:modu_paritition}
+\end{figure}
+这个定义表面模块度是一个取值在-1与1之间的标量，并且模块度越大，其社区划分的质量越高。
+按照上面的定义，我们有如下的推论：
 \theorem{根据上面的定义，我们实际上可以得到模块度$Q$定义的简单形式：
 \begin{equation}
 Q = \sum\limits_{c \in P} \left[\frac{I_c}{2W} - {\left(\frac{S_c}{2W}\right)}^2 \right]
@@ -1485,26 +1546,6 @@ Q &= \frac{1}{2m}\sum\limits_{c \in C} \left[I_c - \frac{S_c^2}{2m} \right] \\
 \end{equation}
 \end{proof}
 
-
-\begin{figure}[t]
-    \centering
-    %\subfig[fjalkf]
-    \begin{subfigure}[b]{0.48\linewidth}        %% or \columnwidth
-        \centering
-        \label{fig:two:one}
-	\resizebox{!}{!}{\input{temp5.tikz}}
-	\caption{$G$}
-	\label{fig:figure2:figure1} 
-	\end{subfigure}
-    \begin{subfigure}[b]{0.48\linewidth}        %% or \columnwidth
-     \centering
-	\resizebox{!}{!}{\input{temp6.tikz}}
-	\caption{经过塌缩后的图$G\prime$}
-	\label{fig:figure2:figure2}
-    \end{subfigure}
-    \caption{(a)为一个简单的示例图，(b)为改图经过塌缩(coarsen)后的图$G\prime$, 每个顶点代表$G$中的一个划分}
-    \label{fig:two}
-\end{figure}
 我们下面给出基于模块度优化的图划分方法。
 迭代初始化时每个顶点拥有一个单独的ID，考虑把某个顶点$u$重新放入到某个新的分块$C$后，整个图$G$的模量会发生变化，
 我们用符号$\Delta Q_{u,C}$表示。
@@ -1515,7 +1556,7 @@ Q &= \frac{1}{2m}\sum\limits_{c \in C} \left[I_c - \frac{S_c^2}{2m} \right] \\
  \left[ \frac{I_C}{2W} - {\left(\frac{S_C}{2W} \right)}^2 \right] - {\left(\frac{d_u}{2W}\right)}^2 
 \end{aligned}
 \end{equation}
-其中，$w_{u,C}$指的是顶点$u$指向分块$C$中的所有的边的权重之和。经过若干步骤的化简，最终我们可以得到模块度变化的简单形式：
+其中，$w_{u,C}$指的是顶点$u$指向分块$C$的所有的边的权重之和。经过若干步骤的化简，最终我们可以得到模块度变化的简单形式：
 \begin{equation}
 \begin{aligned}
 \label{eq:deltaQ}
@@ -1532,16 +1573,16 @@ Spark需要严格同步（synchronize）本轮迭代中所有线程的计算结�
 算法包含三个参数，$\alpha, \beta, k$。
 其中，$\alpha$指的是反复塌缩过程的目标划分数目，如果迭代过程中当前的划分数目大于$\alpha$，就继续迭代下去。
 $\alpha$取值的具体设定与第二步中单节点图划分算法可以处理的输入图规模有关。
-$\beta$指的是我们基于模量的塌缩方法的迭代次数。
-参数$k$控制了图划分过程中每个分块大小的上限$|V|/k$。
-如果$k$设置得较大，那么最终每个分块规模会比较小，而分块数目较多；
-如果$k$设置得较小，那么每个分块规模可能较大，而分块数目较少。
-首先根据参数$k$求出分块大小的阈值$bs$（第2行），并且初始时赋予图中每个顶点一个不同的ID（第3行）。
-算法会一直迭代直到当前的分块数目小于$\alpha$（第4行），每次迭代过程中都会更新划分$P$并生成新的塌缩图（第18-19行）。
-每次的迭代内部包含一个迭代$\beta$次的社区发现过程（第6-17行）。
-如果模块度有增益，那么一个顶点会移入到其邻居顶点所属的社区中（第8-17行）。
-注意到如果待加入的那个社区中包含的顶点权重之和（根据公式\ref{eq:vertex_weight}，权重之和表示该社区在原输入图$G_0$对应的顶点数目)
-已经超出了分块阈值$bs$，那么该社区不会接受新的顶点加入（第10行）。
+$\beta$指的是我们的塌缩方法（即基于模块度进行社区检测）的迭代次数。
+参数$bs$代表图划分过程中每个分块可以包含顶点数目的上限。
+如果$bs$设置得较大，那么最终每个分块规模会比较小，而分块数目较多；
+如果$bs$设置得较小，那么每个分块规模可能较大，而分块数目较少。
+首先初始时赋予图中每个顶点一个不同的ID（第2行）。
+算法会一直迭代直到当前图的顶点数目小于$\alpha$（第3行），每次迭代过程中都会更新划分$P$并生成新的塌缩图（第17-18行）。
+每次的迭代内部包含一个迭代$\beta$次的社区发现过程（第4-16行）。
+如果模块度有增益，那么一个顶点会移入到其邻居顶点所属的社区中（第7-16行）。
+注意到如果待加入的那个社区中包含的顶点权重之和（根据公式\ref{eq:vertex_weight}，权重之和表示该社区在原输入图$G_0$对应的划分中的顶点数目)
+已经超出了分块阈值$bs$，那么该社区不会接受新的顶点加入（第9行）。
 这保证了最终分块的负载均衡，即每一个分块的顶点数目都不会超过$bs$。
 
 %\begin{figure}[tbp]
@@ -1549,15 +1590,15 @@ $\beta$指的是我们基于模量的塌缩方法的迭代次数。
 \captionof{algorithm}{Modularity-based Graph Coarsening}
 \label{alg:mlgp}
 \begin{algorithmic}[1]
-\Procedure{GraphCoarsening}{$G, \alpha, \beta, k$}
-  \State {Set block size threshold $bs \gets |V|/k$};
+\Procedure{GraphCoarsening}{$G, \alpha, \beta, bs$}
+  %\State {Set block size threshold $bs \gets |V|/k$};
   \State Initialize partition $P$, which assigns each vertex a unique partition ID;
       \While{$|V| \ge \alpha$} \Comment{\#Paritions greater than  $\alpha$}
 	  \State $W \gets \sum\nolimits_{u,v \in V} w_{u,v}$; 
 	  \For{$i=1$ to $\beta$}
 	    \For { $u \in V$}
 		\State{$maxGain \gets -1$};
-		\For{ $v \in N_v$}
+		\For{ $v \in Nei_u$}  \Comment{Loop $u$' neighbors}
 		  \If {$|C_v| \ge bs$} \Comment{Partitions with size smaller than $bs$}
 		     \State $\Delta Q_{u,C_{v}} \gets \frac{w_{u,C_v}}{2W} - \frac{S_{C_v}d_u}{2W^2}$;
 		     \If {$\Delta Q_{u,C_{v}} > maxGain$}
@@ -1585,13 +1626,13 @@ $\beta$指的是我们基于模量的塌缩方法的迭代次数。
 \subsection{初始划分与恢复步骤}
 经过反复塌缩后，原图$G_0(V_0,E_0)$变成了规模足够小的图$G_t(V_t,E_t)$，其中$|V_t| < \alpha$。
 此时$G_t$中每个顶点$u$都对应原图$G_0$中的若干紧密连接的顶点集合$C_u$，$u$的权重对应$|C_u|$；
-$G_t$中的每条边$(u,v)$都对应$G_0$中顶点集合$C_u$与$C_v$之间的边割，$(u,v)$的权重对应边割集中边的数目。
+$G_t$中的每条边$(u,v)$都对应$G_0$中横跨集合$C_u$与$C_v$之间的边，$(u,v)$的权重对应边割集中边的数目。
 因此，对$G_t$的划分$P_t$可以一一对应到对$G_0$的划分$P^\star$。
 并且，顶点$u \in V_t$是$P_t$的最小划分单元，而对应到$G_0$中，集合$C_u$才是$P^\star$的最小划分单位。
 $C_u$中的顶点是不可重新进行划分的，因为它们的分块在之前的塌缩过程中就已经由基于模块度的社区发现逻辑决定了。
 
 我们直接使用METIS软件包提供的单节点算法求解$G_t$的划分$P_t$。
-具体求解时，仍然按照之前的目标：即划分的负载均衡以及边割权重的最小化。
+具体求解时，仍然按照之前的目标：即顶点数目的划分均衡以及边割权重的最小化。
 因为METIS只能处理规模较小的图，所以$\alpha$的值应当设置在合理的范围内。
 
 恢复过程比较简单，对$P_t$中的每个顶点$u$，直接把其在$G_0$中一一对应的顶点集合$C_u$中的所有顶点的分块号，
@@ -1615,7 +1656,11 @@ $C_u$中的顶点是不可重新进行划分的，因为它们的分块在之前
 \fi
 \section{基于Spark平台的算法的实现}
 我们主要基于Spark提供的分布式图计算框架GraphX来实现算法的逻辑。
-因为图中顶点在计算过程中需要与相邻顶点通过网络交换信息，我们首先给出顶点的定义：
+因为图中顶点在计算过程中需要与相邻顶点通过网络交换信息，我们首先给出顶点的定义,如图\ref{fig:node_struct}所示。
+可以看到，Node这个结构记录了顶点的ID、所属分块ID、权重、顶点到所属分区的连接数、顶点到邻居分区的连接数等信息。
+这些信息在计算过程中会不断的在顶点之间传输、交换、维护。
+\begin{figure}[h]
+  \centering
 \begin{lstlisting}
 class Node extends Serializable{
     val vID:Long
@@ -1627,18 +1672,22 @@ class Node extends Serializable{
     ...
 }
 \end{lstlisting}
+  \caption{Node结构体}
+   \label{fig:node_struct}
+\end{figure}
 
-可以看到，Node这个结构记录了顶点的ID、所属分块ID、权重、顶点到所属分区的连接数、顶点到邻居分区的连接数等信息。
-这些信息在计算过程中会不断的在顶点之间传输、交换、维护。
-
-迭代的总流程分为两个阶段。在Map阶段，所有顶点向其邻居顶点发送描述自己本身信息的消息，
-这些消息经过中包含(srcID, dstID)；在Reduce阶段(第3行），发送至同一目的地的若干消息被组装为一个消息列表，
-目标顶点收到这些消息后，在本地进行必要的计算就获得了周围顶点的全部信息，然后就可以根据公式\ref{eq:deltaQ}计算出$\Delta Q$的大小。
+迭代的总流程分为两个阶段，具体如图\ref{fig:coarse}所示。
+在Map阶段，所有顶点向其邻居顶点发送描述自己本身信息的消息，
+这些消息结构中包含(srcID, dstID)；在Reduce阶段(第3行），发送至同一目的地的若干消息被组装为一个消息列表，
+目标顶点收到这些消息后，在本地进行必要的计算获得周围顶点的全部信息，然后就可以根据公式\ref{eq:deltaQ}计算出$\Delta Q$的大小。
 根据计算出来的模块度增量，顶点更新自己所属的分块（第4行）。
-当$\beta$次迭代过程结束后，开始一次塌缩过程:（第9行）。
+当$\beta$次迭代过程结束后，开始一次塌缩过程（第9行）。
+\subsection{塌缩过程}
+\begin{figure}[h]
+  \centering
 \begin{lstlisting}
 var graph = Graph(vertexRDD, edgeRDD)
-for (iter <- 1 to iteratoins) {
+for (iter <- 1 to beta) {
     var newVertexRDD = graph.aggregateMessages()
     Graph = Graph(newVertexRDD, graph.edges)
     // ...
@@ -1647,7 +1696,12 @@ for (iter <- 1 to iteratoins) {
 var edges = generateEdges(graph)
 graph = Graph(newVertexRDD, edges)
 \end{lstlisting}
-其中，generateEdges具体描述了塌缩过后重新生成规模更小的图的过程，如下所示：
+\caption{一次塌缩过程}
+   \label{fig:coarse}
+\end{figure}
+其中，generateEdges具体描述了塌缩过后重新生成规模更小的图的过程，具体细节如图\ref{fig:smaller_graph}所示。
+\begin{figure}[h]
+  \centering
 \begin{lstlisting}
 graph.triplets.map{
   t => Edge(t.srcAttr.pID, t.dstAttr.pID, t.attr)
@@ -1662,8 +1716,34 @@ graph.triplets.map{
 	    }
 }
 \end{lstlisting}
+\caption{由中间划分生成更小的图}
+   \label{fig:smaller_graph}
+\end{figure}
 首先统计有哪些边在当前图中横跨了不同的分块（第2-7行），然后使用reduceByKey操作把这些边变成变成一条新的边（第8-9行），
 这个过程中边的数量得到减少，并且新边拥有新的权重，以及两边端点的新权重。
+\subsection{初始划分与恢复过程}
+当图的规模达到可以接受的范围之后，我们使用collect操作将其收集到Driver Program，使用单节点算法直接对其划分。
+为了能够将原始图的划分恢复出来，塌缩过程中每生成一个规模更小的图$G_t \rightarrow G_{t+1}$，
+我们都单独使用一个RDD以KV对的方式记录$V_t$与$V_{t+1}$中顶点的对应关系，其中$key$是
+$V_t$中顶点的ID，$value$是该顶点在$V_t$中的分块ID，同时是$V_{t+1}$中的某个顶点ID。
+这样如果迭代了$t$次就有$t$个单独的$RDD_{1}, RDD_{2}, \dots, RDD_{t}$。
+恢复过程的具体细节如图\ref{fig:restore}所示。
+对$t$个$RDD$，我们取最后一个$RDD_{t}$，将它与交换过KV（即由原来的$(key,value)$变为$(value, key)$)的$RDD_{t-1}$做join操作就得到$V_t$与$V_{t-1}$中顶点的对应关系，
+再与交换过KV的$RDD_{t-2}$做join操作就得到$V_t$与$V_{t-2}$中顶点的对应关系，直到我们得到$V_t$与$V_0$中顶点的对应关系，即得到了原图上的划分。
+\begin{figure}[h]
+  \centering
+\begin{lstlisting}
+var resultVertexRDD = rdds.last
+for (i <- (1 until rdds.length).reverse) {
+    coarsen_before = rdds(i-1).map(e => (e._2, e._1)) //swap key-value
+    resultVertexRDD = resultVertexRDD.join(coarsen_before).map(...) 
+}
+resultVertexRDD = resultVertexRDD.map(e => (e._2, e._1)) //swap key-value
+}
+\end{lstlisting}
+\caption{由中间划分生成更小的图}
+   \label{fig:restore}
+\end{figure}
 \section{实验评估}
 \subsection{实验环境及数据集}
 我们采用的实验环境与上一章节完全一样。

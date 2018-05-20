@@ -318,11 +318,20 @@
   engine}\bibmark{[J]}\@. \bibjournal{Microsoft Research}\@, \bibyear{2012}\@,
   \bibvolume{54}\@.
 
-\bibitem{raghavan2007near}
-\bibauthor{RAGHAVAN U~N\@, ALBERT R\@, KUMARA S}\@. \bibtitle{Near linear time
-  algorithm to detect community structures in large-scale
-  networks}\bibmark{[J]}\@. \bibjournal{Physical review E}\@, \bibyear{2007}\@,
-  \bibvolume{76}\bibnumber{(3)}\thinspace{}\textnormal{: }\bibpages{036106}\@.
+\bibitem{DBLP:conf/wsdm/TsourakakisGRV14}
+\bibauthor{TSOURAKAKIS C~E\@, GKANTSIDIS C\@, RADUNOVIC B, et~al}\@.
+  \bibtitle{{FENNEL:} streaming graph partitioning for massive scale
+  graphs}\bibmark{[C]} //\thinspace{}\bibbooktitle{{WSDM}}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{{ACM}}\@,
+  \bibyear{2014}\thinspace{}\textnormal{:
+  }\bibpages{333\thinspace{}\textnormal{--}\thinspace{}342}\@.
+
+\bibitem{DBLP:conf/kdd/StantonK12}
+\bibauthor{STANTON I\@, KLIOT G}\@. \bibtitle{Streaming graph partitioning for
+  large distributed graphs}\bibmark{[C]} //\thinspace{}\bibbooktitle{{KDD}}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{{ACM}}\@,
+  \bibyear{2012}\thinspace{}\textnormal{:
+  }\bibpages{1222\thinspace{}\textnormal{--}\thinspace{}1230}\@.
 
 \bibitem{newman2006modularity}
 \bibauthor{NEWMAN M~E}\@. \bibtitle{Modularity and community structure in
@@ -337,6 +346,12 @@
   \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{{IEEE} Computer
   Society}\@, \bibyear{2014}\thinspace{}\textnormal{:
   }\bibpages{568\thinspace{}\textnormal{--}\thinspace{}579}\@.
+
+\bibitem{raghavan2007near}
+\bibauthor{RAGHAVAN U~N\@, ALBERT R\@, KUMARA S}\@. \bibtitle{Near linear time
+  algorithm to detect community structures in large-scale
+  networks}\bibmark{[J]}\@. \bibjournal{Physical review E}\@, \bibyear{2007}\@,
+  \bibvolume{76}\bibnumber{(3)}\thinspace{}\textnormal{: }\bibpages{036106}\@.
 
 \bibitem{yu2013towards}
 \bibauthor{YU W\@, LIN X\@, ZHANG W}\@. \bibtitle{Towards efficient SimRank
