@@ -83,9 +83,9 @@
 % 该编号可在下述网址查询：http://www.udcc.org/udcsummary/php/index.php?lang=chi
 \udc{004.72}
 % 国家图书馆封面上的论文标题第一行，不可换行。此属性可选，默认值为通过\title设置的标题。
-\nlctitlea{基于Spark的大规模图数据}
+\nlctitlea{基于Spark的大规模图数据中的点对}
 % 国家图书馆封面上的论文标题第二行，不可换行。此属性可选，默认值为空白。
-\nlctitleb{中的点对SimRank相似度}
+\nlctitleb{SimRank相似度}
 % 国家图书馆封面上的论文标题第三行，不可换行。此属性可选，默认值为空白。
 \nlctitlec{计算}
 % 导师的单位名称及地址
@@ -107,8 +107,8 @@
 % 论文标题，不可换行
 %\title{基于Spark的大规模图数据中的点对SimRank相似度计算}
 % 如果论文标题过长，可以分两行，第一行用\titlea{}定义，第二行用\titleb{}定义，将上面的\title{}注释掉
-\titlea{基于Spark的大规模图数据中的}
-\titleb{点对SimRank相似度计算}
+\titlea{基于Spark的大规模图数据中的点对}
+\titleb{SimRank相似度计算}
 
 % 论文作者姓名
 \author{高兴坤}
@@ -165,8 +165,8 @@
 
 % 设置中文摘要页面的论文标题及副标题的第一行。
 % 此属性可选，其默认值为使用|\title|命令所设置的论文标题
-\abstracttitlea{基于Spark的大规模图数据中的}
-\abstracttitleb{点对SimRank相似度计算}
+\abstracttitlea{基于Spark的大规模图数据中的点对SimRank}
+\abstracttitleb{        相似度计算}
 % 设置中文摘要页面的论文标题及副标题的第二行。
 % 此属性可选，其默认值为空白
 % \abstracttitleb{}
@@ -770,7 +770,7 @@ class Graph[VD, ED] {
 该章首先对SimRank构建基于随机游走的模型，然后提出算法的框架以及算法中的若干设计思路，接着基于Spark平台实现算法，
 最后用实验验证算法各方面的性能。
 
-第三章：基于模块度优化的分布式大规模图划分方法。该章首先分析了典型的图划分过程的目标和难点，然后对比社区发现与图划分这两个任务的异同，
+第三章：基于模块度优化的分布式图划分方法。 该章首先分析了典型的图划分过程的目标和难点，然后对比社区发现与图划分这两个任务的异同，
 提出了使用基于模块度的社区发现算法来进行图划分任务。 接着提出算法的主要流程，包括塌缩、初始化分、恢复三个步骤。
 我们基于Spark平台给出算法的总体实现，最后通过实验验证算法各方面的性能。
 
@@ -1354,7 +1354,7 @@ $c$被设置为0.5，相应地，$k$被设置为$k=6$。
 的技巧加速随机游走的匹配计算。
 本章给出了算法在Spark平台上的实现，基于真实数据的实验结果验证了算法的计算效率、有效性和可扩展性。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{基于模块度优化的分布式大规模  \\ 图划分方法}\label{chapter_graphpartition}
+\chapter{基于模块度优化的分布式图划分}\label{chapter_graphpartition}
 \section{概述}
 随着现实生活中数据规模的不断扩大，与之对应的图数据网络结构愈加复杂，规模也不断增大，典型的大图甚至有数十亿个顶点和上万亿条边。
 普通的单台计算机由于运算内存的限制，远远无法胜任对大规模图数据的计算处理任务，
@@ -1603,8 +1603,8 @@ Q &= \frac{1}{2W}\sum\limits_{u, v \in V} \left[w_{uv} - \frac{{d_u}{d_v}}{2W} \
 因此，我们有如下的定理：
 \begin{equation}
 \begin{aligned}
-Q &= \frac{1}{2m}\sum\limits_{c \in C} \left[I_c - \frac{S_c^2}{2m} \right] \\
-& = \sum\limits_{c \in P} \left[\frac{I_c}{2m} - {\left(\frac{S_c}{2m}\right)}^2 \right]
+Q &= \frac{1}{2W}\sum\limits_{c \in C} \left[I_c - \frac{S_c^2}{2W} \right] \\
+& = \sum\limits_{c \in P} \left[\frac{I_c}{2W} - {\left(\frac{S_c}{2W}\right)}^2 \right]
 \end{aligned}
 \end{equation}
 \end{proof}
