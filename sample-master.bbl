@@ -375,6 +375,14 @@
   \bibyear{2010}\thinspace{}\textnormal{:
   }\bibpages{543\thinspace{}\textnormal{--}\thinspace{}552}\@.
 
+\bibitem{DBLP:conf/bigdata/LiLCD13}
+\bibauthor{LI L\@, LI C\@, CHEN H, et~al}\@. \bibtitle{MapReduce-Based SimRank
+  Computation and Its Application in Social Recommender System}\bibmark{[C]}
+  //\thinspace{}\bibbooktitle{BigData Congress}\@.
+  \bibaddress{[S.l.]}\thinspace{}\textnormal{: }\bibpublisher{{IEEE} Computer
+  Society}\@, \bibyear{2013}\thinspace{}\textnormal{:
+  }\bibpages{133\thinspace{}\textnormal{--}\thinspace{}140}\@.
+
 \bibitem{ilprints579}
 \bibauthor{KAMVAR S\@, HAVELIWALA T\@, MANNING C, et~al}\@.
   \bibtitle{Exploiting the Block Structure of the Web for Computing

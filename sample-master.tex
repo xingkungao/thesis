@@ -367,7 +367,7 @@ font=\small]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % 制作国家图书馆封面（博士学位论文才需要）
-\makenlctitle
+%\makenlctitle
 % 制作中文封面
 \maketitle
 % 制作英文封面
@@ -405,7 +405,7 @@ SimRank是近年来比较流行的相似性度量，相比于其它相似度指�
 
 % 中文关键词。关键词之间用中文全角分号隔开，末尾无标点符号。
 \keywords{图数据；SimRank相似度；分布式计算；Spark}
-\end{abstract}研究机构和商业用户
+\end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 论文的英文摘要
@@ -470,6 +470,10 @@ This article addresses the above problems and our main contributions are summari
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 学位论文的正文应以《绪论》作为第一章
 \chapter{绪论}\label{chapter_introduction}
+\iffalse
+本章阐明本文研究工作的背景与意义，并回顾SimRank相似度计算与图划分这两个课题近年来的研究现状，然后陈述本文的主要研究成果。
+本章还对Spark平台及其所提供的编程接口进行简单的介绍，旨在让读者更好地理解本文算法的设计思路与实现方案。
+\fi
 \section{研究背景与意义}
 图（graph）作为一种能够刻画实体之间关系的抽象结构，在很多领域中有着重要的应用。
 例如，电子商务中商品与用户之间的交易行为，科研著作中各类论文之间的相互参考引用，
@@ -524,6 +528,9 @@ SimRank的核心理念借鉴了PageRank\cite{page1999pagerank}，即“如果两
 更具体地说，如果实体$a$和$c$有关联，实体$b$和$d$有关联，而且$c$和$d$有较高相似性，那么$a$和$b$也相似。
 它的有效性可以由图论中的随机游走模型直观地解释，又因为它基于图这种可以刻画各种关系的离散结构，
 因此自提出以来，SimRank在很多不同的领域都有广泛的应用。
+图\ref{fig:simrank_example}展示了一个学校两位教授ProfA和ProfB，他们的学生StudentA和StudentB的个人主页，以学校Univ的主页之间的引用关系。
+应用SimRank解释如下：因为ProfA和ProfB的主页都引用了Univ的主页，可以认为他们具有某种程度上的相似性；又因为他们分别引用了StudentA和StudentB的主页，因此StudentA和StudentB
+之间也有了相似性。图中右半部分是基于SimRank计算出的具体相似度。
 
 SimRank的计算过程具有较高的时间和空间复杂度。
 为了能够处理规模日益增长的图数据，近年来学术界提出了很多致力于提高SimRank计算效率的方法。
@@ -532,7 +539,6 @@ SimRank的计算过程具有较高的时间和空间复杂度。
 基于分布式计算的算法\cite{cao2012delta}等等。
 这些算法面向特定场景，或多或少地提高了计算效率。
 然而这些方法中单计算节点算法在处理超大规模的图数据时无能为力，而已有的少数分布式算法在计算效率与可扩展性上仍然存在着较大的提升空间。
-
 另一方面，一些致力于改进SimRank有效性的新相似性度量也相继被提出，典型的有coSimRank\cite{DBLP:conf/acl/RotheS14}，
 SimRank++\cite{DBLP:journals/pvldb/AntonellisGC08}，
 P-Rank\cite{DBLP:conf/cikm/ZhaoHS09}等等。
@@ -577,19 +583,19 @@ P-Rank\cite{DBLP:conf/cikm/ZhaoHS09}等等。
 在此背景下，设计开发高效的分布式图数据划分方法是未来的主要方向。
 
 \section{技术背景}
+\iffalse
+对分布式算法而言，其实际的运行效率与底层计算平台密不可分，甚至计算平台的一些机制会成为算法设计过程中的主要着眼点。
+本文所有的算法都基于分布式计算平台Spark以及构建在Spark之上的图计算平台GraphX实现，本节粗略介绍它们的背景知识。
+\fi
 \subsection{Spark背景介绍}
 Aparch Spark\cite{DBLP:conf/hotcloud/ZahariaCFSS10}是由UC Berkeley AMP Lab开发的通用分布式计算平台，
 目前它已经成为Apache Software Foundation下大数据开源项目中最流行的项目之一。
 Spark遵循类似于MapReduce的编程范式，它引入了RDD（弹性分布式数据集）的概念，可以表达更丰富的语义。
 在执行效率上，它改进了Hadoop\cite{DBLP:conf/osdi/DeanG04}批处理框架在迭代计算、交互式处理方面的不足，
 允许应用在内存中保存工作集以便高效地重复利用，应用程序的性能得到数十倍甚至百倍的提升；
-在用户易用性上，Spark提供了更灵活的编程API，方便用户表达更多的语义。
-在通用性上，Spark针对不同的开发需求提供了更高阶的库，包括SQL查询，流式计算，机器学习以及图计算等等，
+在用户易用性上，Spark提供了更灵活的编程API，方便用户对数据进行更灵活的操控。
+在通用性上，Spark针对不同的开发需求提供了高阶的库，包括SQL查询，流式计算，机器学习以及图计算等等。
 开发者可以根据自己的需要，单独或组合使用这些库来处理复杂的数据分析任务。
-
-目前，Spark已经成长为包含Spark SQL，Spark Streaming, MLlib, GraphX等多个子项目的完善的生态系统。
-使用Spark，用户只需调用编程接口来实现自己的数据计算任务，而无需关心数据的具体分布、并行调度策略、集群节点之间的数据传送与错误恢复等复杂的底层细节。
-凭借其高效、用户友好、通用的优点，Spark在学术界和工业界得到了广泛的实际应用。
 \begin{figure}[h]
   \centering
   \includegraphics[width= 0.8\textwidth]{figure/spark_ssstack.png}\\
@@ -597,12 +603,17 @@ Spark遵循类似于MapReduce的编程范式，它引入了RDD（弹性分布式
   \label{fig:spark_stack}
 \end{figure}
 
+目前，Spark已经成长为包含Spark SQL，Spark Streaming, MLlib, GraphX等多个子项目的完善的生态系统。
+使用Spark，用户只需调用编程接口来实现自己的数据计算任务，而无需关心数据的具体分布、并行调度策略、集群节点之间的数据传送与错误恢复等复杂的底层细节。
+凭借其高效、用户友好、通用的优点，Spark在学术界和工业界得到了广泛的实际应用。
+
+
 如图\ref{fig:spark_components}所示，一个典型的Spark集群通常包括以下几个核心组件：
 \begin{enumerate}
  \item Driver Program。 每一个Spark应用程序都包含一个驱动程序，它执行用户的main函数，并负责在集群调度所有的并行化操作。
 当应用程序刚从客户端提交上来的时候，驱动程序连接到负责整个集群资源分配分配的Cluster Manager，并向其请求集群上可用的Executor。 
-\item Cluster Manager。 它是向集群申请各种资源的一个服务。Spark支持Mesos，YARN,standalone等模式。
-\item Executor。 它运行在集群中每一个Worker Node上，负责本节点上所有的计算任务。
+\item Cluster Manager。 它是负责处理集群中各种资源申请要求的一个服务。Spark支持Mesos，YARN等模式。
+\item Executor。 它运行在集群中每一个Worker Node上，负责本节点上所有的计算任务。Executor通常以多线程方式并行计算具体的计算任务。
 
 \end{enumerate}
 
@@ -620,8 +631,8 @@ RDD中的数据元素是有绑定类型的，通常它们存放在内存中，�
 RDD通过记录创建RDD的一系列操作（lineage），也就是记录RDD如何从原始数据演变成当前状态来实现容错机制。
 
 Spark提供了两种类型的操作：转换(transform)和动作(action)。 
-转换操作在已有的RDD上执行数据变换，产生新的RDD，例如filter，map，union等。
-动作则在RDD上触发计算，计算通常是为了返回结果给调用方或者写入到稳定的存储介质中，例如count，saveAsTextFile等。
+转换操作在已有的RDD上执行数据变换，返回一个新的RDD，典型的转换包括filter，map，union，flatMap等。
+动作则在RDD上触发实质的计算，通常是为了返回结果给调用方或者将计算结果写入到稳定的存储介质（比如磁盘）中，典型的动作包括count，saveAsTextFile，collect等。
 一般可以根据返回类型来判断一个操作是转换还是动作。
 转换最重要的特点是它是一种惰性操作（lazy operation），真正的变换逻辑只有在调用动作的时候才会真正发生。
 当动作被触发时，Spark检查RDD的lineage，并使用这些信息构建一个操作流图（graph of operations），然后执行这些计算流程得到最终的RDD。
@@ -664,17 +675,61 @@ GraphX\cite{DBLP:conf/osdi/GonzalezXDCFS14}是Spark生态圈中的一个核心�
 GraphX通过引入一个新的图抽象来拓展Spark中的RDD: Resilient Distributed Property Graph，一种点和边都附带属性的有向多重图。
 这里的属性(property)指的是用户自己定义的描述边或顶点某些性质的对象。
 一个典型的属性图中包含了描述节点信息的VertexRDD和描述边信息的EdgeRDD。
-对属性图的所有操作，最终都会转换成其关联的VertexRDD和的EdgeRDD上的相关操作。
-这样一个图计算任务在最终都等价于一系列RDD的转换过程。
-逻辑上，所有图的转换和操作都产生了一个新图；物理上，GraphX会有一定程度的不变顶点和边的复用优化，对用户透明。
-\begin{figure}[htbp]
+图\ref{fig:property_graph}描述了一个表示反映科研工作者人事关系的图，以及改图在GraphX对应的属性图的底层存储。
+\begin{figure}[h]
   \centering
   \includegraphics[width= 0.7\textwidth]{figure/property_graph.png}\\
   \caption{一个简单的属性图。左图为图的拓扑信息及其关联的属性；右图为该属性图底层存储的RDD}
   \label{fig:property_graph}
 \end{figure}
-%\subsection{GraphX编程范式}
 
+和RDD一样，属性图是不可变的、分布式的、容错的。
+对图的内容或者结构的改变需要生成一个新的图来实现。
+对属性图的所有操作，最终都会转换成其关联的VertexRDD和的EdgeRDD上的相关操作。
+这样一个图计算任务在最终都等价于一系列RDD的转换过程。
+其中，原始图的不受影响的部分都可以在新图中重用，用来减少这种固定功能的数据结构的成本，这对用户是透明的。
+除了属性图的顶点和边视图，GraphX也包含了一个三元组视图。
+三元视图逻辑上将顶点和边的属性保存为一个RDD[EdgeTriplet[VD, ED]]，它包含EdgeTriplet类的实例，具体细节如图\ref{fig:triplet}所示。
+
+%\subsection{GraphX编程范式}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width= 0.7\textwidth]{figure/triplet.png}\\
+  \caption{GraphX的提供的三种视图对比：顶点，边，三元组}
+  \label{fig:triplet}
+\end{figure}
+
+GraphX通过类Graph来暴露核心的编程接口。
+图\ref{fig:Graph}展示了Graph的定义及其能提供的核心操作(为了展示效果内容有所筛选），这些方法在本文算法的实现中都有大量运用。
+\begin{figure}[h]
+  \centering
+\begin{lstlisting}
+/** Summary of the functionality in the property graph */
+class Graph[VD, ED] {
+  // Information about the Graph 
+  val numEdges: Long
+  val numVertices: Long
+  val degrees: VertexRDD[Int]
+  // Views of the graph as collections 
+  val vertices: VertexRDD[VD]
+  val edges: EdgeRDD[ED]
+  val triplets: RDD[EdgeTriplet[VD, ED]]
+  // Transform vertex and edge attributes 
+  def mapVertices[VD2](map: (VertexID, VD) => VD2): Graph[VD2, ED]
+  def mapEdges[ED2](map: (PartitionID, Iterator[Edge[ED]]) => Iterator[ED2]): Graph[VD, ED2]
+  def mapTriplets[ED2](map: EdgeTriplet[VD, ED] => ED2): Graph[VD, ED2]
+  // Aggregate information about adjacent triplets 
+  def collectNeighborIds(edgeDirection: EdgeDirection): VertexRDD[Array[VertexID]]
+  def collectNeighbors(edgeDirection: EdgeDirection): VertexRDD[Array[(VertexID, VD)]]
+  // Basic graph algorithms 
+  def pageRank(tol: Double, resetProb: Double = 0.15): Graph[Double, Double]
+  ...
+}
+
+\end{lstlisting}
+  \caption{类Graph包含的部分属性与方法}
+   \label{fig:Graph}
+\end{figure}
 \section{本文主要研究工作}
 分析已有的计算方法我们发现，传统的单机SimRank计算方法对于大规模的图数据无能无力，
 现有的分布式算法基本采用了直接计算或矩阵计算的思路。
@@ -715,7 +770,7 @@ GraphX通过引入一个新的图抽象来拓展Spark中的RDD: Resilient Distri
 该章首先对SimRank构建基于随机游走的模型，然后提出算法的框架以及算法中的若干设计思路，接着基于Spark平台实现算法，
 最后用实验验证算法各方面的性能。
 
-第三章：分布式图划分方法。该章首先分析了典型的图划分过程的目标和难点，然后对比社区发现与图划分这两个任务的异同，
+第三章：基于模块度优化的分布式大规模图划分方法。该章首先分析了典型的图划分过程的目标和难点，然后对比社区发现与图划分这两个任务的异同，
 提出了使用基于模块度的社区发现算法来进行图划分任务。 接着提出算法的主要流程，包括塌缩、初始化分、恢复三个步骤。
 我们基于Spark平台给出算法的总体实现，最后通过实验验证算法各方面的性能。
 
@@ -728,10 +783,13 @@ GraphX通过引入一个新的图抽象来拓展Spark中的RDD: Resilient Distri
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{分布式单源点相似度计算方法}\label{chapter_sssSimRank}
+\iffalse
+本章关注单源点SimRank相似度计算问题：给定一个查询顶点$u$，计算$u$与图中所有其它顶点$v$之间的相似度$s(u,v)$。
+本章首先对SimRank基于随机游走建模，并从该模型出发，优化每个步骤的时间复杂度、空间复杂度、可并行度，进而提出一个分布式计算方法。
+\fi
 \section{概述}
 SimRank是一个基于结构上下文的相似度模型，它的核心思想是：如果两个顶点的邻居顶点非常相似，那么这两个顶点也相似。
-而本章节所关注的单源点SimRank相似度计算问题，指的是给定一个查询顶点$u$，计算$u$与图中所有其它顶点$v$之间的相似度$s(u,v)$。
-相比于的单点对和全点对的相似度计算，单源点问题的计算复杂度正好居于它们二者之间，
+单源点SimRank相似度计算问题，相比于的单点对和全点对的相似度计算，单源点问题的计算复杂度正好居于它们二者之间，
 它在实际问题中运用的最多。
 这是因为对于大规模图数据而言，尤其是对于类似社交网络这样的拓扑结构无时无刻都在变化的图来说，频繁计算所有点对的相似度开销过于巨大。
 另一方面，每次只计算单点对相似度又显得粒度过细。
@@ -788,6 +846,7 @@ SLING\cite{DBLP:conf/sigmod/TianX16}也采用了类似的思路，它构建了�
 然而，$D$的计算被当做一个解线性方程组的过程，这在分布式环境下非常低效，因此虽然算法线上查询的效率很高，
 但线下预处理的时间开销非常巨大。它可以处理十亿级别的大规模图，但是在一个拥有10个计算节点且总内存高达3.77TB的集群中，需要大约110小时的预处理时间。
 \section{算法基本框架}
+%本节首先对SimRank基于随机游走建模，并从该模型出发，优化每个步骤的时间复杂度、空间复杂度、可并行度，进而提出一个分布式计算方法。
 \subsection{基于随机游走的SimRank建模}
 SimRank相似度可以基于随机游走进行建模。
 序列$W=v_0v_1v_2\dots v_l$ 如果对任意$0 \leq i \leq l-1$都满足 $(v_i, v_{i+1})$ 是 $G$ 中的边，
@@ -1077,11 +1136,11 @@ $\delta$的使用展示在算法\ref{alg:dp}的14-15行。
 $\delta$的具体取值应在算法的精度与时间、空间复杂度之间取得平衡，更大的$\delta$意味着更低的精度，但是算法
 整体的时间复杂度和空间复杂度更低，反之反是。
 \subsection{算法的复杂度分析}
-源点$u$可达的顶点的数目大约为$O(d^k)$，
+源点$u$可达的顶点数目大约为$O(d^k)$，
 而对于其中的每一个可达顶点，都拥有一个大小为$O(d^k)$，隐式包含$O(d^k)$条逆序游走信息的邻域，
 因此，总的空间复杂度为$O(d^{2k})$。因为这个过程中所有产生的游走都需要通过网络传输，所以通信开销也是$O(d^{2k})$。
 在对游走进行匹配时，对每一个邻域，大约有$O(d^k)$个游走被匹配了，所以总的计算复杂度为$O(d^{2k})$。
-可以看到，算法总的复杂度与整个图的规模$O(n+m)$没有依赖关系，所以我们的算法是非常高效的。
+可以看到，算法总的复杂度与整个图的规模$O(n+m)$没有依赖关系。
 \section{基于Spark平台的算法实现}
 基于Spark平台的算法实现可以概括为4个步骤：
 \begin{enumerate}
@@ -1161,19 +1220,20 @@ $value$是所有以$key$终点的随机游走；剩下两个参数$u$和$k$分�
 	
 
 \section{实验评估}
+本章使用真实的数据集综合评定算法的性能，主要的考察点包括：算法的有效性，计算结果的收敛性质，参数对算法效率的影响，算法的计算效率和算法的可扩展性。
 \subsection{实验环境}
-所有的实验在一个由6个硬件完全相同的计算节点组成的集群上完成，每台计算节点处理器为12核的Intel Xeon E-2650，频率为2.1GHz，
-内存为64GB，硬盘为1TB。 计算节点之间由千兆网卡连接。所有的节点上运行Ubuntu 16.04操作系统。 
+集群包括6个计算节点，每个节点处理器为12核的Intel Xeon E-2650，频率为2.1GHz，
+内存为64GB，硬盘为1TB。 节点之间由千兆网卡连接。操作系统为Ubuntu 16.04。 
 Spark运行版本为1.6.2， 底层分布式文件系统HDFS的版本号为2.6.0。
-所有的6个节点都配置为slave节点，其中一个节点被额外配置为master节点。 
-在Spark运行时，我们为每个executor分配了10GB的内存。
+所有的节点都配置为slave节点，其中一个节点被额外配置为master节点。 
+在Spark运行时，我们为每个executor分配10GB内存。
 \subsection{实验数据集}
 我们一共使用了5个真实的图数据来评估算法的性能。 数据集的具体细节如表\ref{tab:dataset1}。
 其中，p2p-gnutella08是一个P2P文件分享网络的结构；
 wiki-vote是一个反映维基百科用户竞选社区管理者而相互投票情况的数据；
-eu-2005是一个从.eu域名爬取的小部分网页连接数据；
-ljournal-2008记录了一个虚拟社交网络中所有用户的交友关系。
-每个图一开始为普通的文本格式，每一行代表图中的一条边。
+eu-2005是一个从.eu域名爬取的小部分网页链接数据；
+ljournal-2008是一个虚拟社交网络。
+每个图初始时为普通的文本格式，每一行代表图中的一条边。
 在开始实验前，所有的数据集都预先上传到分布式文件系统HDFS上。
 \begin{table}[h]
 \caption{数据集描述}
@@ -1250,15 +1310,15 @@ $c$被设置为0.5，相应地，$k$被设置为$k=6$。
 为了比较算法的运行效率，我们分别基于Spark平台实现了分布式的全点对算法apSimRank， 算法\ref{algo:nssSimRank}所示的nssSimRank，以及本文提出的算法sssSimRank。
 直接比较这三个算法的运行时间非常困难，因为apSimRank以及nssSimRank实际运行非常耗时，
 在规模最小的图p2p-gnutella08上， apSimRank需要运行2.1个小时才能完成计算，而nssSimRank需要计算1.2个小时。
-因为对于基于随机游走模型的算法而言，其运行效率主要取决于所生产的随机游走的数量，进一步地说，取决于需要从多少个领域$Nei$来展开生成随机游走。
+因为对于基于随机游走模型的算法而言，其运行效率主要取决于所生产的随机游走的数量，进一步地说，取决于需要从多少个邻域$Nei$来展开生成随机游走。
 因此，我们比较sssSimRank和nssSimRank算法中生产$Nei$的数量。结果如图\ref{fig:ch1:runtime}所示。
 \begin{figure}[h]
   \centering
   \includegraphics[width= 1\textwidth]{figure/neighborhoods.eps}\\
-  \caption{生成领域数量的比较}\label{fig:ch1:runtime}
+  \caption{生成邻域数量的比较}\label{fig:ch1:runtime}
 \end{figure}
 从图中可以看出，sssSimRank极大地减少了生成邻域的数量。
-当$\delta=0$时，即算法没有筛除概率极小的游走时，领域数量减少了大约1500x倍。
+当$\delta=0$时，即算法没有筛除概率极小的游走时，邻域数量减少了大约1500x倍。
 从图中还可以观察到邻域数量与概率阈值$delta$之间的关系。
 当$\delta$越来越大时，意味着概率“筛子”的“孔”变得越来粗，幸存的随机游走会越来越少。
 图\ref{fig:ch1:runtime}还表明，我们的算法在数据集eu-2005和arabic-2005减少邻域的比例比图p2p-gnutella08和ljournal-2008要大很多，
@@ -1288,8 +1348,11 @@ $c$被设置为0.5，相应地，$k$被设置为$k=6$。
 
 \section{本章小结}
 本章针对图数据中单源点SimRank相似度计算问题，提出了一种基于随机游走的分布式算法。
-算法消除了单机算法无法处理大规模图数据的缺陷，具有较好的并行度。
-本文给出了算法在Spark平台上的实现，基于真实数据的实验结果验证了算法的计算效率、有效性和可扩展性。
+整个算法包含三个步骤：首先生成随机游走，再对游走进行匹配计算其对应概率，
+最后汇总得出相似度。
+针对计算本身的高时间复和空间复杂度，本文设计了一系列方法来提高计算效率，包括减少随机游走的数量，使用更紧凑的数据结构来压缩中间数据，以及通过动态规划
+的技巧加速随机游走的匹配计算。
+本章给出了算法在Spark平台上的实现，基于真实数据的实验结果验证了算法的计算效率、有效性和可扩展性。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{基于模块度优化的分布式大规模  \\ 图划分方法}\label{chapter_graphpartition}
 \section{概述}
@@ -1655,8 +1718,8 @@ $C_u$中的顶点是不可重新进行划分的，因为它们的分块在之前
 \end{algorithm}
 \fi
 \section{基于Spark平台的算法的实现}
-我们主要基于Spark提供的分布式图计算框架GraphX来实现算法的逻辑。
-因为图中顶点在计算过程中需要与相邻顶点通过网络交换信息，我们首先给出顶点的定义,如图\ref{fig:node_struct}所示。
+我们基于Spark提供的分布式图计算框架GraphX来实现算法的逻辑。
+首先给出顶点的定义,如图\ref{fig:node_struct}所示。
 可以看到，Node这个结构记录了顶点的ID、所属分块ID、权重、顶点到所属分区的连接数、顶点到邻居分区的连接数等信息。
 这些信息在计算过程中会不断的在顶点之间传输、交换、维护。
 \begin{figure}[h]
@@ -1675,15 +1738,14 @@ class Node extends Serializable{
   \caption{Node结构体}
    \label{fig:node_struct}
 \end{figure}
-
+\subsection{塌缩过程}
 迭代的总流程分为两个阶段，具体如图\ref{fig:coarse}所示。
 在Map阶段，所有顶点向其邻居顶点发送描述自己本身信息的消息，
 这些消息结构中包含(srcID, dstID)；在Reduce阶段(第3行），发送至同一目的地的若干消息被组装为一个消息列表，
 目标顶点收到这些消息后，在本地进行必要的计算获得周围顶点的全部信息，然后就可以根据公式\ref{eq:deltaQ}计算出$\Delta Q$的大小。
 根据计算出来的模块度增量，顶点更新自己所属的分块（第4行）。
 当$\beta$次迭代过程结束后，开始一次塌缩过程（第9行）。
-\subsection{塌缩过程}
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
 \begin{lstlisting}
 var graph = Graph(vertexRDD, edgeRDD)
@@ -1699,8 +1761,9 @@ graph = Graph(newVertexRDD, edges)
 \caption{一次塌缩过程}
    \label{fig:coarse}
 \end{figure}
-其中，generateEdges具体描述了塌缩过后重新生成规模更小的图的过程，具体细节如图\ref{fig:smaller_graph}所示。
-\begin{figure}[h]
+
+其中，generateEdges方法具体描述了塌缩过后重新生成规模更小的图的过程，具体细节如图\ref{fig:smaller_graph}所示。
+\begin{figure}[t]
   \centering
 \begin{lstlisting}
 graph.triplets.map{
@@ -1719,29 +1782,33 @@ graph.triplets.map{
 \caption{由中间划分生成更小的图}
    \label{fig:smaller_graph}
 \end{figure}
-首先统计有哪些边在当前图中横跨了不同的分块（第2-7行），然后使用reduceByKey操作把这些边变成变成一条新的边（第8-9行），
+首先统计有哪些边在当前图中横跨了不同的分块（第2-7行），然后使用reduceByKey操作把这些边变成一条新的边（第8-9行），
 这个过程中边的数量得到减少，并且新边拥有新的权重，以及两边端点的新权重。
 \subsection{初始划分与恢复过程}
-当图的规模达到可以接受的范围之后，我们使用collect操作将其收集到Driver Program，使用单节点算法直接对其划分。
-为了能够将原始图的划分恢复出来，塌缩过程中每生成一个规模更小的图$G_t \rightarrow G_{t+1}$，
-我们都单独使用一个RDD以KV对的方式记录$V_t$与$V_{t+1}$中顶点的对应关系，其中$key$是
-$V_t$中顶点的ID，$value$是该顶点在$V_t$中的分块ID，同时是$V_{t+1}$中的某个顶点ID。
+为了能够将原始图的划分恢复出来，塌缩过程中每生成一个规模更小的图$G_i \rightarrow G_{i+1}$，
+我们都单独使用一个RDD以KV对的方式记录$V_i$与$V_{i+1}$中顶点的对应关系，其中$key$是
+$V_i$中顶点的ID，$value$是该顶点在$V_i$中的分块ID，同时也是$V_{i+1}$中的某个顶点ID。
 这样如果迭代了$t$次就有$t$个单独的$RDD_{1}, RDD_{2}, \dots, RDD_{t}$。
+当图的规模达到可以接受的范围之后，我们使用collect操作将其收集到Driver Program，使用单节点算法直接对其划分。
+然后再使用parallelize方法将划分结果重新变成一个元素类型为（vertexID， partitionID）的RDD数据，记其为$RDD_{t+1}$。
 恢复过程的具体细节如图\ref{fig:restore}所示。
-对$t$个$RDD$，我们取最后一个$RDD_{t}$，将它与交换过KV（即由原来的$(key,value)$变为$(value, key)$)的$RDD_{t-1}$做join操作就得到$V_t$与$V_{t-1}$中顶点的对应关系，
-再与交换过KV的$RDD_{t-2}$做join操作就得到$V_t$与$V_{t-2}$中顶点的对应关系，一直交换直到得到$V_t$与$V_0$中顶点的对应关系，即得到了原图上的划分。
+对$t+1$个$RDD$，我们取最后一个$RDD_{t+1}$（第1行），将它与互换过KV（即由原来的$(key,value) \rightarrow (value, key)$，第3行)的$RDD_{t-1}$做join操作得到$V_t$与$V_{t-1}$中顶点的对应关系（第4行），
+再与交换过KV的$RDD_{t-2}$做join操作就得到$V_t$与$V_{t-2}$中顶点的对应关系，如此循环下去，直到得到$V_t$与$V_0$中顶点的对应关系。
+最后对生成的$resultVertexRDD$中元素进行互换（第6行），这样该RDD元素的点对就变成了（vertexID, partitionID)的格式，即得到了原图上的划分。
 \begin{figure}[h]
   \centering
 \begin{lstlisting}
 var resultVertexRDD = rdds.last
 for (i <- (1 until rdds.length).reverse) {
-    coarsen_before = rdds(i-1).map(e => (e._2, e._1)) //swap key-value
+    coarsen_before = rdds(i-1).map(e => 
+			  (e._2, e._1)) //swap key-value
     resultVertexRDD = resultVertexRDD.join(coarsen_before).map(...) 
 }
-resultVertexRDD = resultVertexRDD.map(e => (e._2, e._1)) //swap key-value
+//swap key-value
+resultVertexRDD = resultVertexRDD.map(e => (e._2, e._1)) 
 }
 \end{lstlisting}
-\caption{由中间划分生成更小的图}
+\caption{恢复过程}
    \label{fig:restore}
 \end{figure}
 \section{实验评估}
@@ -1761,11 +1828,11 @@ ljournal-2008记录了一个虚拟社交网络中所有用户的交友关系。
 \hline
 \textbf{数据集} & \textbf{顶点数} & \textbf{边数} & \textbf{顶点平均度数} & \textbf{大小} \\
 \hline
-wiki-talk     \footnotemark[1]       & \num{2394385} & \num{5021410}          &2.10                   & 66.5MB\\
+wiki-talk     \footnotemark[1]       & \num{2394385} & \num{5021410}          &\num{2.10}                   & 66.5MB\\
 \hline
-cit-Patents      \footnotemark[2]     & \num{3774768}  & \num{16518948 }          & 4.38             & 203.4MB\\
+cit-Patents      \footnotemark[2]     & \num{3774768}  & \num{16518948 }          & \num{4.38}             & 203.4MB\\
 \hline
-ljournal-2008  \footnotemark[3] & \num{5363260} & \num{79023142}         & 14.73            &1.2GB\\
+ljournal-2008  \footnotemark[3] & \num{5363260} & \num{79023142}         & \num{14.73}            &1.2GB\\
 \hline
 %arabic-2005 \footnotemark[5]   & \num{22744080} & \num{639999458}      & 28.14           & 10.9GB\\
 %\hline
@@ -1784,18 +1851,20 @@ ljournal-2008  \footnotemark[3] & \num{5363260} & \num{79023142}         & 14.73
 lp\string_MLP\cite{DBLP:conf/icde/WangXSW14}也是一种多层次划分方法，但是其塌缩步骤基于标签传播\cite{raghavan2007near}(Label Propogation，LP)算法实现；
 Random指对图中顶点采取随机方式直接等概率分配分块ID。
 具体运行时，上述四种算法的分块目标数被设为一样的数值$\alpha=300$，内部循环深度$\beta=5$，等到每个算法完全运行结束后再基于划分结果计算边割的大小。
-METIS方法运行在集群中一个拥有64G物理内存的计算节点上，
+METIS方法运行在一个拥有64G物理内存的计算节点上，
 而mod\string_MLP以及lp\string_MLP都被实现为基于Spark的分布式算法。
-从图中可以看出，其余三种算法的划分质量都大大超过了随机划分。
-mod\string_MLP表现出了可以与METIS相媲美的效果。
-同时可以看到mod\string_MLP的划分边割比lp\string_MLP要小，并且随着图规模的变大改进越明显，
-这表明相比于单纯的标签传播，基于模块度优化的塌缩过程更好地保留了原图中稠密的子结构。
 \begin{figure}[h]
   \centering
-  \includegraphics[width= 1\textwidth]{figure/edge_cut.eps}\\
+  \includegraphics[width= 1\textwidth]{figure/p_quality.eps}\\
   \caption{划分质量对比}
    \label{fig:partitionquality}
 \end{figure}
+
+从图中可以看出，其余三种算法的划分质量都大大超过了随机划分。
+在三个数据集上，mod\string_MLP都表现出了可以与METIS相媲美的效果。
+同时可以看到mod\string_MLP的划分边割比lp\string_MLP要小，并且随着图规模的变大改进越明显。
+这表明相比于标签传播仅仅利用了顶点之间的局部相似性，基于模块度最大化的塌缩过程使用了全局的模块度信息，
+使得社区划分过程更好地向最优化方向前进，从而更好地保留了原图中稠密的子结构。
 \subsection{算法的计算效率}
 图\ref{fig:block_with_time}展示了在wiki-talk数据集上，mod\string_MLP运行过程中塌缩图$G_i$的顶点数目与运行时间的变化关系。
 运行过程中我们不设置算法的目标分块数，试图让算法“自由”地运行下去。
@@ -1808,9 +1877,9 @@ mod\string_MLP表现出了可以与METIS相媲美的效果。
 如果我们单纯考虑两者塌缩过程的区别，显然理论上lp\string_MLP算法中基于标签传播LP算法的单次迭代过程
 是略微快于mod\string_MLP算法中基于模块度优化的单次塌缩过程的，
 因为后者每个顶点需要从邻居顶点收集相关信息计算模块度的变化$\Delta Q$，而前者只要简单选择邻点所属的社区ID出现次数最多的那个即可。
-但是基于模块度优化的过程比LP有更好的划分质量，因此如果从算法整体考虑，前者所需的迭代次数小于后者。
+但是基于模块度优化的过程比LP有更好的划分质量，因此如果从算法整体考虑，前者所需的迭代次数小于后者，从而减少了计算时间。
 实验中，我们都设置塌缩过程中的内部迭代次数$\beta=5$，结果发现lp\string_MLP的总迭代次数超过mod\string_MLP的所需迭代次数的$20\%$左右。
-这与图\ref{fig:partition_time}的推论是一致的。
+这与图\ref{fig:partition_time}中算法的总体运行时间表现一致。
 
 \begin{figure*}[t]
 \centering
@@ -1840,11 +1909,11 @@ mod\string_MLP表现出了可以与METIS相媲美的效果。
 图\ref{fig:conv_time}展示了参数$\beta$与mod\string_MLP塌缩过程中中间分块数目变化的关系。
 注意到这里的分块数指的是内部迭代过程中社区发现算法所看到的社区数量。
 我们设置$\beta$的值分别为1,3,5,10，例如图例“1-mod-cd”表示塌缩过程中采用内部迭代深度为1的基于Modularity的Community Detection算法，
-并观察总共（包括内部迭代次数）10次迭代过程以内分块数与$|V_0|$比例的变化。
-从图中可以看出，当$\beta=10$时，总的迭代次数为$1\times 10$，此时算法退化成一个社区发现过程；
-当算法总的迭代次数为$10\times 1$，算法总共进行了10次塌缩过程，但是每次塌缩对图的规模改变极小。
-$\beta=3$与$\beta=5$时的曲线较为类似，并且可以发现每隔$\beta$轮迭代后$|V_t|$有相比于之前更加明显的下降过程。
-这是因为分块数的下降是由两个因素造成的：$\beta$轮内部迭代中主要驱动因素是基于模块度优化的分块划分，
+并观察总共10次迭代过程（指内部迭代次数）以内分块数与$|V_0|$比例的变化。
+从图中可以看出，当$\beta=10$时总的迭代次数为$1\times 10$，此时算法退化成一个社区发现过程；
+当$\beta=1$时算法总的迭代次数为$10\times 1$，算法总共进行了10次塌缩过程，但是每次塌缩对图的规模改变极小。
+$\beta=3$与$\beta=5$时的曲线较为类似，并且可以发现每隔$\beta$轮迭代后中间分块数相比于之前有更加明显的下降过程。
+这是因为分块数的下降是由两个因素造成：$\beta$轮内部迭代中主要驱动因素是基于模块度最大化的社区发现，
 而$\beta$轮迭代之后会刚好有一次塌缩步骤直接降低了图的规模。
 
 \subsection{算法的可扩展性}
@@ -1877,7 +1946,14 @@ $\beta=3$与$\beta=5$时的曲线较为类似，并且可以发现每隔$\beta$�
 这表明算法在分布式环境下具有良好的节点可扩展性。
 
 \section{本章小结}
-本章针对大规模图数据的划分问题，借鉴了社区发现相关算法的思想，设计出一种基于模块度优化的分布式图划分方法。
+随着现实生活中数据规模的不断扩大,与之对应的图数据规模也不断增加。
+普通的单台计算机由于运算内存的限制,远远无法胜任对大规模图数据的计算处理
+任务。因此,将图划分成多个子图装载到不同计算节点上中,然后再利用分布式平台
+进行后续的计算,是处理大规模图数据唯一可行的方案。
+
+针对大规模图数据的分布式划分问题，本章分析比较了社区发现任务与图划分任务的异同，提出并设计了分布式多层次图划分方法。
+算法包括三个典型的步骤：塌缩、初始化分和恢复。
+在塌缩过程中，本章借鉴了社区发现的思路，基于模块度最大化进行分块的分配，从而较好地保留了图中的语义信息，即保留了图中的稠密子图结构。
 与其它算法相比，本算法有较高的划分质量，同时有较好的可扩展性和计算效率。
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1901,7 +1977,7 @@ Jeh和Widom\cite{jeh2002simrank}提出了第一个基于矩阵乘法的SimRank�
 文献\cite{lizorkin2008accuracy}随后通过剪枝、局部访问等技术在矩阵乘法层面将算法的时间复杂度降低到$O(kn^2d)$。
 文献\cite{yu2012space}使用了快速矩阵乘法来加速计算过程。
 文献\cite{yu2013towards}进一步将算法的时间复杂度降低到$O(kn^2d^{\prime})$,其中$d^\prime < d$。
-文献\cite{li2010fast1}提出了一种基于Keonecker乘积和矩阵奇异值分解（SVD）的非迭代算法，
+文献\cite{li2010fast1}提出了一种基于Kronecker乘积和矩阵奇异值分解（SVD）的非迭代算法，
 该算法首先在$O(r^4N^2)$时间内计算出一些辅助矩阵，其中$r$是
 输入图的邻接矩阵的秩，然后在$O(r^4N^2)$时间内获取顶点间的的相似度。
 文献\cite{he2010parallel}使用了GPU来加速矩阵的计算速度。
@@ -1911,6 +1987,8 @@ Jeh和Widom\cite{jeh2002simrank}提出了第一个基于矩阵乘法的SimRank�
 蒙特卡洛方法快速给出查询。该算法的优点是它是一种通用的方法，可以同时应对单点对、单源点、全点对的相似度计算问题。
 然而，$D$的计算被当做一个解线性方程组的过程，这在分布式环境下非常低效，因此虽然算法线上查询的效率很高，
 但线下预处理的时间开销非常巨大。它可以处理十亿级别的大规模图，但是在一个拥有10个计算节点且总内存高达3.77TB的集群中，需要大约110小时的预处理时间。
+文献\cite{DBLP:conf/bigdata/LiLCD13}提出了基于MapReduce的分布式矩阵乘法。
+该算法将其中一个矩阵存放在所有计算节点的内存中，从磁盘中读取另一个按行分割矩阵，将内存中的矩阵与每行做乘法,从而实现了矩阵的分布式计算。
 文献\cite{yu2013towards}提出了一种基于增量变化的$DeltaSimRank$算法。该算法发现SimRank可以改写为一种迭代的增量计算方式，
 即迭代过程中，不直接计算点对之间的相似度而是计算其相对于上一轮迭代的增量。该方法充分利用了迭代计算过程中很多点对间相似度增量为零的事实，减小了
 计算过程中的数据传输量，从而加速了计算效率。
@@ -2174,9 +2252,15 @@ arabic-2005  & - & \num{2045.50}         & \num{126.32}    \\
 这表明算法在分布式环境下具有良好的节点可扩展性。
 
 \section{本章小结}
-本章更进一步，把对大规模图数据中的点对SimRank相似度计算从单源点问题推进到全点对问题。
-为了能够有效降低问题的复杂度，我们提出一基于种分而治之思想的算法，将点对全局的相似度从两个层次上进行分解：
-所属分块间的相似度以及分块内点对的相似度。实验证明了算法的有效性和良好的可扩展性。
+前面章节叙述了计算单源点相似度的计算问题，本章更进一步，把对大规模图数据中的点对SimRank相似度计算推进到全点对问题。
+然而考对于现实生活中的拥有数百万节点的大规模图数据,其邻接矩阵的元素规模达到万亿级别($|V|^2$ ),
+现有的方法无法对其进行有效计算。
+
+为了能够有效降低问题的复杂度，本章基于图中稠密的分块往往蕴含了最多的人们感兴趣的信息这一事实，
+提出一基于种分而治之思想的算法，将点对全局的相似度从两个层次上进行分解：
+所属分块间的相似度以及分块内点对的相似度。
+然后通过这两个相似度计算任意点对的全局相似度。
+实验证明本算法具有高有效性和良好的可并行度。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 学位论文的正文应以《结论》作为最后一章
 \chapter{总结与展望}\label{chapter_concludes}
@@ -2263,30 +2347,28 @@ arabic-2005  & - & \num{2045.50}         & \num{126.32}    \\
 \begin{resume}
 % 论文作者身份简介，一句话即可。
 \begin{authorinfo}
-\noindent 韦小宝，男，汉族，1985年11月出生，江苏省扬州人。
+\noindent 高兴坤，男，汉族，1993年01月出生，江苏省泰州人。
 \end{authorinfo}
 % 论文作者教育经历列表，按日期从近到远排列，不包括将要申请的学位。
 \begin{education}
-\item[2007年9月 --- 2010年6月] 南京大学计算机科学与技术系 \hfill 硕士
-\item[2003年9月 --- 2007年6月] 南京大学计算机科学与技术系 \hfill 本科
+\item[2015年9月 --- 2018年6月] 南京大学计算机科学与技术系 \hfill 硕士
+\item[2011年9月 --- 2015年6月] 南京大学计算机科学与技术系 \hfill 本科
 \end{education}
 % 论文作者在攻读学位期间所发表的文章的列表，按发表日期从近到远排列。
 \begin{publications}
-\item Xiaobao Wei, Jinnan Chen, ``Voting-on-Grid Clustering for Secure
-  Localization in Wireless Sensor Networks,'' in \textsl{Proc. IEEE International
-    Conference on Communications (ICC) 2010}, May. 2010.
-\item Xiaobao Wei, Shiba Mao, Jinnan Chen, ``Protecting Source Location Privacy
-  in Wireless Sensor Networks with Data Aggregation,'' in \textsl{Proc. 6th
-    International Conference on Ubiquitous Intelligence and Computing (UIC)
-    2009}, Oct. 2009.
+\item Xingkun Gao,Nianyuan Bao,Jie Liu,Jie Tang,Gangshan Wu, 
+``Scalable Single-Source SimRank Computation for Large Graphs,'' in \textsl{Proc. 22nd IEEE International
+    Conference on Parallel and Distributed Systems (ICPADS) 2016}, Dec. 2016.
 \end{publications}
 % 论文作者在攻读学位期间参与的科研课题的列表，按照日期从近到远排列。
+\iffalse
 \begin{projects}
 \item 国家自然科学基金面上项目``无线传感器网络在知识获取过程中的若干安全问题研究''
 （课题年限~2010年1月 --- 2012年12月），负责位置相关安全问题的研究。
 \item 江苏省知识创新工程重要方向项目下属课题``下一代移动通信安全机制研究''
 （课题年限~2010年1月 --- 2010年12月），负责LTE/SAE认证相关的安全问题研究。
 \end{projects}
+\fi
 \end{resume}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
