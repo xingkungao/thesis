@@ -3,15 +3,12 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {{1}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces 测试表格\relax }}{4}{table.1.1}
+\contentsline {table}{\numberline {{2}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces 数据集描述\relax }}{22}{table.2.1}
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces 数据集描述\relax }}{39}{table.3.1}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces 数据集描述\relax }}{22}{table.3.1}
-\addvspace {10\p@ }
-\addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {table}{\numberline {{6}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces 测试表格\relax }}{46}{table.6.1}
-\addvspace {10\p@ }
+\contentsline {table}{\numberline {{4}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces 数据集描述\relax }}{50}{table.4.1}
+\contentsline {table}{\numberline {{4}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{2}}{\ignorespaces 运行时间比较（min）\relax }}{51}{table.4.2}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
