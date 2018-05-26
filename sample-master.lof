@@ -2,34 +2,34 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {{1}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces 一个简单图的SimRank计算结果。左边为原图，右边为原图的平方图（product graph)以及点对之间的相似度数值\relax }}{2}{figure.caption.4}
-\contentsline {figure}{\numberline {{1}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{2}}{\ignorespaces 对同一个图的两个划分。 左图是随机划分结果，其边割集较大；右图划分质量高，其边割集较小，并且图中的稠密子图得到了保留\relax }}{4}{figure.caption.5}
+\contentsline {figure}{\numberline {{1}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces 对一个简单图的SimRank计算结果\relax }}{2}{figure.caption.4}
+\contentsline {figure}{\numberline {{1}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{2}}{\ignorespaces 对同一个图的两个划分\relax }}{4}{figure.caption.5}
 \contentsline {figure}{\numberline {{1}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{3}}{\ignorespaces Spark生态圈\relax }}{5}{figure.caption.6}
 \contentsline {figure}{\numberline {{1}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{4}}{\ignorespaces Spark系统架构\relax }}{6}{figure.caption.7}
-\contentsline {figure}{\numberline {{1}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{5}}{\ignorespaces 一个简单的属性图。左图为图的拓扑信息及其关联的属性；右图为该属性图底层存储的RDD\relax }}{7}{figure.caption.8}
-\contentsline {figure}{\numberline {{1}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{6}}{\ignorespaces GraphX的提供的三种视图对比：顶点，边，三元组\relax }}{7}{figure.caption.9}
+\contentsline {figure}{\numberline {{1}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{5}}{\ignorespaces 一个简单的属性图\relax }}{7}{figure.caption.8}
+\contentsline {figure}{\numberline {{1}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{6}}{\ignorespaces GraphX提供的三种视图对比：顶点，边，三元组\relax }}{7}{figure.caption.9}
 \contentsline {figure}{\numberline {{1}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{7}}{\ignorespaces Graph类包含的部分属性与方法\relax }}{8}{figure.caption.10}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {{2}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces 左图是 $v $的一个邻域，右图由该邻域展开得到的path-tree\relax }}{16}{figure.caption.11}
-\contentsline {figure}{\numberline {{2}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{2}}{\ignorespaces 标准计算方法和sssSimRank的相似性误差随迭代次数的变化曲线比较\relax }}{23}{figure.caption.12}
+\contentsline {figure}{\numberline {{2}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces $v $的一个邻域及其展开得到的Path-Tree\relax }}{16}{figure.caption.11}
+\contentsline {figure}{\numberline {{2}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{2}}{\ignorespaces 计算误差随迭代次数的变化曲线比较\relax }}{23}{figure.caption.12}
 \contentsline {figure}{\numberline {{2}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{3}}{\ignorespaces 生成邻域数量的比较\relax }}{24}{figure.caption.13}
 \contentsline {figure}{\numberline {{2}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{4}}{\ignorespaces 算法运行时间与输入图大小的变化关系\relax }}{25}{figure.caption.14}
 \contentsline {figure}{\numberline {{2}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{5}}{\ignorespaces 算法运行时间与集群计算节点数量的变化关系\relax }}{26}{figure.caption.15}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces 两种划分方式。左图以顶点为基本划分单位，右图以边为基本划分单位\relax }}{27}{figure.caption.16}
+\contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces 分别以顶点和边为划分单位的两种划分方式\relax }}{27}{figure.caption.16}
 \contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{2}}{\ignorespaces 多层次图划分的算法框架\relax }}{31}{figure.caption.17}
 \contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{3}}{\ignorespaces 社区发现算法的结果，不同颜色代表不同的社区ID\relax }}{33}{figure.caption.18}
-\contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{4}}{\ignorespaces (a)为一个简单的示例图$G$，(b)为$G$该通过最大匹配算法塌缩后形成的图$G\prime $, 每个顶点代表$G$中的一个划分，(c)为$G$通过模块度优化算法塌缩后形成的图$G\prime $, 每个顶点代表$G$中的一个划分\relax }}{34}{figure.caption.19}
+\contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{4}}{\ignorespaces 基于最大匹配与基于模块度的塌缩方式结果比较\relax }}{34}{figure.caption.19}
 \contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{5}}{\ignorespaces Node结构体\relax }}{37}{figure.caption.20}
 \contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{6}}{\ignorespaces 一次塌缩过程\relax }}{37}{figure.caption.21}
 \contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{7}}{\ignorespaces 由中间划分生成更小的图\relax }}{38}{figure.caption.22}
 \contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{8}}{\ignorespaces 恢复过程\relax }}{39}{figure.caption.23}
 \contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{9}}{\ignorespaces 划分质量对比\relax }}{40}{figure.caption.24}
-\contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{10}}{\ignorespaces 左图为wiki-talk数据集上随着算法的运行分块数的变化情况；右图为不同算法在数据集上的运行时间比较\relax }}{41}{figure.caption.25}
+\contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{10}}{\ignorespaces 算法运行时间\relax }}{41}{figure.caption.25}
 \contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{11}}{\ignorespaces 参数$\beta $与运行过程中中间分块数目的关系\relax }}{42}{figure.caption.26}
 \contentsline {figure}{\numberline {{3}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{12}}{\ignorespaces 算法的可扩展性\relax }}{43}{figure.caption.27}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {{4}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces arabic-2005数据分块数目与运行时间的关系\relax }}{52}{figure.caption.28}
+\contentsline {figure}{\numberline {{4}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{1}}{\ignorespaces arabic-2005上数据分块数目与运行时间的关系\relax }}{52}{figure.caption.28}
 \contentsline {figure}{\numberline {{4}\kern .07em\rule [.5ex]{.4em}{.15ex}\kern .07em{2}}{\ignorespaces 算法的可扩展性\relax }}{52}{figure.caption.29}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
